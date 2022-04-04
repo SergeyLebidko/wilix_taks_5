@@ -13,6 +13,10 @@ class Backend {
         }
     }
 
+    private getNextId(entity: TDataSet): number {
+        return Math.max(...(this.db as TDataBase)[entity].map(value => value.id)) + 1;
+    }
+
     private getUserList(): TUser[] {
         return (this.db as TDataBase)[TDataSet.User];
     }
