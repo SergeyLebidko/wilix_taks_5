@@ -68,6 +68,5 @@ export const MOCK_DATA: TDataBase = {
             tag_id: 1,
             post_id: 2
         }
-    ],
-    [TDataSet.Token]: []
+    ]
 }

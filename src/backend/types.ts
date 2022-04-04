@@ -4,8 +4,7 @@ export enum TDataSet {
     Post = 'Post',
     Comment = 'Comment',
     Tag = 'Tag',
-    PostTag = 'PostTag',
-    Token = 'Token'
+    PostTag = 'PostTag'
 }
 
 // Тип данных для таблицы пользователей
@@ -49,21 +48,13 @@ export type TPostTag = {
     post_id: number
 }
 
-// Тип данных для таблицы токенов доступа
-export type TToken = {
-    id: number,
-    user_id: number,
-    value: string
-}
-
 // Тип данных для представления всей базы данных в целом
 export type TDataBase = {
     [TDataSet.User]: TUser[],
     [TDataSet.Post]: TPost[],
     [TDataSet.Comment]: TComment[],
     [TDataSet.Tag]: TTag[],
-    [TDataSet.PostTag]: TPostTag[],
-    [TDataSet.Token]: TToken[]
+    [TDataSet.PostTag]: TPostTag[]
 }
 
 // Набор адресов для доступа к методам бэкенда (играют роль URL)
