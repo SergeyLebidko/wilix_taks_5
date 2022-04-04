@@ -55,14 +55,17 @@ export type TPostTag = {
     post_id: number
 }
 
-// Типы наборов данных, которые могут быть запрошены с бэкенда
+// Типы наборов данных, которые могут быть запрошены с бэкенда (играют роль URL)
 export type TUrls = TDataSet.User | TDataSet.Post | TDataSet.Comment | TDataSet.Tag
 
-// Типы наборов данных, которые могут быть возвращены бэкендом
-export type TEntity = TUser | TUser[] | TPost | TPost[] | TComment | TComment[] | TTag | TTag[];
+// Тип для описания ответа бэкенда
+export type TResponse = {
+    type: 'success' | 'error',
+    payload: TUser | TUser[] | TPost | TPost[] | TComment | TComment[] | TTag | TTag[] | string
+}
 
-// Тип данных для представления стартового пресета данных
-export type TMockData = {
+// Тип данных для представления всейбазы данных в целом
+export type TDataBase = {
     [TDataSet.User]: TUser[],
     [TDataSet.Post]: TPost[],
     [TDataSet.Comment]: TComment[],
