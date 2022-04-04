@@ -1,3 +1,4 @@
+// Методы для доступа к базе данных
 export enum TMethods {
     Get = 'Get',
     Post = 'Post',
@@ -5,11 +6,13 @@ export enum TMethods {
     Delete = 'Delete'
 }
 
-export enum TUrls {
+// Основные наборы данных
+export enum TDataSet {
     User = 'User',
     Post = 'Post',
     Comment = 'Comment',
-    Tag = 'Tag'
+    Tag = 'Tag',
+    PostTag = 'PostTag'
 }
 
 export type TUser = {
@@ -17,12 +20,14 @@ export type TUser = {
     login: string,
     password: string,
     first_name: string,
-    last_name: string
+    last_name: string,
+    avatar: null | string
 }
 
 export type TPost = {
     id: number,
     user_id: number,
+    title: string
     text: string,
     dt_created: number
 }
@@ -41,6 +46,16 @@ export type TTag = {
 }
 
 export type TPostTag = {
+    id: number,
     tag_id: number,
     post_id: number
+}
+
+// Тип данных для представления стартового пресета данных
+export type TMockData = {
+    [TDataSet.User]: TUser[],
+    [TDataSet.Post]: TPost[],
+    [TDataSet.Comment]: TComment[],
+    [TDataSet.Tag]: TTag[],
+    [TDataSet.PostTag]: TPostTag[]
 }
