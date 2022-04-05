@@ -9,7 +9,7 @@ export enum TDataSet {
 
 // Тип данных для таблицы пользователей
 export type TUser = {
-    id: number,
+    id?: number,
     login: string,
     password: string,
     first_name: string,
@@ -19,7 +19,7 @@ export type TUser = {
 
 // Тип данных для таблицы постов
 export type TPost = {
-    id: number,
+    id?: number,
     user_id: number,
     title: string
     text: string,
@@ -28,7 +28,7 @@ export type TPost = {
 
 // Тип данных для таблицы комментариев
 export type TComment = {
-    id: number,
+    id?: number,
     user_id: number,
     post_id: number,
     text: string,
@@ -37,13 +37,13 @@ export type TComment = {
 
 // Тип данных для таблицы тегов
 export type TTag = {
-    id: number,
+    id?: number,
     text: string
 }
 
 // Тип данных для таблицы связи постов и тегов
 export type TPostTag = {
-    id: number,
+    id?: number,
     tag_id: number,
     post_id: number
 }
@@ -57,15 +57,36 @@ export type TDataBase = {
     [TDataSet.PostTag]: TPostTag[]
 }
 
+// Собирательный тип данных для всех сущностей
+export type TEntity = TUser | TPost | TComment | TTag | TPostTag;
+
+// Собирательный тип для списков сущностей
+export type TEntityList = TUser[] | TPost[] | TComment[] | TTag[] | TPostTag[];
+
 // Набор адресов для доступа к методам бэкенда (играют роль URL)
 export enum TUrls {
     GetUserList = 'get_user_list',
     GetPostList = 'get_post_list',
     GetCommentList = 'get_comment_list',
     GetTagList = 'get_tag_list',
+    GetPostTagList = 'get_post_tag_list',
     Register = 'register',
     Login = 'login',
-    Logout = 'logout'
+    GetUser = 'get_user',
+    GetPost = 'get_post',
+    GetComment = 'get_comment',
+    GetTag = 'get_tag',
+    GetPostTag = 'get_post_tag',
+    CreateUser = 'create_user',
+    CreatePost = 'create_post',
+    CreateComment = 'create_comment',
+    CreateTag = 'create_tag',
+    CreatePostTag = 'create_post_tag',
+    RemoveUser = 'remove_user',
+    RemovePost = 'remove_post',
+    RemoveComment = 'remove_comment',
+    RemoveTag = 'remove_tag',
+    RemovePostTag = 'remove_post_tag'
 }
 
 // Тип для описания ответов бэкенда
