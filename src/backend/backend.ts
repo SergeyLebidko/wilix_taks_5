@@ -57,7 +57,7 @@ class Backend {
         const {id} = options;
         const entityList = (this.db as TDataBase)[entityType];
         const entity = (entityList as any[]).find((value: TEntity) => (value.id as number) === id);
-        if (!entity){
+        if (!entity) {
             throw new Error('Не удалось найти объект...');
         }
         return entity;
@@ -81,7 +81,7 @@ class Backend {
         // Удаляемая сущность, которая должна быть возвращена
         const entityList = (this.db as TDataBase)[entityType];
         const entity = (entityList as any[]).find((value: TEntity) => (value.id as number) === id);
-        if (!entity){
+        if (!entity) {
             throw new Error('Не удалось найти объект...');
         }
 
@@ -113,7 +113,7 @@ class Backend {
         }
 
         // Если есть удаляемые теги, то помечаем для удаления все их связи с постами
-        if (tagIds.length){
+        if (tagIds.length) {
             tagIds.forEach(tagId => {
                 postTagIds = [...postTagIds, ...this.getLinkedPostTagIds(null, tagId)];
             })
@@ -151,13 +151,13 @@ class Backend {
     }
 
     // Метод вызывает нужные методы манипулирования данными в зависимости от переданного URL
-    private router(url: TUrls, options?: any): any {
+    private router(url: TUrls, options?: any): TEntity | TEntityList {
         switch (url) {
             case TUrls.GetUserList: {
-                return  this.getEntityList(TDataSet.User);
+                return this.getEntityList(TDataSet.User);
             }
             case TUrls.GetPostList: {
-                return  this.getEntityList(TDataSet.Post);
+                return this.getEntityList(TDataSet.Post);
             }
             case TUrls.GetCommentList: {
                 return this.getEntityList(TDataSet.Comment);
@@ -222,23 +222,15 @@ class Backend {
         }
     }
 
-    public fetch(url: TUrls, options?: any): Promise<TResponse> {
-        return new Promise(resolve => {
+    public fetch(url: TUrls, options?: any): Promise<TEntity | TEntityList | string> {
+        return new Promise((resolve, reject) => {
             setTimeout(() => {
                 try {
                     this.db = JSON.parse(localStorage.getItem(DB_NAME) || '');
                     const _db = this.db;
 
-                    const result: TResponse = {type: 'success'};
-
                     // Выбор "маршрута" и получение результата
-                    const payload = this.router(url, options);
-
-                    // Формируем ответ и разрешаем им промис
-                    if (payload !== undefined) {
-                        result.payload = payload;
-                    }
-                    resolve(result);
+                    resolve(this.router(url, options));
 
                     // Если нужно - сбрасываем обновленный дамп базы в local storage
                     if (_db !== this.db) {
@@ -246,10 +238,7 @@ class Backend {
                     }
                 } catch (err) {
                     console.error(`Не удалось выполнить запрос на url: ${url} с параметрами: ${JSON.stringify(options)}. Возникла ошибка: ${(err as Error).message}`);
-                    resolve({
-                        type: 'error',
-                        payload: (err as Error).message
-                    });
+                    reject((err as Error).message);
                 }
             }, BACKEND_TIMEOUT);
         });

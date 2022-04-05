@@ -2,14 +2,6 @@ import {configureStore, createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import backend from './backend/backend';
 import {TUrls, TUser} from './backend/types';
 
-export const preloaderSlice = createSlice({
-    name: 'preloader',
-    initialState: false,
-    reducers: {
-        setPreloader: (state, action) => action.payload
-    }
-});
-
 export const loadUserList = createAsyncThunk(
     'userList/load',
     async () => {
@@ -17,20 +9,27 @@ export const loadUserList = createAsyncThunk(
     }
 );
 
-export const userListSlice = createSlice({
+const userListSlice = createSlice({
     name: 'user_list',
-    initialState: [] as TUser[],
+    initialState: {
+        status: 'done',
+        data: [] as TUser[]
+    },
     reducers: {},
     extraReducers: builder => {
-        builder.addCase(loadUserList.fulfilled, (state, action) => {
-            return action.payload.payload;
-        });
+        builder
+            .addCase(loadUserList.pending, state => {
+                state.status = 'pending';
+            })
+            .addCase(loadUserList.fulfilled, (state, action) => {
+                state.status = 'done';
+                state.data = action.payload as TUser[];
+            });
     }
 });
 
 export default configureStore({
     reducer: {
-        'preloader': preloaderSlice.reducer,
         'user_list': userListSlice.reducer
     }
 });
