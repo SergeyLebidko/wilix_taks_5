@@ -3,7 +3,7 @@ import backend from './backend/backend';
 import {TUrls, TUser} from './backend/types';
 
 export const loadUserList = createAsyncThunk(
-    'userList/load',
+    'user_list',
     async () => {
         return backend.fetch(TUrls.GetUserList);
     }
@@ -28,8 +28,10 @@ const userListSlice = createSlice({
     }
 });
 
-export default configureStore({
+const store = configureStore({
     reducer: {
         'user_list': userListSlice.reducer
     }
 });
+
+export default store;
