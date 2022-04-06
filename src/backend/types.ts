@@ -63,6 +63,9 @@ export type TEntity = TUser | TPost | TComment | TTag | TPostTag;
 // Собирательный тип для списков сущностей
 export type TEntityList = TUser[] | TPost[] | TComment[] | TTag[] | TPostTag[];
 
+// Собирательный тип для всех возможных ответов бэкенда
+export type TBackendResponse = TEntity | TEntityList | string;
+
 // Набор адресов для доступа к методам бэкенда (играют роль URL)
 export enum TUrls {
     GetUserList = 'get_user_list',
@@ -89,8 +92,18 @@ export enum TUrls {
     RemovePostTag = 'remove_post_tag'
 }
 
-// Тип для описания ответов бэкенда
-export type TResponse = {
-    type: 'success' | 'error',
-    payload?: any
-}
+// Типы объектов-параметров (опций) для запросов к бэкенду
+export type TRegisterOpt = TUser;
+
+export type TLoginOpt = {
+    login: string,
+    password: string
+};
+
+export type TEntityOpt = TEntity;
+
+export type TQueryOpt = {
+    id: number
+};
+
+export type TOptions = TRegisterOpt | TLoginOpt | TEntityOpt | TQueryOpt;

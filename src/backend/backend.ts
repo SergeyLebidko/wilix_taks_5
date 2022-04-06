@@ -1,6 +1,17 @@
 import {BACKEND_TIMEOUT, DB_NAME} from '../settings';
 import {MOCK_DATA} from './mock_data';
-import {TDataBase, TDataSet, TEntity, TEntityList, TResponse, TUrls, TUser} from './types';
+import {
+    TBackendResponse,
+    TDataBase,
+    TDataSet,
+    TEntity,
+    TEntityList, TEntityOpt,
+    TLoginOpt,
+    TOptions, TQueryOpt,
+    TRegisterOpt,
+    TUrls,
+    TUser
+} from './types';
 
 class Backend {
     private db: TDataBase | undefined;
@@ -18,7 +29,7 @@ class Backend {
     }
 
     // Методы регистрации нового пользователя и логина
-    private register(options: any): TUser {
+    private register(options: TRegisterOpt): TUser {
         const {login} = options;
         const users = (this.db as TDataBase)[TDataSet.User];
 
@@ -38,7 +49,7 @@ class Backend {
         return nextUser;
     }
 
-    private login(options: any): TUser {
+    private login(options: TLoginOpt): TUser {
         const {login, password} = options;
         const user = (this.db as TDataBase)[TDataSet.User].find(user => user.login === login && user.password === password);
         if (!user) {
@@ -53,7 +64,7 @@ class Backend {
     }
 
     // Полчение отдельных сущностей по id
-    private getEntity(entityType: TDataSet, options: any): TEntity {
+    private getEntity(entityType: TDataSet, options: TQueryOpt): TEntity {
         const {id} = options;
         const entityList = (this.db as TDataBase)[entityType];
         const entity = (entityList as any[]).find((value: TEntity) => (value.id as number) === id);
@@ -64,7 +75,7 @@ class Backend {
     }
 
     // Создание сущностей
-    private createEntity(entityType: TDataSet, options: any): TEntity {
+    private createEntity(entityType: TDataSet, options: TEntityOpt): TEntity {
         const nextId = this.getNextId(entityType);
         const entity = {...options, id: nextId};
         this.db = {
@@ -75,7 +86,7 @@ class Backend {
     }
 
     // Удаление сущностей
-    private removeEntity(entityType: TDataSet, options: any): TEntity {
+    private removeEntity(entityType: TDataSet, options: TQueryOpt): TEntity {
         const {id} = options;
 
         // Удаляемая сущность, которая должна быть возвращена
@@ -151,7 +162,7 @@ class Backend {
     }
 
     // Метод вызывает нужные методы манипулирования данными в зависимости от переданного URL
-    private router(url: TUrls, options?: any): TEntity | TEntityList {
+    private router(url: TUrls, options?: TOptions): TEntity | TEntityList {
         switch (url) {
             case TUrls.GetUserList: {
                 return this.getEntityList(TDataSet.User);
@@ -169,63 +180,60 @@ class Backend {
                 return this.getEntityList(TDataSet.PostTag);
             }
             case TUrls.Register: {
-                return this.register(options);
+                return this.register(options as TRegisterOpt);
             }
             case TUrls.Login: {
-                return this.login(options);
+                return this.login(options as TLoginOpt);
             }
             case TUrls.GetUser: {
-                return this.getEntity(TDataSet.User, options);
+                return this.getEntity(TDataSet.User, options as TQueryOpt);
             }
             case TUrls.GetPost: {
-                return this.getEntity(TDataSet.Post, options);
+                return this.getEntity(TDataSet.Post, options as TQueryOpt);
             }
             case TUrls.GetComment: {
-                return this.getEntity(TDataSet.Comment, options);
+                return this.getEntity(TDataSet.Comment, options as TQueryOpt);
             }
             case TUrls.GetTag: {
-                return this.getEntity(TDataSet.Tag, options);
+                return this.getEntity(TDataSet.Tag, options as TQueryOpt);
             }
             case TUrls.GetPostTag: {
-                return this.getEntity(TDataSet.PostTag, options);
+                return this.getEntity(TDataSet.PostTag, options as TQueryOpt);
             }
             case TUrls.CreateUser: {
-                return this.createEntity(TDataSet.User, options);
+                return this.createEntity(TDataSet.User, options as TEntityOpt);
             }
             case TUrls.CreatePost: {
-                return this.createEntity(TDataSet.Post, options);
+                return this.createEntity(TDataSet.Post, options as TEntityOpt);
             }
             case TUrls.CreateComment: {
-                return this.createEntity(TDataSet.Comment, options);
+                return this.createEntity(TDataSet.Comment, options as TEntityOpt);
             }
             case TUrls.CreateTag: {
-                return this.createEntity(TDataSet.Tag, options);
+                return this.createEntity(TDataSet.Tag, options as TEntityOpt);
             }
             case TUrls.CreatePostTag: {
-                return this.createEntity(TDataSet.PostTag, options);
+                return this.createEntity(TDataSet.PostTag, options as TEntityOpt);
             }
             case TUrls.RemoveUser: {
-                return this.removeEntity(TDataSet.User, options);
+                return this.removeEntity(TDataSet.User, options as TQueryOpt);
             }
             case TUrls.RemovePost: {
-                return this.removeEntity(TDataSet.Post, options);
+                return this.removeEntity(TDataSet.Post, options as TQueryOpt);
             }
             case TUrls.RemoveComment: {
-                return this.removeEntity(TDataSet.Comment, options);
+                return this.removeEntity(TDataSet.Comment, options as TQueryOpt);
             }
             case TUrls.RemoveTag: {
-                return this.removeEntity(TDataSet.Tag, options);
+                return this.removeEntity(TDataSet.Tag, options as TQueryOpt);
             }
             case TUrls.RemovePostTag: {
-                return this.removeEntity(TDataSet.PostTag, options);
+                return this.removeEntity(TDataSet.PostTag, options as TQueryOpt);
             }
         }
     }
 
-    public fetch(url: TUrls, options?: any): Promise<TEntity | TEntityList | string> {
-
-        console.log(url);
-
+    public fetch(url: TUrls, options?: TOptions): Promise<TBackendResponse> {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 try {

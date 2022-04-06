@@ -1,7 +1,19 @@
 import {configureStore, createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
-import {TComment, TPost, TPostTag, TTag, TUrls, TUser} from './backend/types';
+import {
+    TBackendResponse,
+    TComment,
+    TLoginOpt,
+    TPost,
+    TPostTag,
+    TRegisterOpt,
+    TTag,
+    TUrls,
+    TUser
+} from './backend/types';
 import backend from './backend/backend';
+
+type TStatus = 'pending' | 'done' | 'error';
 
 // Список пользователей
 export const loadUserList = createAsyncThunk(
@@ -14,7 +26,7 @@ export const loadUserList = createAsyncThunk(
 const userListSlice = createSlice({
     name: 'user_list',
     initialState: {
-        status: 'pending',
+        status: 'pending' as TStatus,
         data: [] as TUser[]
     },
     reducers: {},
@@ -41,7 +53,7 @@ export const loadPostList = createAsyncThunk(
 const postListSlice = createSlice({
     name: 'post_list',
     initialState: {
-        status: 'pending',
+        status: 'pending' as TStatus,
         data: [] as TPost[]
     },
     reducers: {},
@@ -67,7 +79,7 @@ export const loadCommentList = createAsyncThunk(
 const commentListSlice = createSlice({
     name: 'comment_list',
     initialState: {
-        status: 'pending',
+        status: 'pending' as TStatus,
         data: [] as TComment[]
     },
     reducers: {},
@@ -94,7 +106,7 @@ export const loadTagList = createAsyncThunk(
 const tagListSlice = createSlice({
     name: 'tag_list',
     initialState: {
-        status: 'pending',
+        status: 'pending' as TStatus,
         data: [] as TTag[]
     },
     reducers: {},
@@ -121,7 +133,7 @@ export const loadPostTagList = createAsyncThunk(
 const postTagListSlice = createSlice({
     name: 'post_tag_list',
     initialState: {
-        status: 'pending',
+        status: 'pending' as TStatus,
         data: [] as TPostTag[]
     },
     reducers: {},
@@ -137,14 +149,94 @@ const postTagListSlice = createSlice({
     }
 });
 
+// Залогинившийся пользователь
+export const registerUser = createAsyncThunk(
+    'register_user',
+    async (userData: TRegisterOpt) => {
+        return backend.fetch(TUrls.Register, userData);
+    }
+);
+
+export const loginUser = createAsyncThunk(
+    'login_user',
+    async (loginData: TLoginOpt) => {
+        return backend.fetch(TUrls.Login, loginData);
+    }
+);
+
+type TLoggedUserInitialState = {
+    status: TStatus,
+    error: string | null,
+    data: TUser | null
+}
+
+type TLoggedUserAction = {
+    payload: TBackendResponse | unknown;
+}
+
+export const loggedUserSlice = createSlice({
+    name: 'logged_user',
+    initialState: {
+        status: 'pending',
+        error: null,
+        data: null
+    } as TLoggedUserInitialState,
+    reducers: {
+        setLoggedUser: (state, action) => {
+            state.status = 'done';
+            state.data = action.payload;
+        }
+    },
+    extraReducers: builder => {
+        const pendingCallback = (state: TLoggedUserInitialState) => {
+            state.status = 'pending';
+            state.error = null;
+        };
+        const fulfilledCallback = (state: TLoggedUserInitialState, action: TLoggedUserAction) => {
+            state.status = 'done';
+            state.error = null;
+            state.data = action.payload as TUser;
+        };
+        const rejectCallback = (state: TLoggedUserInitialState, action: TLoggedUserAction) => {
+            state.status = 'error';
+            state.error = action.payload as string;
+            state.data = null;
+        };
+
+        builder
+            .addCase(registerUser.pending, pendingCallback)
+            .addCase(registerUser.fulfilled, fulfilledCallback)
+            .addCase(registerUser.rejected, rejectCallback)
+            .addCase(loginUser.pending, pendingCallback)
+            .addCase(loginUser.fulfilled, fulfilledCallback)
+            .addCase(loginUser.rejected, rejectCallback);
+    }
+});
+
+// Создание хранилища
 const store = configureStore({
     reducer: {
         'user_list': userListSlice.reducer,
         'post_list': postListSlice.reducer,
         'comment_list': commentListSlice.reducer,
         'tag_list': tagListSlice.reducer,
-        'post_tag_list': postTagListSlice.reducer
+        'post_tag_list': postTagListSlice.reducer,
+        'logged_user': loggedUserSlice.reducer
     }
 });
+
+export type TRootState = ReturnType<typeof store.getState>;
+
+// Селекторы
+export const allListDoneSelector = (state: TRootState): boolean => {
+    const {
+        user_list: {status: us},
+        post_list: {status: ps},
+        comment_list: {status: cs},
+        tag_list: {status: ts},
+        post_tag_list: {status: pts}
+    } = state;
+    return us === 'done' && ps === 'done' && ts === 'done' && cs === 'done' && pts === 'done';
+}
 
 export default store;
