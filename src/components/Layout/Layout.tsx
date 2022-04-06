@@ -3,7 +3,8 @@ import {Container} from '@mui/material';
 import {useSelector} from 'react-redux';
 
 import {allListDoneSelector, loggedUserStatusSelector} from '../../store';
-import Preloader from "../Preloader/Preloader";
+import Preloader from '../Preloader/Preloader';
+import Header from '../Header/Header';
 
 const Layout: React.FC = () => {
     const allListDone = useSelector(allListDoneSelector);
@@ -15,7 +16,7 @@ const Layout: React.FC = () => {
 
     return (
         <Container maxWidth="md">
-            Wilix Blog
+            <Header/>
         </Container>
     );
 }

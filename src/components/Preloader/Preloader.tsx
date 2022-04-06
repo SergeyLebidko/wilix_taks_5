@@ -1,17 +1,32 @@
 import React from 'react';
-import {CircularProgress} from '@mui/material';
-
-import './Preloader.scss';
+import {Box, CircularProgress} from '@mui/material';
 
 type PreloaderProps = {
     fullscreen: boolean
 }
 
-const Preloader: React.FC<PreloaderProps> = ({fullscreen=false}) => {
+const Preloader: React.FC<PreloaderProps> = ({fullscreen = false}) => {
     return (
-        <div className={'preloader' + (fullscreen ? ' preloader_fullscreen' : ' preloader_usual')}>
+        <Box sx={[
+            {
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+            },
+            fullscreen ? {
+                position: 'fixed',
+                zIndex: '10000',
+                top: 0,
+                left: 0,
+                width: '100vw',
+                height: '100vh',
+            } : {
+                width: '100%',
+                height: '100%'
+            }
+        ]}>
             <CircularProgress/>
-        </div>
+        </Box>
     );
 }
 

@@ -256,4 +256,6 @@ export const allListDoneSelector = (state: TRootState): boolean => {
 
 export const loggedUserStatusSelector = (state: TRootState): TStatus => state.logged_user.status;
 
+export const loggedUserSelector = (state: TRootState): TUser | null => state.logged_user.data;
+
 export default store;
