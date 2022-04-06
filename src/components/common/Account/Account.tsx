@@ -1,15 +1,16 @@
 import React from 'react';
-import {Box} from '@mui/material';
+import {Stack} from '@mui/material';
 
 import {useSelector} from 'react-redux';
 import {loggedUserSelector} from '../../../store';
+import {Link} from '@mui/material';
 
 const Account: React.FC = () => {
     const loggedUser = useSelector(loggedUserSelector);
 
     return (
-        <Box>
-            {(function(){
+        <Stack direction="row" spacing={1} sx={{color: 'white'}}>
+            {(function () {
                 if (loggedUser) {
                     return (
                         <div>
@@ -18,13 +19,15 @@ const Account: React.FC = () => {
                     );
                 } else {
                     return (
-                        <div>
-                            Пользователь не залогинен...
-                        </div>
+                        <>
+                            <Link href="#/login" color="#fff">Войти</Link>
+                            <span>или</span>
+                            <Link href="#/register" color="#fff">зарегистрироваться</Link>
+                        </>
                     );
                 }
             })()}
-        </Box>
+        </Stack>
     );
 }
 
