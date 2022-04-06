@@ -8,6 +8,7 @@ import Login from '../pages/Login/Login';
 import Register from '../pages/Register/Register';
 import CreatePost from '../pages/CreatePost/CreatePost';
 import Logout from '../pages/Logout/Logout';
+import NoMatch from '../pages/NoMatch/NoMatch';
 import {LOGGED_USER_NAME} from '../../settings';
 import {TUser} from '../../backend/types';
 import {
@@ -50,10 +51,10 @@ const App: React.FC = () => {
                 <Route path='register' element={loggedUser ? <Navigate to='/'/> : <Register/>}/>
                 <Route path='login' element={loggedUser ? <Navigate to='/'/> : <Login/>}/>
                 <Route path='logout' element={loggedUser ? <Logout/> :  <Navigate to='/'/>}/>
-                <Route path='create_post' element={loggedUser ? <CreatePost/> :  <Navigate to='login'/>}/>
+                <Route path='create_post' element={loggedUser ? <CreatePost/> :  <Navigate to='/login'/>}/>
+                <Route path="*" element={<NoMatch/>}/>
             </Route>
         </Routes>
-
     );
 }
 
