@@ -12,6 +12,7 @@ import {
     TUser
 } from './backend/types';
 import backend from './backend/backend';
+import {LOGGED_USER_NAME} from './settings';
 
 type TStatus = 'pending' | 'done' | 'error';
 
@@ -184,23 +185,37 @@ export const loggedUserSlice = createSlice({
     reducers: {
         setLoggedUser: (state, action) => {
             state.status = 'done';
+            state.error = null;
             state.data = action.payload;
+            if (action.payload === null) {
+                localStorage.removeItem(LOGGED_USER_NAME);
+            } else {
+                localStorage.setItem(LOGGED_USER_NAME, JSON.stringify(action.payload));
+            }
+        },
+        resetLoggedUserError: state => {
+            state.status = 'done';
+            state.error = null;
         }
     },
     extraReducers: builder => {
         const pendingCallback = (state: TLoggedUserInitialState) => {
             state.status = 'pending';
             state.error = null;
+            state.data = null;
+            localStorage.removeItem(LOGGED_USER_NAME);
         };
         const fulfilledCallback = (state: TLoggedUserInitialState, action: TLoggedUserAction) => {
             state.status = 'done';
             state.error = null;
             state.data = action.payload as TUser;
+            localStorage.setItem(LOGGED_USER_NAME, JSON.stringify(action.payload));
         };
         const rejectCallback = (state: TLoggedUserInitialState, action: TLoggedUserAction) => {
             state.status = 'error';
             state.error = action.payload as string;
             state.data = null;
+            localStorage.removeItem(LOGGED_USER_NAME);
         };
 
         builder
@@ -238,5 +253,7 @@ export const allListDoneSelector = (state: TRootState): boolean => {
     } = state;
     return us === 'done' && ps === 'done' && ts === 'done' && cs === 'done' && pts === 'done';
 }
+
+export const loggedUserStatusSelector = (state: TRootState): TStatus => state.logged_user.status;
 
 export default store;
