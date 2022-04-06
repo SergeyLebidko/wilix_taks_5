@@ -1,11 +1,13 @@
 import React from 'react';
-import {Box} from "@mui/material";
+import {Stack} from '@mui/material';
+
+import PostList from '../../common/PostList/PostList';
 
 const Main: React.FC = () => {
     return (
-        <Box>
-            Главная страница со списком постов, тегов и авторов...
-        </Box>
+        <Stack spacing={2}>
+            <PostList/>
+        </Stack>
     );
 };
 
