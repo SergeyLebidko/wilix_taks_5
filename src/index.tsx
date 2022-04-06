@@ -5,10 +5,13 @@ import {Provider} from 'react-redux';
 import App from './components/App/App';
 import store from './store';
 import './backend/backend';
+import {HashRouter} from "react-router-dom";
 
 ReactDOM.render(
-    <Provider store={store}>
-        <App/>
-    </Provider>,
+    <HashRouter>
+        <Provider store={store}>
+            <App/>
+        </Provider>
+    </HashRouter>,
     document.getElementById('root')
 );

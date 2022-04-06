@@ -2,7 +2,7 @@ import React from 'react';
 import {Box} from '@mui/material';
 
 import {useSelector} from 'react-redux';
-import {loggedUserSelector} from '../../store';
+import {loggedUserSelector} from '../../../store';
 
 const Account: React.FC = () => {
     const loggedUser = useSelector(loggedUserSelector);

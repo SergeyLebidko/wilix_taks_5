@@ -1,10 +1,22 @@
 import React, {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
+import {Routes, Route} from 'react-router-dom';
 
 import Layout from '../Layout/Layout';
-import {loadCommentList, loadPostList, loadTagList, loadUserList, loadPostTagList, loggedUserSlice} from '../../store';
+import Main from '../pages/Main/Main';
+import Login from '../pages/Login/Login';
+import Register from '../pages/Register/Register';
+import CreatePost from '../pages/CreatePost/CreatePost';
 import {LOGGED_USER_NAME} from '../../settings';
 import {TUser} from '../../backend/types';
+import {
+    loadCommentList,
+    loadPostList,
+    loadTagList,
+    loadUserList,
+    loadPostTagList,
+    loggedUserSlice
+} from '../../store';
 
 const {setLoggedUser} = loggedUserSlice.actions;
 
@@ -30,7 +42,15 @@ const App: React.FC = () => {
     }, [dispatch]);
 
     return (
-        <Layout/>
+        <Routes>
+            <Route path="/" element={<Layout/>}>
+                <Route index element={<Main/>}/>
+                <Route path="login" element={<Login/>}/>
+                <Route path="register" element={<Register/>}/>
+                <Route path="create_post" element={<CreatePost/>}/>
+            </Route>
+        </Routes>
+
     );
 }
 
