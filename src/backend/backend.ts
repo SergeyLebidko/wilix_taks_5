@@ -223,6 +223,9 @@ class Backend {
     }
 
     public fetch(url: TUrls, options?: any): Promise<TEntity | TEntityList | string> {
+
+        console.log(url);
+
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 try {

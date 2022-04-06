@@ -1,6 +1,7 @@
 import {configureStore, createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import backend from './backend/backend';
+
 import {TComment, TPost, TPostTag, TTag, TUrls, TUser} from './backend/types';
+import backend from './backend/backend';
 
 // Список пользователей
 export const loadUserList = createAsyncThunk(
@@ -125,12 +126,14 @@ const postTagListSlice = createSlice({
     },
     reducers: {},
     extraReducers: builder => {
-        builder.addCase(loadPostTagList.pending, state => {
-            state.status = 'pending';
-        }).addCase(loadPostTagList.fulfilled, (state, action) => {
-            state.status = 'done';
-            state.data = action.payload as TPostTag[];
-        });
+        builder
+            .addCase(loadPostTagList.pending, state => {
+                state.status = 'pending';
+            })
+            .addCase(loadPostTagList.fulfilled, (state, action) => {
+                state.status = 'done';
+                state.data = action.payload as TPostTag[];
+            });
     }
 });
 

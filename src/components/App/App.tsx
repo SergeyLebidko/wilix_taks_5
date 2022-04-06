@@ -1,18 +1,22 @@
 import React, {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
-import {loadUserList} from '../../store';
+import {loadCommentList, loadPostList, loadTagList, loadUserList, loadPostTagList} from '../../store';
 
-function App() {
+import Main from '../pages/Main/Main';
+
+const App: React.FC = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(loadUserList());
+        dispatch(loadPostList());
+        dispatch(loadCommentList());
+        dispatch(loadTagList());
+        dispatch(loadPostTagList());
     }, []);
 
     return (
-        <div>
-            Wilix Blog
-        </div>
+        <Main/>
     );
 }
 
