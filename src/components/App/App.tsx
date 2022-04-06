@@ -1,12 +1,13 @@
 import React, {useEffect} from 'react';
-import {useDispatch} from 'react-redux';
-import {Routes, Route} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
+import {Routes, Route, Navigate} from 'react-router-dom';
 
 import Layout from '../Layout/Layout';
 import Main from '../pages/Main/Main';
 import Login from '../pages/Login/Login';
 import Register from '../pages/Register/Register';
 import CreatePost from '../pages/CreatePost/CreatePost';
+import Logout from '../pages/Logout/Logout';
 import {LOGGED_USER_NAME} from '../../settings';
 import {TUser} from '../../backend/types';
 import {
@@ -15,13 +16,14 @@ import {
     loadTagList,
     loadUserList,
     loadPostTagList,
-    loggedUserSlice
+    loggedUserSlice, loggedUserSelector
 } from '../../store';
 
 const {setLoggedUser} = loggedUserSlice.actions;
 
 const App: React.FC = () => {
     const dispatch = useDispatch();
+    const loggedUser = useSelector(loggedUserSelector);
 
     useEffect(() => {
         // Выполняем загрузки списков данных - пользователей, постов и т.д...
@@ -43,11 +45,12 @@ const App: React.FC = () => {
 
     return (
         <Routes>
-            <Route path="/" element={<Layout/>}>
+            <Route path='/' element={<Layout/>}>
                 <Route index element={<Main/>}/>
-                <Route path="login" element={<Login/>}/>
-                <Route path="register" element={<Register/>}/>
-                <Route path="create_post" element={<CreatePost/>}/>
+                <Route path='register' element={loggedUser ? <Navigate to='/'/> : <Register/>}/>
+                <Route path='login' element={loggedUser ? <Navigate to='/'/> : <Login/>}/>
+                <Route path='logout' element={loggedUser ? <Logout/> :  <Navigate to='/'/>}/>
+                <Route path='create_post' element={loggedUser ? <CreatePost/> :  <Navigate to='login'/>}/>
             </Route>
         </Routes>
 
