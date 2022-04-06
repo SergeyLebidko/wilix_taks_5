@@ -20,9 +20,12 @@ const Account: React.FC = () => {
                 } else {
                     return (
                         <>
-                            <Link href="#/login" color="#fff">Войти</Link>
-                            <span>или</span>
-                            <Link href="#/register" color="#fff">зарегистрироваться</Link>
+                            <Link sx={{typography: 'body1'}} href="#/login" color="#fff">
+                                Вход
+                            </Link>
+                            <Link sx={{typography: 'body1'}} href="#/register" color="#fff">
+                                Регистрация
+                            </Link>
                         </>
                     );
                 }
