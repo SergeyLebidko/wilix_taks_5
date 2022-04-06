@@ -1,11 +1,18 @@
 import React from 'react';
-import {Button, Card, CardActions, CardContent} from '@mui/material';
+import {Button, Card, CardActions, CardContent, Typography} from '@mui/material';
 import {useSelector} from 'react-redux';
 
-import {postListSelector} from '../../../store';
+import {postListSelector, userListSelector} from '../../../store';
+import {TUser} from "../../../backend/types";
 
 const PostList: React.FC = () => {
+    const userList = useSelector(userListSelector);
     const postList = useSelector(postListSelector);
+
+    const getUserName = (id: number): string => {
+        const user = userList.find(user => user.id === id) as TUser;
+        return `${user.first_name} ${user.last_name}`;
+    };
 
     return (
         <>
@@ -13,10 +20,18 @@ const PostList: React.FC = () => {
                 post =>
                     <Card key={post.id} variant="outlined">
                         <CardContent>
-                            {post.title}
+                            <Typography sx={{fontSize: 12}} color="text.secondary" gutterBottom>
+                                {getUserName(post.user_id)}
+                            </Typography>
+                            <Typography variant="h6" component="div">
+                                {post.title}
+                            </Typography>
+                            <Typography variant="body2">
+                                {post.text}
+                            </Typography>
                         </CardContent>
-                        <CardActions>
-                            <Button variant="contained" size="small" disableElevation>
+                        <CardActions sx={{justifyContent: 'flex-end'}}>
+                            <Button>
                                 Действие
                             </Button>
                         </CardActions>

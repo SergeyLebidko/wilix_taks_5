@@ -258,6 +258,7 @@ export const loggedUserStatusSelector = (state: TRootState): TStatus => state.lo
 
 export const loggedUserSelector = (state: TRootState): TUser | null => state.logged_user.data;
 
+export const userListSelector = (state: TRootState): TUser[] => state.user_list.data;
 export const postListSelector = (state: TRootState): TPost[] => state.post_list.data;
 
 export default store;
