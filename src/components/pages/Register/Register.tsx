@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
-    Alert,
+    Alert, Avatar,
     Button,
-    Container,
+    Container, Fab,
     FormControl,
     IconButton,
     InputAdornment,
@@ -12,6 +12,7 @@ import {
     TextField,
     Typography
 } from '@mui/material';
+import ClearIcon from '@mui/icons-material/Clear';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -31,7 +32,8 @@ type TRegisterFormData = {
     password2: string,
     firstName: string,
     lastName: string,
-    avatar: string | null
+    avatarFilename: string
+    avatarData: string | null
 }
 
 const Register: React.FC = () => {
@@ -42,14 +44,16 @@ const Register: React.FC = () => {
         password2: '',
         firstName: '',
         lastName: '',
-        avatar: null
+        avatarFilename: '',
+        avatarData: null
     });
     const [passwordError, setPasswordError] = useState<string | null>(null);
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     // Управляем отображением ошибки
     const [hasUserDataPending, loggedUserError] = useLoggedUserErrorControl();
-
-    const [showPassword, setShowPassword] = useState<boolean>(false);
 
     useEffect(() => {
         const {password1, password2} = formData;
@@ -83,6 +87,39 @@ const Register: React.FC = () => {
         }
     }
 
+    const fileInputChangeHandler = (event: React.ChangeEvent): void => {
+        const file = ((event.target as HTMLInputElement).files as FileList)[0];
+        if (!file) return;
+
+        setFormData(oldData => ({
+            ...oldData,
+            avatarFilename: file.name
+        }));
+
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+
+        reader.onload = function () {
+            setFormData(oldData => ({
+                ...oldData,
+                avatarData: reader.result as string
+            }));
+        }
+    }
+
+    const avatarChoiceHandler = (): void => {
+        if (fileInputRef.current === null) return;
+        fileInputRef.current.click();
+    }
+
+    const avatarClearHandler = (): void => {
+        setFormData(oldData => ({
+            ...oldData,
+            avatarFilename: '',
+            avatarData: null
+        }));
+    }
+
     const createPasswordButtonClickHandler = (): void => {
         const password = createPassword();
         setFormData(oldData => ({
@@ -100,7 +137,7 @@ const Register: React.FC = () => {
             password,
             first_name,
             last_name,
-            avatar: null
+            avatar: formData.avatarData
         }));
     }
 
@@ -118,106 +155,153 @@ const Register: React.FC = () => {
     }
 
     return (
-        <Container sx={{display: 'flex', justifyContent: 'center'}}>
-            <Stack spacing={2} maxWidth="30em" sx={{width: '25em'}}>
-                <Typography variant="h5" gutterBottom component="div" sx={{textAlign: 'center'}}>
-                    Введите данные для регистрации
-                </Typography>
-                <TextField
-                    id="login_field"
-                    label="Логин"
-                    required
-                    variant="outlined"
-                    value={formData.login}
-                    onChange={changeFieldHandler('login')}
-                    disabled={hasUserDataPending}
-                />
-                <TextField
-                    id="first_name_field"
-                    label="Имя"
-                    required
-                    variant="outlined"
-                    value={formData.firstName}
-                    onChange={changeFieldHandler('firstName')}
-                    disabled={hasUserDataPending}
-                />
-                <TextField
-                    id="last_name_field"
-                    label="Фамилия"
-                    required
-                    variant="outlined"
-                    value={formData.lastName}
-                    onChange={changeFieldHandler('lastName')}
-                    disabled={hasUserDataPending}
-                />
-                <FormControl variant="outlined" required>
-                    <InputLabel htmlFor="password_field">Пароль</InputLabel>
-                    <OutlinedInput
-                        id="password1_field"
-                        type={showPassword ? 'text' : 'password'}
-                        value={formData.password1}
-                        onChange={changeFieldHandler('password1')}
+        <>
+            <input
+                type="file"
+                accept="image/jpeg,image/png"
+                ref={fileInputRef}
+                style={{display: 'none'}}
+                onChange={fileInputChangeHandler}
+            />
+            <Container sx={{display: 'flex', justifyContent: 'center'}}>
+                <Stack spacing={2} maxWidth="30em" sx={{width: '25em'}}>
+                    <Typography variant="h5" gutterBottom component="div" sx={{textAlign: 'center'}}>
+                        Введите данные для регистрации
+                    </Typography>
+                    <TextField
+                        id="login_field"
+                        label="Логин"
+                        required
+                        variant="outlined"
+                        value={formData.login}
+                        onChange={changeFieldHandler('login')}
                         disabled={hasUserDataPending}
-                        endAdornment={
-                            <InputAdornment position="end">
-                                <IconButton
-                                    aria-label="toggle password visibility"
-                                    onClick={handleClickShowPassword}
-                                    edge="end"
-                                >
-                                    {showPassword ? <VisibilityOff/> : <Visibility/>}
-                                </IconButton>
-                            </InputAdornment>
-                        }
-                        label="Пароль"
                     />
-                </FormControl>
-                <FormControl variant="outlined" required>
-                    <InputLabel htmlFor="password_field">Подтверждение пароля</InputLabel>
-                    <OutlinedInput
-                        id="password2_field"
-                        type={showPassword ? 'text' : 'password'}
-                        value={formData.password2}
-                        onChange={changeFieldHandler('password2')}
+                    <TextField
+                        id="first_name_field"
+                        label="Имя"
+                        required
+                        variant="outlined"
+                        value={formData.firstName}
+                        onChange={changeFieldHandler('firstName')}
                         disabled={hasUserDataPending}
-                        endAdornment={
-                            <InputAdornment position="end">
-                                <IconButton
-                                    aria-label="toggle password visibility"
-                                    onClick={handleClickShowPassword}
-                                    edge="end"
-                                >
-                                    {showPassword ? <VisibilityOff/> : <Visibility/>}
-                                </IconButton>
-                            </InputAdornment>
-                        }
-                        label="Подтверждение пароля"
                     />
-                </FormControl>
-                {passwordError && <Alert severity="error">{passwordError}</Alert>}
-                {/* Добавить поле выбора аватара */}
-                <Button
-                    variant="contained"
-                    disableElevation
-                    disabled={hasUserDataPending}
-                    onClick={createPasswordButtonClickHandler}
-                >
-                    Создать для меня пароль
-                </Button>
-                {loggedUserError && <Alert severity="error">{loggedUserError}</Alert>}
-                <LoadingButton
-                    variant="contained"
-                    disableElevation
-                    loading={hasUserDataPending}
-                    loadingPosition="center"
-                    startIcon={<HowToRegIcon/>}
-                    disabled={!hasRegisterEnabled()}
-                    onClick={registerButtonClickHandler}
-                >
-                    Зарегистрироваться
-                </LoadingButton>
-            </Stack>
-        </Container>
+                    <TextField
+                        id="last_name_field"
+                        label="Фамилия"
+                        required
+                        variant="outlined"
+                        value={formData.lastName}
+                        onChange={changeFieldHandler('lastName')}
+                        disabled={hasUserDataPending}
+                    />
+                    <Stack direction="row" spacing={2} sx={{alignItems: 'center'}}>
+                        <TextField
+                            id="avatar_field"
+                            label="Аватар"
+                            variant="outlined"
+                            disabled={hasUserDataPending}
+                            onClick={avatarChoiceHandler}
+                            value={formData.avatarFilename}
+                            sx={{flex: 1}}
+                        />
+                        <Fab
+                            size="small"
+                            onClick={avatarClearHandler}
+                            sx={{
+                                backgroundColor: '#FF4500',
+                                color: '#fff',
+                                boxShadow: 'none',
+                                '&:active': {
+                                    boxShadow: 'none'
+                                },
+                                '&:hover': {
+                                    backgroundColor: '#FF7F50'
+                                }
+                            }}>
+                            <ClearIcon/>
+                        </Fab>
+                        {formData.avatarData === null ?
+                            <Avatar sx={{width: 56, height: 56}}>
+                                ...
+                            </Avatar>
+                            :
+                            <Avatar
+                                alt="Avatar"
+                                src={formData.avatarData}
+                                sx={{width: 56, height: 56}}
+                            />
+                        }
+
+                    </Stack>
+                    <FormControl variant="outlined" required>
+                        <InputLabel htmlFor="password_field">Пароль</InputLabel>
+                        <OutlinedInput
+                            id="password1_field"
+                            type={showPassword ? 'text' : 'password'}
+                            value={formData.password1}
+                            onChange={changeFieldHandler('password1')}
+                            disabled={hasUserDataPending}
+                            endAdornment={
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleClickShowPassword}
+                                        edge="end"
+                                    >
+                                        {showPassword ? <VisibilityOff/> : <Visibility/>}
+                                    </IconButton>
+                                </InputAdornment>
+                            }
+                            label="Пароль"
+                        />
+                    </FormControl>
+                    <FormControl variant="outlined" required>
+                        <InputLabel htmlFor="password_field">Подтверждение пароля</InputLabel>
+                        <OutlinedInput
+                            id="password2_field"
+                            type={showPassword ? 'text' : 'password'}
+                            value={formData.password2}
+                            onChange={changeFieldHandler('password2')}
+                            disabled={hasUserDataPending}
+                            endAdornment={
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleClickShowPassword}
+                                        edge="end"
+                                    >
+                                        {showPassword ? <VisibilityOff/> : <Visibility/>}
+                                    </IconButton>
+                                </InputAdornment>
+                            }
+                            label="Подтверждение пароля"
+                        />
+                    </FormControl>
+                    {passwordError && <Alert severity="error">{passwordError}</Alert>}
+                    <Button
+                        variant="contained"
+                        disableElevation
+                        disabled={hasUserDataPending}
+                        onClick={createPasswordButtonClickHandler}
+                    >
+                        Создать для меня пароль
+                    </Button>
+                    {loggedUserError && <Alert severity="error">{loggedUserError}</Alert>}
+                    <LoadingButton
+                        variant="contained"
+                        disableElevation
+                        loading={hasUserDataPending}
+                        loadingPosition="center"
+                        startIcon={<HowToRegIcon/>}
+                        disabled={!hasRegisterEnabled()}
+                        onClick={registerButtonClickHandler}
+                    >
+                        Зарегистрироваться
+                    </LoadingButton>
+                </Stack>
+            </Container>
+        </>
     );
 }
 
