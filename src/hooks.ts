@@ -1,13 +1,19 @@
 import {useEffect, useRef} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {ERROR_SHOW_TIMEOUT} from './settings';
-import {loggedUserSlice} from './store';
+import {loggedUserErrorSelector, loggedUserSlice, loggedUserStatusSelector} from './store';
 
 const {resetLoggedUserError} = loggedUserSlice.actions;
 
-export function useLoggedUserErrorControl(hasShowError: boolean) {
+export function useLoggedUserErrorControl(): [boolean, string | null] {
     const dispatch = useDispatch();
+
+    const loggedUserError = useSelector(loggedUserErrorSelector);
+    const loggedUserStatus = useSelector(loggedUserStatusSelector);
+    const hasUserDataPending = loggedUserStatus === 'pending';
+    const hasUserDataError = loggedUserStatus === 'error';
+
     const errorTimer: { current: NodeJS.Timeout | undefined } = useRef();
 
     const resetError = (): void => {
@@ -28,8 +34,10 @@ export function useLoggedUserErrorControl(hasShowError: boolean) {
 
     // Если возникла ошибка входа - запускаем таймер, которые отключит её отображение через заданное время
     useEffect(() => {
-        if (hasShowError) {
+        if (hasUserDataError) {
             errorTimer.current = setTimeout(() => resetError(), ERROR_SHOW_TIMEOUT);
         }
-    }, [hasShowError]);
+    }, [hasUserDataError]);
+
+    return [hasUserDataPending, loggedUserError];
 }

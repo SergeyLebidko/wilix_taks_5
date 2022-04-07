@@ -16,11 +16,12 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
 import LoadingButton from '@mui/lab/LoadingButton';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
-import {loggedUserStatusSelector, registerUser} from '../../../store';
+import {registerUser} from '../../../store';
 import {PASSWORD_MIN_LEN} from '../../../settings';
-import {createPassword} from "../../../utils";
+import {createPassword} from '../../../utils';
+import {useLoggedUserErrorControl} from '../../../hooks';
 
 type TFormFieldNames = 'login' | 'password1' | 'password2' | 'firstName' | 'lastName' | 'avatar';
 
@@ -45,8 +46,8 @@ const Register: React.FC = () => {
     });
     const [passwordError, setPasswordError] = useState<string | null>(null);
 
-    const loggedUserStatus = useSelector(loggedUserStatusSelector);
-    const hasUserDataPending = loggedUserStatus === 'pending';
+    // Управляем отображением ошибки
+    const [hasUserDataPending, loggedUserError] = useLoggedUserErrorControl();
 
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -203,6 +204,7 @@ const Register: React.FC = () => {
                 >
                     Создать для меня пароль
                 </Button>
+                {loggedUserError && <Alert severity="error">{loggedUserError}</Alert>}
                 <LoadingButton
                     variant="contained"
                     disableElevation

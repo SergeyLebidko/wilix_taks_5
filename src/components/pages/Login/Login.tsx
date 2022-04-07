@@ -16,8 +16,8 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import LoginIcon from '@mui/icons-material/Login';
 
-import {loggedUserErrorSelector, loggedUserStatusSelector, loginUser} from '../../../store';
-import {useDispatch, useSelector} from 'react-redux';
+import {loginUser} from '../../../store';
+import {useDispatch} from 'react-redux';
 import {useLoggedUserErrorControl} from '../../../hooks';
 
 const Login: React.FC = () => {
@@ -26,13 +26,8 @@ const Login: React.FC = () => {
     const [password, setPassword] = useState<string>('');
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
-    const loggedUserError = useSelector(loggedUserErrorSelector);
-    const loggedUserStatus = useSelector(loggedUserStatusSelector);
-    const hasUserDataPending = loggedUserStatus === 'pending';
-    const hasUserDataError = loggedUserStatus === 'error';
-
     // Управляем отображением ошибки
-    useLoggedUserErrorControl(hasUserDataError);
+    const [hasUserDataPending, loggedUserError] = useLoggedUserErrorControl();
 
     const handleClickShowPassword = (): void => setShowPassword(!showPassword);
 
