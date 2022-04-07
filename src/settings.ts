@@ -6,3 +6,6 @@ export const DB_NAME = 'backend'
 
 // Имя ключа в local storage для хранения залогинившегося пользователя
 export const LOGGED_USER_NAME = 'logged_user'
+
+// Время отображения ошибок
+export const ERROR_SHOW_TIMEOUT = 5000;

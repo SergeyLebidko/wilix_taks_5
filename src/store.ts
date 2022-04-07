@@ -1,4 +1,4 @@
-import {configureStore, createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import {configureStore, createAsyncThunk, createSlice, SerializedError} from '@reduxjs/toolkit';
 
 import {
     TBackendResponse,
@@ -172,7 +172,8 @@ type TLoggedUserInitialState = {
 }
 
 type TLoggedUserAction = {
-    payload: TBackendResponse | unknown;
+    payload: TBackendResponse | unknown,
+    error?: SerializedError
 }
 
 export const loggedUserSlice = createSlice({
@@ -213,7 +214,7 @@ export const loggedUserSlice = createSlice({
         };
         const rejectCallback = (state: TLoggedUserInitialState, action: TLoggedUserAction) => {
             state.status = 'error';
-            state.error = action.payload as string;
+            state.error = (action.error as Error).message;
             state.data = null;
             localStorage.removeItem(LOGGED_USER_NAME);
         };
@@ -255,7 +256,7 @@ export const allListDoneSelector = (state: TRootState): boolean => {
 }
 
 export const loggedUserStatusSelector = (state: TRootState): TStatus => state.logged_user.status;
-
+export const loggedUserErrorSelector = (state: TRootState): string | null => state.logged_user.error;
 export const loggedUserSelector = (state: TRootState): TUser | null => state.logged_user.data;
 
 export const userListSelector = (state: TRootState): TUser[] => state.user_list.data;

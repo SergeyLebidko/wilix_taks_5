@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Routes, Route, Navigate} from 'react-router-dom';
 
@@ -9,6 +9,7 @@ import Register from '../pages/Register/Register';
 import CreatePost from '../pages/CreatePost/CreatePost';
 import Logout from '../pages/Logout/Logout';
 import NoMatch from '../pages/NoMatch/NoMatch';
+import Preloader from '../common/Preloader/Preloader';
 import {LOGGED_USER_NAME} from '../../settings';
 import {TUser} from '../../backend/types';
 import {
@@ -17,14 +18,19 @@ import {
     loadTagList,
     loadUserList,
     loadPostTagList,
-    loggedUserSlice, loggedUserSelector
+    loggedUserSlice, loggedUserSelector, allListDoneSelector, loggedUserStatusSelector
 } from '../../store';
 
 const {setLoggedUser} = loggedUserSlice.actions;
 
 const App: React.FC = () => {
     const dispatch = useDispatch();
+    const [hasAllDataLoad, setHasAllDataLoad] = useState<boolean>(false);
+
     const loggedUser = useSelector(loggedUserSelector);
+    const loggedUserStatus = useSelector(loggedUserStatusSelector);
+
+    const allListDone = useSelector(allListDoneSelector);
 
     useEffect(() => {
         // Выполняем загрузки списков данных - пользователей, постов и т.д...
@@ -43,6 +49,12 @@ const App: React.FC = () => {
             dispatch(setLoggedUser(null));
         }
     }, [dispatch]);
+
+    useEffect(() => {
+        setHasAllDataLoad(oldValue => oldValue || (allListDone && loggedUserStatus === 'done'));
+    }, [allListDone, loggedUserStatus]);
+
+    if (!hasAllDataLoad) return <Preloader fullscreen/>;
 
     return (
         <Routes>
