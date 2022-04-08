@@ -17,8 +17,6 @@ const PostCard: React.FC<PostCardProps> = ({post}) => {
     const loggedUser = useSelector(loggedUserSelector);
     const [hasRemoveProcess, setHasRemoveProcess] = useState<boolean>(false);
 
-    console.log('В карточке', loggedUser);
-
     const user = userList.find(user => user.id === post.user_id) as TUser;
 
     const removePostHandler = () => {

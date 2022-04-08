@@ -39,6 +39,10 @@ export const userListSlice = createSlice({
             .addCase(loadUserList.fulfilled, (state, action) => {
                 state.status = 'done';
                 state.data = action.payload as TUser[];
+            })
+            .addCase(registerUser.fulfilled, (state, action) => {
+                // При регистрации нового пользователя обновлеяем список пользователей и в хранилище
+                state.data.push(action.payload as TUser);
             });
     }
 });
