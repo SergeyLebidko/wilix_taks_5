@@ -1,7 +1,7 @@
 {
   "name": "wilix_taks_5",
   "version": "0.1.0",
-  "homepage": "https://hproger.ru/wilix_taks_5/",
+  "homepage": "https://hproger.ru/wilix_task_5/",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.8.2",
