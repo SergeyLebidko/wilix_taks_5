@@ -70,6 +70,7 @@ const CreatePost: React.FC = () => {
                 variant="outlined"
                 required
                 value={formData.title}
+                disabled={hasPostListPending}
                 onChange={fieldChangeHandler('title')}
             />
             <TextField
@@ -78,6 +79,7 @@ const CreatePost: React.FC = () => {
                 multiline
                 rows={8}
                 value={formData.text}
+                disabled={hasPostListPending}
                 onChange={fieldChangeHandler('text')}
             />
             <LoadingButton

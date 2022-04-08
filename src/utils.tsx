@@ -19,3 +19,25 @@ export function createPassword(): string {
     } while (buffer.length);
     return result.join('');
 }
+
+export function getDateStringForTimestamp(timestamp: number): string {
+    const monthList = [
+        'января',
+        'февраля',
+        'марта',
+        'апреля',
+        'мая',
+        'июня',
+        'июля',
+        'августа',
+        'сентября',
+        'октября',
+        'ноября',
+        'декабря'
+    ];
+    const date = new Date(timestamp);
+    const d = '' + date.getDate();
+    const m = monthList[date.getMonth()];
+    const y = '' + date.getFullYear();
+    return `${d} ${m} ${y}`;
+}

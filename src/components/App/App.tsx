@@ -9,7 +9,6 @@ import Register from '../pages/Register/Register';
 import CreatePost from '../pages/CreatePost/CreatePost';
 import Logout from '../pages/Logout/Logout';
 import NoMatch from '../pages/NoMatch/NoMatch';
-import Preloader from '../common/Preloader/Preloader';
 import {LOGGED_USER_NAME} from '../../settings';
 import {TUser} from '../../backend/types';
 import {
@@ -20,6 +19,7 @@ import {
     loadPostTagList,
     loggedUserSlice, loggedUserSelector, allListDoneSelector, loggedUserStatusSelector
 } from '../../store';
+import {Box, CircularProgress} from "@mui/material";
 
 const {setLoggedUser} = loggedUserSlice.actions;
 
@@ -54,7 +54,21 @@ const App: React.FC = () => {
         setHasAllDataLoad(oldValue => oldValue || (allListDone && loggedUserStatus === 'done'));
     }, [allListDone, loggedUserStatus]);
 
-    if (!hasAllDataLoad) return <Preloader fullscreen/>;
+    // Пока не загружены все необходимые данные - показываем пользователю прелоадер
+    if (!hasAllDataLoad) return (
+        <Box sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%'
+        }}>
+            <CircularProgress/>
+        </Box>
+    );
 
     return (
         <Routes>
@@ -62,8 +76,8 @@ const App: React.FC = () => {
                 <Route index element={<Main/>}/>
                 <Route path='register' element={loggedUser ? <Navigate to='/'/> : <Register/>}/>
                 <Route path='login' element={loggedUser ? <Navigate to='/'/> : <Login/>}/>
-                <Route path='logout' element={loggedUser ? <Logout/> :  <Navigate to='/'/>}/>
-                <Route path='create_post' element={loggedUser ? <CreatePost/> :  <Navigate to='/login'/>}/>
+                <Route path='logout' element={loggedUser ? <Logout/> : <Navigate to='/'/>}/>
+                <Route path='create_post' element={loggedUser ? <CreatePost/> : <Navigate to='/login'/>}/>
                 <Route path="*" element={<NoMatch/>}/>
             </Route>
         </Routes>

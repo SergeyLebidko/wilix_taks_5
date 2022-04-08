@@ -5,7 +5,7 @@ import {
     TComment,
     TLoginOpt,
     TPost,
-    TPostTag,
+    TPostTag, TQueryOpt,
     TRegisterOpt,
     TTag,
     TUrls,
@@ -58,6 +58,13 @@ export const createPost = createAsyncThunk(
     }
 );
 
+export const removePost = createAsyncThunk(
+    'remove_post',
+    async (options: TQueryOpt) => {
+        return backend.fetch(TUrls.RemovePost, options);
+    }
+)
+
 export const postListSlice = createSlice({
     name: 'post_list',
     initialState: {
@@ -80,6 +87,13 @@ export const postListSlice = createSlice({
             .addCase(createPost.fulfilled, (state, action) => {
                 state.status = 'done';
                 state.data.push(action.payload as TPost);
+            })
+            .addCase(removePost.pending, state => {
+                state.status = 'pending';
+            })
+            .addCase(removePost.fulfilled, (state, action) => {
+                state.status = 'done';
+                state.data = (state.data as any[]).filter(post => (post as TPost).id !== (action.payload as TPost).id);
             });
     }
 });
