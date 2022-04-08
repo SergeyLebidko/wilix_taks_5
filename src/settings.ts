@@ -20,3 +20,6 @@ export const SPECS = '!@#$%^&*+';
 export const LETTERS_PASS_COUNT = 6;
 export const DIGITS_PASS_COUNT = 4;
 export const SPECS_PASS_COUNT = 4;
+
+// Размер страницы для пагинации
+export const PAGINATION_PAGE_SIZE = 2;

@@ -1,10 +1,14 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
+import {Box, Pagination, PaginationItem} from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 import {postListSelector, userListSelector} from '../../../store';
 import PostCard from '../PostCard/PostCard';
 import {TPost, TUser} from '../../../backend/types';
 import {TSortDirection, TSortType} from '../../../types';
+import {PAGINATION_PAGE_SIZE} from '../../../settings';
 
 type PostListProps = {
     sortType: TSortType,
@@ -14,12 +18,19 @@ type PostListProps = {
 
 const PostList: React.FC<PostListProps> = ({sortType, sortDirection, keyWord}) => {
     const userList = useSelector(userListSelector);
+    const [page, setPage] = useState<number>(1);
+
 
     const getUserForId = (id: number): TUser => {
         return userList.find(user => user.id === id) as TUser;
     }
 
     let postListToShow = Array.from(useSelector(postListSelector));
+
+    const pageChangeHandler = (event: React.ChangeEvent<unknown>, nextPage: number): void => {
+        console.log(nextPage);
+        setPage(nextPage)
+    }
 
     // Применяем параметры сортировки
     postListToShow.sort((a: TPost, b: TPost) => {
@@ -66,9 +77,42 @@ const PostList: React.FC<PostListProps> = ({sortType, sortDirection, keyWord}) =
         });
     }
 
+    // Если изменяется количество элементов в массиве для отображения - сбрасываем пагинацию на первую страницу
+    useEffect(() => {
+        setPage(1);
+    }, [postListToShow.length]);
+
+    let startIndex = 0;
+    let endIndex = postListToShow.length - 1;
+
+    // Если нужно, то к отсортированным и отфильтрованным данным применяем пагинацию
+    const hasPagination = postListToShow.length > PAGINATION_PAGE_SIZE;
+    if (hasPagination) {
+        startIndex = (page - 1) * PAGINATION_PAGE_SIZE;
+        endIndex = startIndex + (PAGINATION_PAGE_SIZE - 1);
+    }
+
     return (
         <>
-            {postListToShow.map(post => <PostCard key={post.id} post={post}/>)}
+            {postListToShow
+                .filter((_, index) => index >= startIndex && index <= endIndex)
+                .map(post => <PostCard key={post.id} post={post}/>)
+            }
+            {hasPagination &&
+                <Box sx={{display: 'flex', alignSelf: 'stretch', justifyContent: 'center'}}>
+                    <Pagination
+                        count={Math.ceil(postListToShow.length / PAGINATION_PAGE_SIZE)}
+                        page={page}
+                        onChange={pageChangeHandler}
+                        renderItem={(item) => (
+                            <PaginationItem
+                                components={{previous: ArrowBackIcon, next: ArrowForwardIcon}}
+                                {...item}
+                            />
+                        )}
+                    />
+                </Box>
+            }
         </>
     );
 };
