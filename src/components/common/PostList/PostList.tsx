@@ -8,18 +8,20 @@ import {TSortDirection, TSortType} from '../../../types';
 
 type PostListProps = {
     sortType: TSortType,
-    sortDirection: TSortDirection
+    sortDirection: TSortDirection,
+    keyWord: string
 }
 
-const PostList: React.FC<PostListProps> = ({sortType, sortDirection}) => {
+const PostList: React.FC<PostListProps> = ({sortType, sortDirection, keyWord}) => {
     const userList = useSelector(userListSelector);
 
     const getUserForId = (id: number): TUser => {
         return userList.find(user => user.id === id) as TUser;
     }
 
-    const postListToShow = Array.from(useSelector(postListSelector));
+    let postListToShow = Array.from(useSelector(postListSelector));
 
+    // Применяем параметры сортировки
     postListToShow.sort((a: TPost, b: TPost) => {
         let result = 0;
         switch (sortType) {
@@ -49,6 +51,20 @@ const PostList: React.FC<PostListProps> = ({sortType, sortDirection}) => {
         }
         return (sortDirection === TSortDirection.ToDown) ? (-1) * result : result;
     });
+
+    // Применяем фильтр по ключевым словам
+    if (keyWord !== '') {
+        const _keyWord = keyWord.toLocaleLowerCase();
+        postListToShow = postListToShow.filter(post => {
+            const user = getUserForId(post.user_id);
+            return (
+                user.first_name.toLocaleLowerCase().includes(_keyWord) ||
+                user.last_name.toLocaleLowerCase().includes(_keyWord) ||
+                post.title.toLocaleLowerCase().includes(_keyWord) ||
+                post.text.toLocaleLowerCase().includes(_keyWord)
+            );
+        });
+    }
 
     return (
         <>

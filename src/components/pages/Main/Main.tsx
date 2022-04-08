@@ -8,10 +8,12 @@ import {TSortDirection, TSortType} from '../../../types';
 const Main: React.FC = () => {
     const [sortType, setSortType] = useState<TSortType>(TSortType.ByDate);
     const [sortDirection, setSortDirection] = useState<TSortDirection>(TSortDirection.ToDown);
+    const [keyWord, setKeyWord] = useState<string>('');
 
     const resetParams = (): void => {
         setSortType(TSortType.ByDate);
         setSortDirection(TSortDirection.ToDown);
+        setKeyWord('');
     }
 
     return (
@@ -21,9 +23,11 @@ const Main: React.FC = () => {
                 setSortType={setSortType}
                 sortDirection={sortDirection}
                 setSortDirection={setSortDirection}
+                keyWord={keyWord}
+                setKeyWord={setKeyWord}
                 resetParams={resetParams}
             />
-            <PostList sortType={sortType} sortDirection={sortDirection}/>
+            <PostList sortType={sortType} sortDirection={sortDirection} keyWord={keyWord}/>
         </Stack>
     );
 };
