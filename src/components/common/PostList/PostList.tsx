@@ -28,7 +28,6 @@ const PostList: React.FC<PostListProps> = ({sortType, sortDirection, keyWord}) =
     let postListToShow = Array.from(useSelector(postListSelector));
 
     const pageChangeHandler = (event: React.ChangeEvent<unknown>, nextPage: number): void => {
-        console.log(nextPage);
         setPage(nextPage)
     }
 
