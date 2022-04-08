@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/wilix_taks_5/static/js/main.ca7b5a01.js",
+    "main.js": "/wilix_taks_5/static/js/main.d48714df.js",
     "index.html": "/wilix_taks_5/index.html",
-    "main.ca7b5a01.js.map": "/wilix_taks_5/static/js/main.ca7b5a01.js.map"
+    "main.d48714df.js.map": "/wilix_taks_5/static/js/main.d48714df.js.map"
   },
   "entrypoints": [
-    "static/js/main.ca7b5a01.js"
+    "static/js/main.d48714df.js"
   ]
 }
