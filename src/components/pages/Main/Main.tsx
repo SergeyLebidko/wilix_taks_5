@@ -9,6 +9,11 @@ const Main: React.FC = () => {
     const [sortType, setSortType] = useState<TSortType>(TSortType.ByDate);
     const [sortDirection, setSortDirection] = useState<TSortDirection>(TSortDirection.ToDown);
 
+    const resetParams = (): void => {
+        setSortType(TSortType.ByDate);
+        setSortDirection(TSortDirection.ToDown);
+    }
+
     return (
         <Stack spacing={2}>
             <PostFilters
@@ -16,6 +21,7 @@ const Main: React.FC = () => {
                 setSortType={setSortType}
                 sortDirection={sortDirection}
                 setSortDirection={setSortDirection}
+                resetParams={resetParams}
             />
             <PostList sortType={sortType} sortDirection={sortDirection}/>
         </Stack>

@@ -1,5 +1,5 @@
 import React, {Dispatch, SetStateAction} from 'react';
-import {FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Stack} from '@mui/material';
+import {Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Stack} from '@mui/material';
 
 import {TSortDirection, TSortType} from '../../../types';
 
@@ -7,10 +7,12 @@ type PostFiltersProps = {
     sortType: TSortType,
     setSortType: Dispatch<SetStateAction<TSortType>>,
     sortDirection: TSortDirection,
-    setSortDirection: Dispatch<SetStateAction<TSortDirection>>
+    setSortDirection: Dispatch<SetStateAction<TSortDirection>>,
+    resetParams: () => void
 }
 
-const PostFilters: React.FC<PostFiltersProps> = ({sortType, setSortType, sortDirection, setSortDirection}) => {
+const PostFilters: React.FC<PostFiltersProps> = (props) => {
+    const {sortType, setSortType, sortDirection, setSortDirection, resetParams} = props;
 
     const sortTypeChangeHandler = (event: SelectChangeEvent): void => setSortType(event.target.value as TSortType);
 
@@ -47,6 +49,9 @@ const PostFilters: React.FC<PostFiltersProps> = ({sortType, setSortType, sortDir
                     <MenuItem value={TSortDirection.ToDown}>По убыванию</MenuItem>
                 </Select>
             </FormControl>
+            <Button variant="outlined" disableElevation onClick={resetParams}>
+                Сброс
+            </Button>
         </Stack>
     );
 };
