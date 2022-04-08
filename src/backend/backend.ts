@@ -25,7 +25,9 @@ class Backend {
     }
 
     private getNextId(entityType: TDataSet): number {
-        return Math.max(...(this.db as TDataBase)[entityType].map(value => value.id as number)) + 1;
+        const idsList = (this.db as TDataBase)[entityType].map(value => value.id as number);
+        if (!idsList.length) return 1;
+        return Math.max(...idsList) + 1;
     }
 
     // Методы регистрации нового пользователя и логина
