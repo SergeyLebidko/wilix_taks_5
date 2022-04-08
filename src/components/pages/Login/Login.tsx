@@ -26,7 +26,7 @@ const Login: React.FC = () => {
     const [password, setPassword] = useState<string>('');
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
-    // Управляем отображением ошибки
+    // Управляем отображением ошибки входа
     const [hasUserDataPending, loggedUserError] = useLoggedUserErrorControl();
 
     const handleClickShowPassword = (): void => setShowPassword(!showPassword);

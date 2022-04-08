@@ -52,7 +52,7 @@ const Register: React.FC = () => {
 
     const fileInputRef = useRef<HTMLInputElement>(null);
 
-    // Управляем отображением ошибки
+    // Управляем отображением ошибки регистрации
     const [hasUserDataPending, loggedUserError] = useLoggedUserErrorControl();
 
     useEffect(() => {
@@ -69,6 +69,28 @@ const Register: React.FC = () => {
     const handleClickShowPassword = (): void => setShowPassword(!showPassword);
 
     const changeFieldHandler = (fieldName: TFormFieldNames) => {
+        if (fieldName === 'avatar') {
+            return (event: React.ChangeEvent): void => {
+                const file = ((event.target as HTMLInputElement).files as FileList)[0];
+                if (!file) return;
+
+                setFormData(oldData => ({
+                    ...oldData,
+                    avatarFilename: file.name
+                }));
+
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+
+                reader.onload = function () {
+                    setFormData(oldData => ({
+                        ...oldData,
+                        avatarData: reader.result as string
+                    }));
+                }
+            }
+        }
+
         return (event: React.ChangeEvent): void => {
             let nextValue: string;
             switch (fieldName) {
@@ -83,26 +105,6 @@ const Register: React.FC = () => {
             setFormData(oldState => ({
                 ...oldState,
                 [fieldName]: nextValue
-            }));
-        }
-    }
-
-    const fileInputChangeHandler = (event: React.ChangeEvent): void => {
-        const file = ((event.target as HTMLInputElement).files as FileList)[0];
-        if (!file) return;
-
-        setFormData(oldData => ({
-            ...oldData,
-            avatarFilename: file.name
-        }));
-
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-
-        reader.onload = function () {
-            setFormData(oldData => ({
-                ...oldData,
-                avatarData: reader.result as string
             }));
         }
     }
@@ -141,9 +143,9 @@ const Register: React.FC = () => {
         }));
     }
 
-    const hasRegisterEnabled = (): boolean => {
+    const hasRegisterButtonDisabled = (): boolean => {
         const {login, password1, password2, firstName, lastName} = formData;
-        return !!(
+        return !(
             login &&
             password1 &&
             password2 &&
@@ -161,7 +163,7 @@ const Register: React.FC = () => {
                 accept="image/jpeg,image/png"
                 ref={fileInputRef}
                 style={{display: 'none'}}
-                onChange={fileInputChangeHandler}
+                onChange={changeFieldHandler('avatar')}
             />
             <Container sx={{display: 'flex', justifyContent: 'center'}}>
                 <Stack spacing={2} maxWidth="30em" sx={{width: '25em'}}>
@@ -294,7 +296,7 @@ const Register: React.FC = () => {
                         loading={hasUserDataPending}
                         loadingPosition="center"
                         startIcon={<HowToRegIcon/>}
-                        disabled={!hasRegisterEnabled()}
+                        disabled={hasRegisterButtonDisabled()}
                         onClick={registerButtonClickHandler}
                     >
                         Зарегистрироваться
