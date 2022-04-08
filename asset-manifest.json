@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.js": "/wilix_taks_5/static/js/main.582fa992.js",
-    "index.html": "/wilix_taks_5/index.html",
-    "main.582fa992.js.map": "/wilix_taks_5/static/js/main.582fa992.js.map"
+    "main.js": "/wilix_task_5/static/js/main.582fa992.js",
+    "index.html": "/wilix_task_5/index.html",
+    "main.582fa992.js.map": "/wilix_task_5/static/js/main.582fa992.js.map"
   },
   "entrypoints": [
     "static/js/main.582fa992.js"
