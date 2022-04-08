@@ -6,6 +6,10 @@ import {loggedUserErrorSelector, loggedUserSlice, loggedUserStatusSelector} from
 
 const {resetLoggedUserError} = loggedUserSlice.actions;
 
+// Хук, позволяющий контролировать отображение ошибок при выполнении "сетевых" операций
+// с учетной записью, таких как вход и регистрация.
+// Первый возвращаемый параметр - признак ожидания выполнения запроса.
+// Второй возвращаемый параметр - ошибка, возникшая при выполнении операции.
 export function useLoggedUserErrorControl(): [boolean, string | null] {
     const dispatch = useDispatch();
 

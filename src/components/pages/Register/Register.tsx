@@ -211,14 +211,16 @@ const Register: React.FC = () => {
                             size="small"
                             onClick={avatarClearHandler}
                             sx={{
-                                backgroundColor: '#FF4500',
-                                color: '#fff',
+                                backgroundColor: 'coral',
+                                color: 'white',
                                 boxShadow: 'none',
+                                transition: 'all 300ms',
                                 '&:active': {
                                     boxShadow: 'none'
                                 },
                                 '&:hover': {
-                                    backgroundColor: '#FF7F50'
+                                    transform: 'scale(1.1)',
+                                    backgroundColor: 'red'
                                 }
                             }}>
                             <ClearIcon/>

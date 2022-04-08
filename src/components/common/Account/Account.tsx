@@ -39,8 +39,12 @@ const Account: React.FC = () => {
                                     color: '#00BFFF',
                                     boxShadow: 'none',
                                     backgroundColor: '#fff',
+                                    transition: 'all 300ms',
                                     '&:active': {
                                         boxShadow: 'none'
+                                    },
+                                    '&:hover': {
+                                        transform: 'scale(1.1)'
                                     }
                                 }}>
                                 <LogoutIcon/>
