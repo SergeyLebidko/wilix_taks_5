@@ -6,9 +6,10 @@ import {useSelector} from 'react-redux';
 
 import {loggedUserSelector} from '../../../store';
 import {useNavigator} from '../../../hooks';
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const Account: React.FC = () => {
-    const {toLogout} = useNavigator();
+    const {toLogout, toCreatePost} = useNavigator();
     const loggedUser = useSelector(loggedUserSelector);
 
     const userFullName = `${loggedUser?.first_name} ${loggedUser?.last_name}`;
@@ -30,6 +31,26 @@ const Account: React.FC = () => {
                                     {loggedUser.first_name[0]}{loggedUser.last_name[0]}
                                 </Avatar>
                             }
+                            <Fab
+                                size="small"
+                                color="secondary"
+                                aria-label="add"
+                                onClick={toCreatePost}
+                                sx={{
+                                    alignSelf: 'flex-end',
+                                    backgroundColor: 'deepskyblue',
+                                    transition: 'all 300ms',
+                                    boxShadow: 'none',
+                                    '&:active': {
+                                        boxShadow: 'none'
+                                    },
+                                    '&:hover': {
+                                        transform: 'scale(1.1)',
+                                        backgroundColor: 'dodgerblue'
+                                    }
+                                }}>
+                                <AddCircleOutlineIcon/>
+                            </Fab>
                             <Fab
                                 size="small"
                                 onClick={toLogout}
