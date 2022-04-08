@@ -24,7 +24,7 @@ export const loadUserList = createAsyncThunk(
     }
 );
 
-const userListSlice = createSlice({
+export const userListSlice = createSlice({
     name: 'user_list',
     initialState: {
         status: 'pending' as TStatus,
@@ -51,7 +51,14 @@ export const loadPostList = createAsyncThunk(
     }
 );
 
-const postListSlice = createSlice({
+export const createPost = createAsyncThunk(
+    'create_post',
+    async (postData: TPost) => {
+        return backend.fetch(TUrls.CreatePost, postData);
+    }
+);
+
+export const postListSlice = createSlice({
     name: 'post_list',
     initialState: {
         status: 'pending' as TStatus,
@@ -62,10 +69,18 @@ const postListSlice = createSlice({
         builder
             .addCase(loadPostList.pending, state => {
                 state.status = 'pending'
-            }).addCase(loadPostList.fulfilled, (state, action) => {
-            state.status = 'done';
-            state.data = action.payload as TPost[];
-        });
+            })
+            .addCase(loadPostList.fulfilled, (state, action) => {
+                state.status = 'done';
+                state.data = action.payload as TPost[];
+            })
+            .addCase(createPost.pending, state => {
+                state.status = 'pending';
+            })
+            .addCase(createPost.fulfilled, (state, action) => {
+                state.status = 'done';
+                state.data.push(action.payload as TPost);
+            });
     }
 });
 
@@ -77,7 +92,7 @@ export const loadCommentList = createAsyncThunk(
     }
 );
 
-const commentListSlice = createSlice({
+export const commentListSlice = createSlice({
     name: 'comment_list',
     initialState: {
         status: 'pending' as TStatus,
@@ -104,7 +119,7 @@ export const loadTagList = createAsyncThunk(
     }
 );
 
-const tagListSlice = createSlice({
+export const tagListSlice = createSlice({
     name: 'tag_list',
     initialState: {
         status: 'pending' as TStatus,
@@ -131,7 +146,7 @@ export const loadPostTagList = createAsyncThunk(
     }
 );
 
-const postTagListSlice = createSlice({
+export const postTagListSlice = createSlice({
     name: 'post_tag_list',
     initialState: {
         status: 'pending' as TStatus,
@@ -244,6 +259,7 @@ const store = configureStore({
 export type TRootState = ReturnType<typeof store.getState>;
 
 // Селекторы
+// Селектор, возвращающий признак полной загрузки всех списков данных
 export const allListDoneSelector = (state: TRootState): boolean => {
     const {
         user_list: {status: us},
@@ -255,11 +271,16 @@ export const allListDoneSelector = (state: TRootState): boolean => {
     return us === 'done' && ps === 'done' && ts === 'done' && cs === 'done' && pts === 'done';
 }
 
+// Селекторы залогиненного пользователя
 export const loggedUserStatusSelector = (state: TRootState): TStatus => state.logged_user.status;
 export const loggedUserErrorSelector = (state: TRootState): string | null => state.logged_user.error;
 export const loggedUserSelector = (state: TRootState): TUser | null => state.logged_user.data;
 
+// Селектор списка пользователей
 export const userListSelector = (state: TRootState): TUser[] => state.user_list.data;
+
+// Селекторы списка постов
 export const postListSelector = (state: TRootState): TPost[] => state.post_list.data;
+export const postListStatusSelector = (state: TRootState): TStatus => state.post_list.status;
 
 export default store;

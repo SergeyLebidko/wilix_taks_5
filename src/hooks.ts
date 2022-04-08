@@ -1,5 +1,6 @@
 import {useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {useNavigate} from 'react-router-dom';
 
 import {ERROR_SHOW_TIMEOUT} from './settings';
 import {loggedUserErrorSelector, loggedUserSlice, loggedUserStatusSelector} from './store';
@@ -44,4 +45,14 @@ export function useLoggedUserErrorControl(): [boolean, string | null] {
     }, [hasUserDataError]);
 
     return [hasUserDataPending, loggedUserError];
+}
+
+export function useNavigator(){
+    const navigate = useNavigate();
+
+    return {
+        toMain: () => navigate('/'),
+        toLogout: () => navigate('/logout'),
+        toCreatePost: () => navigate('/create_post')
+    }
 }

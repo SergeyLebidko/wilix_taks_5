@@ -3,15 +3,13 @@ import {Avatar, Fab, Stack, Typography} from '@mui/material';
 import {Link} from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import {useSelector} from 'react-redux';
-import {useNavigate} from 'react-router-dom';
 
 import {loggedUserSelector} from '../../../store';
+import {useNavigator} from '../../../hooks';
 
 const Account: React.FC = () => {
-    const navigate = useNavigate();
+    const {toLogout} = useNavigator();
     const loggedUser = useSelector(loggedUserSelector);
-
-    const toLogout = (): void => navigate('logout');
 
     const userFullName = `${loggedUser?.first_name} ${loggedUser?.last_name}`;
     return (

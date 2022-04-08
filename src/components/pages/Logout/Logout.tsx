@@ -5,14 +5,13 @@ import {useNavigate} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 
 import {loggedUserSlice} from '../../../store';
+import {useNavigator} from "../../../hooks";
 
 const {setLoggedUser} = loggedUserSlice.actions;
 
 const Logout: React.FC = () => {
-    const navigate = useNavigate();
+    const {toMain} = useNavigator();
     const dispatch = useDispatch();
-
-    const toMain = (): void => navigate('/');
 
     const logoutClickHandler = (): void => {
         dispatch(setLoggedUser(null));

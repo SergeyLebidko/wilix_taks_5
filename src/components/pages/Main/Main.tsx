@@ -5,8 +5,10 @@ import {useSelector} from 'react-redux';
 
 import PostList from '../../common/PostList/PostList';
 import {loggedUserSelector} from '../../../store';
+import {useNavigator} from '../../../hooks';
 
 const Main: React.FC = () => {
+    const {toCreatePost} = useNavigator();
     const loggedUser = useSelector(loggedUserSelector);
 
     return (
@@ -16,6 +18,7 @@ const Main: React.FC = () => {
                     size="small"
                     color="secondary"
                     aria-label="add"
+                    onClick={toCreatePost}
                     sx={{
                         alignSelf: 'flex-end',
                         backgroundColor: 'deepskyblue',
