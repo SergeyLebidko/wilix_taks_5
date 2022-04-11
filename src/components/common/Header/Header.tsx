@@ -1,26 +1,21 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {AccordionActions, Box, Stack} from '@mui/material';
+import {Box, Stack} from '@mui/material';
 
-import Logo from '../Logo/Logo';
 import {loggedUserSelector} from '../../../redux/selectors';
-import AccountLinks from "../AccountLinks/AccountLinks";
+import Logo from '../Logo/Logo';
+import AccountLinks from '../AccountLinks/AccountLinks';
+import AccountActions from '../AccountActions/AccountActions';
+import './Header.scss';
 
 const Header: React.FC = () => {
     const loggedUser = useSelector(loggedUserSelector);
 
     return (
-        <Box sx={{
-            backgroundColor: 'deepskyblue',
-            borderRadius: 1,
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            padding: '1rem'
-        }}>
+        <Box className="header">
             <Logo/>
-            <Stack direction="row" spacing={1} sx={{color: 'white', alignItems: 'center'}}>
-                {loggedUser ? <AccordionActions/> : <AccountLinks/>}
+            <Stack className="header__content_block" direction="row" spacing={1}>
+                {loggedUser ? <AccountActions/> : <AccountLinks/>}
             </Stack>
         </Box>
     )

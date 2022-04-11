@@ -1,0 +1,13 @@
+.header {
+  background-color: deepskyblue;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+
+  &__content_block {
+    color: white;
+    align-items: center;
+  }
+}
