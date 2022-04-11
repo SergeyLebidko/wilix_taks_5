@@ -1,4 +1,4 @@
-import {TPost, TUser} from '../backend/types';
+import {TPost, TUser, TComment} from '../backend/types';
 import {TRootState} from './store';
 import {TStatus} from '../types';
 
@@ -25,3 +25,6 @@ export const userListSelector = (state: TRootState): TUser[] => state.user_list.
 // Селекторы списка постов
 export const postListSelector = (state: TRootState): TPost[] => state.post_list.data;
 export const postListStatusSelector = (state: TRootState): TStatus => state.post_list.status;
+
+// Селекторы списка комментариев
+export const commentListSelector = (state: TRootState): TComment[] => state.comment_list.data;

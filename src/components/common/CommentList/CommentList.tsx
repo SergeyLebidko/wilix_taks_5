@@ -1,0 +1,28 @@
+import React from 'react';
+import {useSelector} from 'react-redux';
+import {Stack} from '@mui/material';
+
+import {TPost, TComment} from '../../../backend/types';
+import {commentListSelector} from '../../../redux/selectors';
+import CommentCard from '../CommentCard/CommentCard';
+
+type CommentListProps = {
+    post: TPost
+}
+
+const CommentList: React.FC<CommentListProps> = ({post}) => {
+    let commentList = Array.from(useSelector(commentListSelector));
+
+    // Отсекаем комменты, не принадлежащие текущему посту и выполняем сортировку по дате
+    commentList = commentList
+        .filter(comment => comment.post_id === post.id)
+        .sort((a: TComment, b: TComment) => b.dt_created - a.dt_created);
+
+    return (
+        <Stack spacing={2}>
+            {commentList.map(comment => <CommentCard key={comment.id} comment={comment}/>)}
+        </Stack>
+    );
+};
+
+export default CommentList;
