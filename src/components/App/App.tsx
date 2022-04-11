@@ -9,17 +9,16 @@ import Register from '../pages/Register/Register';
 import CreatePost from '../pages/CreatePost/CreatePost';
 import Logout from '../pages/Logout/Logout';
 import NoMatch from '../pages/NoMatch/NoMatch';
+import Preloader from '../common/Preloader/Preloader';
 import {LOGGED_USER_NAME} from '../../constants';
 import {TUser} from '../../backend/types';
-import {Box, CircularProgress} from "@mui/material";
-import {loadUserList} from "../../redux/users";
-import {loadPostList} from "../../redux/post_list";
-import {loadCommentList} from "../../redux/comment_list";
-import {loadTagList} from "../../redux/tag_list";
-import {loadPostTagList} from "../../redux/posttag_list";
-import {loggedUserSlice} from "../../redux/logged_user";
-import {allListDoneSelector, loggedUserSelector, loggedUserStatusSelector} from "../../redux/selectors";
-import Preloader from "../common/Preloader/Preloader";
+import {loadUserList} from '../../redux/users';
+import {loadPostList} from '../../redux/post_list';
+import {loadCommentList} from '../../redux/comment_list';
+import {loadTagList} from '../../redux/tag_list';
+import {loadPostTagList} from '../../redux/posttag_list';
+import {loggedUserSlice} from '../../redux/logged_user';
+import {allListDoneSelector, loggedUserSelector, loggedUserStatusSelector} from '../../redux/selectors';
 
 const {setLoggedUser} = loggedUserSlice.actions;
 

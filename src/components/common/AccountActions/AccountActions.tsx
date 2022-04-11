@@ -7,62 +7,30 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import {loggedUserSelector} from '../../../redux/selectors';
 import useNavigator from '../../../helpers/hooks/useNavigator';
 import {TUser} from '../../../backend/types';
+import './AccountActions.scss';
 
 const AccountActions: React.FC = () => {
     const {toLogout, toCreatePost} = useNavigator();
-    const loggedUser = useSelector(loggedUserSelector) as TUser;
+    const {first_name, last_name, avatar} = useSelector(loggedUserSelector) as TUser;
 
-    const userFullName = `${loggedUser?.first_name} ${loggedUser?.last_name}`;
+    const userFullName = `${first_name} ${last_name}`;
+
+    const userInitial = `${first_name[0]}${last_name[0]}`;
 
     return (
         <>
-            <Typography variant="h6" gutterBottom component="div" sx={{m: 0}}>
+            <Typography className="account_actions__user_full_name" variant="h6">
                 {userFullName}
             </Typography>
-            {loggedUser.avatar ?
-                <Avatar
-                    alt={userFullName}
-                    src={loggedUser.avatar}
-                /> :
-                <Avatar sx={{bgcolor: '#fff', color: '#00BFFF'}}>
-                    {loggedUser.first_name[0]}{loggedUser.last_name[0]}
-                </Avatar>
+            {avatar ?
+                <Avatar src={avatar}/>
+                :
+                <Avatar className="account_actions__empty_avatar">{userInitial}</Avatar>
             }
-            <Fab
-                size="small"
-                color="secondary"
-                aria-label="add"
-                onClick={toCreatePost}
-                sx={{
-                    alignSelf: 'flex-end',
-                    backgroundColor: 'deepskyblue',
-                    transition: 'all 300ms',
-                    boxShadow: 'none',
-                    '&:active': {
-                        boxShadow: 'none'
-                    },
-                    '&:hover': {
-                        transform: 'scale(1.1)',
-                        backgroundColor: 'dodgerblue'
-                    }
-                }}>
+            <Fab size="small" className="account_actions__action_btn" onClick={toCreatePost}>
                 <AddCircleOutlineIcon/>
             </Fab>
-            <Fab
-                size="small"
-                onClick={toLogout}
-                sx={{
-                    color: '#00BFFF',
-                    boxShadow: 'none',
-                    backgroundColor: '#fff',
-                    transition: 'all 300ms',
-                    '&:active': {
-                        boxShadow: 'none'
-                    },
-                    '&:hover': {
-                        transform: 'scale(1.1)'
-                    }
-                }}>
+            <Fab size="small" className="account_actions__action_btn" onClick={toLogout}>
                 <LogoutIcon/>
             </Fab>
         </>
