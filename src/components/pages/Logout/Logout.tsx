@@ -23,10 +23,10 @@ const Logout: React.FC = () => {
                     Вы действительно хотите выйти?
                 </Typography>
                 <Stack direction="row" spacing={2} sx={{justifyContent: 'center'}}>
-                    <Button variant="contained" sx={{minWidth: '7em'}} disableElevation onClick={logoutClickHandler}>
+                    <Button variant="contained" sx={{minWidth: '7em'}} onClick={logoutClickHandler}>
                         Да
                     </Button>
-                    <Button variant="contained" sx={{minWidth: '7em'}} disableElevation onClick={toMain}>
+                    <Button variant="contained" sx={{minWidth: '7em'}} onClick={toMain}>
                         Нет
                     </Button>
                 </Stack>

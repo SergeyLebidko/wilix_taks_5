@@ -1,16 +1,8 @@
 import React, {Dispatch, SetStateAction} from 'react';
-import {
-    Button,
-    FormControl,
-    InputLabel,
-    MenuItem,
-    Select,
-    SelectChangeEvent,
-    Stack,
-    TextField
-} from '@mui/material';
+import {Button, SelectChangeEvent, Stack, TextField} from '@mui/material';
 
 import {TSortDirection, TSortType} from '../../../types';
+import Selector from '../Selector/Selector';
 
 type PostFiltersProps = {
     sortType: TSortType,
@@ -21,6 +13,32 @@ type PostFiltersProps = {
     setKeyWord: Dispatch<SetStateAction<string>>,
     resetParams: () => void
 }
+
+const SortTypesList = [
+    {
+        value: TSortType.ByDate,
+        text: 'По дате'
+    },
+    {
+        value: TSortType.ByTitle,
+        text: 'По заголовку'
+    },
+    {
+        value: TSortType.ByUser,
+        text: 'По пользователю'
+    }
+];
+
+const SortDirectionList = [
+    {
+        value: TSortDirection.ToUp,
+        text: 'По возрастанию'
+    },
+    {
+        value: TSortDirection.ToDown,
+        text: 'По убыванию'
+    }
+];
 
 const PostFilters: React.FC<PostFiltersProps> = (props) => {
     const {sortType, setSortType, sortDirection, setSortDirection, keyWord, setKeyWord, resetParams} = props;
@@ -43,38 +61,19 @@ const PostFilters: React.FC<PostFiltersProps> = (props) => {
                 value={keyWord}
                 onChange={keyWordChangeHandler}
             />
-            <FormControl sx={{minWidth: '12em'}}>
-                <InputLabel id="sort_type_selector_label">Сортировка постов</InputLabel>
-                <Select
-                    labelId="sort_type_selector_label"
-                    id="sort_type_selector"
-                    label="Сортировка постов"
-                    value={sortType}
-                    defaultValue={TSortType.ByDate}
-                    onChange={sortTypeChangeHandler}
-                >
-                    <MenuItem value={TSortType.ByDate}>По дате</MenuItem>
-                    <MenuItem value={TSortType.ByUser}>По пользователю</MenuItem>
-                    <MenuItem value={TSortType.ByTitle}>По заголовку</MenuItem>
-                </Select>
-            </FormControl>
-            <FormControl sx={{minWidth: '12em'}}>
-                <InputLabel id="demo-simple-select-label">Направление сортировки</InputLabel>
-                <Select
-                    labelId="sort_direction_selector_label"
-                    id="sort_direction_selector"
-                    label="Направление сортировки"
-                    value={sortDirection}
-                    defaultValue={TSortDirection.ToDown}
-                    onChange={sortDirectionChangeHandler}
-                >
-                    <MenuItem value={TSortDirection.ToUp}>По возрастанию</MenuItem>
-                    <MenuItem value={TSortDirection.ToDown}>По убыванию</MenuItem>
-                </Select>
-            </FormControl>
-            <Button variant="outlined" disableElevation onClick={resetParams}>
-                Сброс
-            </Button>
+            <Selector
+                label="Сортировка постов"
+                value={sortType as string}
+                changeHandler={sortTypeChangeHandler}
+                itemList={SortTypesList}
+            />
+            <Selector
+                label="Направление сортировки"
+                value={sortDirection as string}
+                changeHandler={sortDirectionChangeHandler}
+                itemList={SortDirectionList}
+            />
+            <Button variant="contained" onClick={resetParams}>Сброс</Button>
         </Stack>
     );
 };

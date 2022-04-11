@@ -1,13 +1,12 @@
 import React, {useState} from 'react';
 import {Stack, TextField, Typography} from '@mui/material';
-import LoginIcon from '@mui/icons-material/Login';
-import LoadingButton from '@mui/lab/LoadingButton';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {TUser} from '../../../backend/types';
 import {createPost} from '../../../redux/post_list';
 import {loggedUserSelector, postListStatusSelector} from '../../../redux/selectors';
 import useNavigator from '../../../helpers/hooks/useNavigator';
+import PreloaderButton from "../../common/PreloaderButton/PreloaderButton";
 
 type TFormFieldNames = 'title' | 'text';
 
@@ -82,17 +81,12 @@ const CreatePost: React.FC = () => {
                 disabled={hasPostListPending}
                 onChange={fieldChangeHandler('text')}
             />
-            <LoadingButton
-                variant="contained"
-                disableElevation
-                loading={hasPostListPending}
-                loadingPosition="center"
-                startIcon={<LoginIcon/>}
-                disabled={hasCreatePostButtonDisabled}
-                onClick={createPostButtonClickHandler}
-            >
-                Опубликовать
-            </LoadingButton>
+            <PreloaderButton
+                hasLoading={hasPostListPending}
+                hasDisabled={hasCreatePostButtonDisabled}
+                clickHandler={createPostButtonClickHandler}
+                label="Опубликовать"
+            />
         </Stack>
     );
 };
