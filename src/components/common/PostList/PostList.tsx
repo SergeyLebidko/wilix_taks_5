@@ -8,7 +8,7 @@ import PostCard from '../PostCard/PostCard';
 import {TPost, TUser} from '../../../backend/types';
 import {TSortDirection, TSortType} from '../../../types';
 import {PAGINATION_PAGE_SIZE} from '../../../constants';
-import {postListSelector, userListSelector} from "../../../redux/selectors";
+import {postListSelector, userListSelector} from '../../../redux/selectors';
 
 type PostListProps = {
     sortType: TSortType,

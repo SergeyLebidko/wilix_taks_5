@@ -1,6 +1,6 @@
 import {useNavigate} from 'react-router-dom';
 
-export function useNavigator() {
+function useNavigator() {
     const navigate = useNavigate();
 
     return {
@@ -9,3 +9,5 @@ export function useNavigator() {
         toCreatePost: () => navigate('/create_post')
     }
 }
+
+export default useNavigator;

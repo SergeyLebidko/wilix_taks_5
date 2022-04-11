@@ -17,8 +17,8 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import LoginIcon from '@mui/icons-material/Login';
 
 import {useDispatch} from 'react-redux';
-import {loginUser} from "../../../redux/logged_user";
-import {useLoggedUserErrorControl} from "../../../helpers/hooks/useLoggedUserErrorControl";
+import {loginUser} from '../../../redux/logged_user';
+import useLoggedUserErrorControl from '../../../helpers/hooks/useLoggedUserErrorControl';
 
 const Login: React.FC = () => {
     const dispatch = useDispatch();

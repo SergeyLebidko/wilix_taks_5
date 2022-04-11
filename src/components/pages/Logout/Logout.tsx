@@ -1,11 +1,10 @@
 import React from 'react';
 import {Button, Container, Typography} from '@mui/material';
 import {Stack} from '@mui/material';
-import {useNavigate} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 
-import {loggedUserSlice} from "../../../redux/logged_user";
-import {useNavigator} from "../../../helpers/hooks/useNavigator";
+import {loggedUserSlice} from '../../../redux/logged_user';
+import useNavigator from '../../../helpers/hooks/useNavigator';
 
 const {setLoggedUser} = loggedUserSlice.actions;
 

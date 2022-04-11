@@ -11,7 +11,7 @@ const {resetLoggedUserError} = loggedUserSlice.actions;
 // с учетной записью, таких как вход и регистрация.
 // Первый возвращаемый параметр - признак ожидания выполнения запроса.
 // Второй возвращаемый параметр - ошибка, возникшая при выполнении операции.
-export function useLoggedUserErrorControl(): [boolean, string | null] {
+function useLoggedUserErrorControl(): [boolean, string | null] {
     const dispatch = useDispatch();
 
     const loggedUserError = useSelector(loggedUserErrorSelector);
@@ -46,3 +46,5 @@ export function useLoggedUserErrorControl(): [boolean, string | null] {
 
     return [hasUserDataPending, loggedUserError];
 }
+
+export default useLoggedUserErrorControl;

@@ -20,9 +20,9 @@ import HowToRegIcon from '@mui/icons-material/HowToReg';
 import {useDispatch} from 'react-redux';
 
 import {PASSWORD_MIN_LEN} from '../../../constants';
-import {createPassword} from '../../../helpers/utils/utils';
-import {registerUser} from "../../../redux/logged_user";
-import {useLoggedUserErrorControl} from "../../../helpers/hooks/useLoggedUserErrorControl";
+import {registerUser} from '../../../redux/logged_user';
+import useLoggedUserErrorControl from '../../../helpers/hooks/useLoggedUserErrorControl';
+import createPassword from '../../../helpers/utils/createPassword';
 
 type TFormFieldNames = 'login' | 'password1' | 'password2' | 'firstName' | 'lastName' | 'avatar';
 
