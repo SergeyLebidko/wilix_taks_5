@@ -4,11 +4,11 @@ import {Box, Pagination, PaginationItem} from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
-import {postListSelector, userListSelector} from '../../../store';
 import PostCard from '../PostCard/PostCard';
 import {TPost, TUser} from '../../../backend/types';
 import {TSortDirection, TSortType} from '../../../types';
 import {PAGINATION_PAGE_SIZE} from '../../../settings';
+import {postListSelector, userListSelector} from "../../../redux/selectors";
 
 type PostListProps = {
     sortType: TSortType,

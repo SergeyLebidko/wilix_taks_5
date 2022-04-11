@@ -4,8 +4,8 @@ import {Stack} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 
-import {loggedUserSlice} from '../../../store';
 import {useNavigator} from "../../../hooks";
+import {loggedUserSlice} from "../../../redux/logged_user";
 
 const {setLoggedUser} = loggedUserSlice.actions;
 

@@ -4,9 +4,9 @@ import {Link} from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import {useSelector} from 'react-redux';
 
-import {loggedUserSelector} from '../../../store';
 import {useNavigator} from '../../../hooks';
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import {loggedUserSelector} from "../../../redux/selectors";
 
 const Account: React.FC = () => {
     const {toLogout, toCreatePost} = useNavigator();

@@ -19,10 +19,10 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import {useDispatch} from 'react-redux';
 
-import {registerUser} from '../../../store';
 import {PASSWORD_MIN_LEN} from '../../../settings';
 import {createPassword} from '../../../utils';
 import {useLoggedUserErrorControl} from '../../../hooks';
+import {registerUser} from "../../../redux/logged_user";
 
 type TFormFieldNames = 'login' | 'password1' | 'password2' | 'firstName' | 'lastName' | 'avatar';
 

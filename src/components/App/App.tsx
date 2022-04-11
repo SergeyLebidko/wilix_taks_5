@@ -11,15 +11,14 @@ import Logout from '../pages/Logout/Logout';
 import NoMatch from '../pages/NoMatch/NoMatch';
 import {LOGGED_USER_NAME} from '../../settings';
 import {TUser} from '../../backend/types';
-import {
-    loadCommentList,
-    loadPostList,
-    loadTagList,
-    loadUserList,
-    loadPostTagList,
-    loggedUserSlice, loggedUserSelector, allListDoneSelector, loggedUserStatusSelector
-} from '../../store';
 import {Box, CircularProgress} from "@mui/material";
+import {loadUserList} from "../../redux/users";
+import {loadPostList} from "../../redux/post_list";
+import {loadCommentList} from "../../redux/comment_list";
+import {loadTagList} from "../../redux/tag_list";
+import {loadPostTagList} from "../../redux/posttag_list";
+import {loggedUserSlice} from "../../redux/logged_user";
+import {allListDoneSelector, loggedUserSelector, loggedUserStatusSelector} from "../../redux/selectors";
 
 const {setLoggedUser} = loggedUserSlice.actions;
 

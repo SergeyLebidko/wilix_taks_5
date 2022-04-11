@@ -4,8 +4,9 @@ import {Avatar, Box, Card, CardContent, CircularProgress, Fab, Stack, Typography
 import ClearIcon from '@mui/icons-material/Clear';
 
 import {TPost, TUser} from '../../../backend/types';
-import {loggedUserSelector, removePost, userListSelector} from '../../../store';
 import {getDateStringForTimestamp} from '../../../utils';
+import {removePost} from "../../../redux/post_list";
+import {loggedUserSelector, userListSelector} from "../../../redux/selectors";
 
 type PostCardProps = {
     post: TPost

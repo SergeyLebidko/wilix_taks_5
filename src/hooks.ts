@@ -3,7 +3,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 
 import {ERROR_SHOW_TIMEOUT} from './settings';
-import {loggedUserErrorSelector, loggedUserSlice, loggedUserStatusSelector} from './store';
+import {loggedUserSlice} from "./redux/logged_user";
+import {loggedUserErrorSelector, loggedUserStatusSelector} from "./redux/selectors";
 
 const {resetLoggedUserError} = loggedUserSlice.actions;
 

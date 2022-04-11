@@ -4,10 +4,10 @@ import LoginIcon from '@mui/icons-material/Login';
 import LoadingButton from '@mui/lab/LoadingButton';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {loggedUserSelector, postListStatusSelector} from '../../../store';
-import {createPost} from '../../../store';
 import {TUser} from '../../../backend/types';
 import {useNavigator} from '../../../hooks';
+import {createPost} from "../../../redux/post_list";
+import {loggedUserSelector, postListStatusSelector} from "../../../redux/selectors";
 
 type TFormFieldNames = 'title' | 'text';
 
