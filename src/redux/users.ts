@@ -2,8 +2,8 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 import backend from '../backend/backend';
 import {TUrls, TUser} from '../backend/types';
-import {TStatus} from './store';
 import {registerUser} from './logged_user';
+import {TStatus} from '../types';
 
 export const loadUserList = createAsyncThunk(
     'user_list',

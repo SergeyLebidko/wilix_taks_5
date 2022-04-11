@@ -5,9 +5,9 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {TUser} from '../../../backend/types';
-import {useNavigator} from '../../../hooks';
 import {createPost} from "../../../redux/post_list";
 import {loggedUserSelector, postListStatusSelector} from "../../../redux/selectors";
+import {useNavigator} from "../../../helpers/hooks/useNavigator";
 
 type TFormFieldNames = 'title' | 'text';
 

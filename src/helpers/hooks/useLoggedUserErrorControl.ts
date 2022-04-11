@@ -1,14 +1,13 @@
 import {useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {useNavigate} from 'react-router-dom';
 
-import {ERROR_SHOW_TIMEOUT} from './settings';
-import {loggedUserSlice} from "./redux/logged_user";
-import {loggedUserErrorSelector, loggedUserStatusSelector} from "./redux/selectors";
+import {ERROR_SHOW_TIMEOUT} from '../../constants';
+import {loggedUserSlice} from '../../redux/logged_user';
+import {loggedUserErrorSelector, loggedUserStatusSelector} from '../../redux/selectors';
 
 const {resetLoggedUserError} = loggedUserSlice.actions;
 
-// Хук, позволяющий контролировать отображение ошибок при выполнении "сетевых" операций
+// Хук, позволяющий контролировать отображение ошибок при выполнении 'сетевых' операций
 // с учетной записью, таких как вход и регистрация.
 // Первый возвращаемый параметр - признак ожидания выполнения запроса.
 // Второй возвращаемый параметр - ошибка, возникшая при выполнении операции.
@@ -46,14 +45,4 @@ export function useLoggedUserErrorControl(): [boolean, string | null] {
     }, [hasUserDataError]);
 
     return [hasUserDataPending, loggedUserError];
-}
-
-export function useNavigator(){
-    const navigate = useNavigate();
-
-    return {
-        toMain: () => navigate('/'),
-        toLogout: () => navigate('/logout'),
-        toCreatePost: () => navigate('/create_post')
-    }
 }

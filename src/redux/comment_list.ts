@@ -2,7 +2,7 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 import backend from '../backend/backend';
 import {TComment, TUrls} from '../backend/types';
-import {TStatus} from './store';
+import {TStatus} from '../types';
 
 export const loadCommentList = createAsyncThunk(
     'comment_list',

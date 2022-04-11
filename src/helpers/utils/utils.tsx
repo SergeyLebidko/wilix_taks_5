@@ -1,4 +1,4 @@
-import {DIGITS, DIGITS_PASS_COUNT, LETTERS, LETTERS_PASS_COUNT, SPECS, SPECS_PASS_COUNT} from "./settings";
+import {DIGITS, DIGITS_PASS_COUNT, LETTERS, LETTERS_PASS_COUNT, SPECS, SPECS_PASS_COUNT} from '../../constants';
 
 function* randomSequence(seq: string, count: number): Generator<string> {
     for (let index = 0; index < count; index++) {

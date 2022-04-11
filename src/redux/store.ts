@@ -6,8 +6,6 @@ import {tagListSlice} from './tag_list';
 import {postTagListSlice} from './posttag_list';
 import {loggedUserSlice} from './logged_user';
 
-export type TStatus = 'pending' | 'done' | 'error';
-
 const store = configureStore({
     reducer: {
         'user_list': userListSlice.reducer,

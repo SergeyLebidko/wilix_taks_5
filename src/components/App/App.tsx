@@ -9,7 +9,7 @@ import Register from '../pages/Register/Register';
 import CreatePost from '../pages/CreatePost/CreatePost';
 import Logout from '../pages/Logout/Logout';
 import NoMatch from '../pages/NoMatch/NoMatch';
-import {LOGGED_USER_NAME} from '../../settings';
+import {LOGGED_USER_NAME} from '../../constants';
 import {TUser} from '../../backend/types';
 import {Box, CircularProgress} from "@mui/material";
 import {loadUserList} from "../../redux/users";

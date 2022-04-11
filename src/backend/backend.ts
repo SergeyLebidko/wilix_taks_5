@@ -1,4 +1,4 @@
-import {BACKEND_TIMEOUT, DB_NAME} from '../settings';
+import {BACKEND_TIMEOUT, DB_NAME} from '../constants';
 import {MOCK_DATA} from './mock_data';
 import {
     TBackendResponse,

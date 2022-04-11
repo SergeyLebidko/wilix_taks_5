@@ -10,3 +10,6 @@ export enum TSortDirection {
     ToUp = 'to_up',
     ToDown = 'to_down'
 }
+
+// Состояния загрузки списков данных
+export type TStatus = 'pending' | 'done' | 'error';

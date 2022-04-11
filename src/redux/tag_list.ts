@@ -2,7 +2,7 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 import backend from '../backend/backend';
 import {TTag, TUrls} from '../backend/types';
-import {TStatus} from './store';
+import {TStatus} from '../types';
 
 export const loadTagList = createAsyncThunk(
     'tag_list',
