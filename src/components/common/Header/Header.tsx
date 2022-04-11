@@ -1,10 +1,14 @@
 import React from 'react';
-import {Box} from '@mui/material';
+import {useSelector} from 'react-redux';
+import {AccordionActions, Box, Stack} from '@mui/material';
 
 import Logo from '../Logo/Logo';
-import Account from '../Account/Account';
+import {loggedUserSelector} from '../../../redux/selectors';
+import AccountLinks from "../AccountLinks/AccountLinks";
 
 const Header: React.FC = () => {
+    const loggedUser = useSelector(loggedUserSelector);
+
     return (
         <Box sx={{
             backgroundColor: 'deepskyblue',
@@ -15,7 +19,9 @@ const Header: React.FC = () => {
             padding: '1rem'
         }}>
             <Logo/>
-            <Account/>
+            <Stack direction="row" spacing={1} sx={{color: 'white', alignItems: 'center'}}>
+                {loggedUser ? <AccordionActions/> : <AccountLinks/>}
+            </Stack>
         </Box>
     )
 }
