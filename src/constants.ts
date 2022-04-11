@@ -22,4 +22,4 @@ export const DIGITS_PASS_COUNT = 4;
 export const SPECS_PASS_COUNT = 4;
 
 // Размер страницы для пагинации
-export const PAGINATION_PAGE_SIZE = 2;
+export const PAGINATION_PAGE_SIZE = 5;
