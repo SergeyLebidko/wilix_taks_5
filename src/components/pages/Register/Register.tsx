@@ -225,7 +225,6 @@ const Register: React.FC = () => {
                         }
                     </Stack>
                     <PasswordField
-                        id="password1"
                         label="Пароль"
                         hasShow={showPassword}
                         hasDisabled={hasUserDataPending}
@@ -234,7 +233,6 @@ const Register: React.FC = () => {
                         changeHandler={changeFieldHandler('password1')}
                     />
                     <PasswordField
-                        id="password2"
                         label="Подтверждение пароля"
                         hasShow={showPassword}
                         hasDisabled={hasUserDataPending}

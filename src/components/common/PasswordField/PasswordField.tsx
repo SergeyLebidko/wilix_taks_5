@@ -2,9 +2,9 @@ import React from 'react';
 import {FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput} from '@mui/material';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
+import createRandomString from "../../../helpers/utils/createRandomString";
 
 type PasswordFieldProp = {
-    id?: string,
     label?: string,
     hasShow: boolean,
     hasDisabled: boolean,
@@ -15,7 +15,6 @@ type PasswordFieldProp = {
 
 const PasswordField: React.FC<PasswordFieldProp> = (props) => {
     const {
-        id='password',
         label='Пароль',
         hasShow,
         showSwitcherHandler,
@@ -23,6 +22,8 @@ const PasswordField: React.FC<PasswordFieldProp> = (props) => {
         value,
         changeHandler
     } = props;
+
+    const id = `password-${createRandomString()}`;
 
     return (
         <FormControl variant="outlined" required>
