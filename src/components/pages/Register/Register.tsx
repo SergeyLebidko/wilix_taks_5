@@ -120,6 +120,9 @@ const Register: React.FC = () => {
     }
 
     const avatarClearHandler = (): void => {
+        if(fileInputRef.current !== null) {
+            (fileInputRef.current as HTMLInputElement).value = '';
+        }
         setFormData(oldData => ({
             ...oldData,
             avatarFilename: '',
