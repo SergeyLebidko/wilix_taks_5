@@ -1,29 +1,30 @@
 import React, {useState} from 'react';
-import {
-    Container,
-    Stack,
-    Typography,
-    TextField,
-    OutlinedInput,
-    InputAdornment,
-    IconButton,
-    FormControl,
-    InputLabel,
-    Alert,
-} from '@mui/material';
-import LoadingButton from '@mui/lab/LoadingButton';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import LoginIcon from '@mui/icons-material/Login';
+import {Container, Stack, Typography, TextField, Alert} from '@mui/material';
 
 import {useDispatch} from 'react-redux';
 import {loginUser} from '../../../redux/logged_user';
 import useLoggedUserErrorControl from '../../../helpers/hooks/useLoggedUserErrorControl';
+import PasswordField from '../../common/PasswordField/PasswordField';
+import PreloaderButton from '../../common/PreloaderButton/PreloaderButton';
+
+type TFormFieldNames = 'login' | 'password';
+
+type TLoginFormData = {
+    login: string,
+    password: string
+}
+
+const containerStyle = {
+    display: 'flex',
+    justifyContent: 'center'
+}
 
 const Login: React.FC = () => {
     const dispatch = useDispatch();
-    const [login, setLogin] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
+    const [formData, setFormData] = useState<TLoginFormData>({
+        login: '',
+        password: ''
+    })
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
     // Управляем отображением ошибки входа
@@ -31,23 +32,35 @@ const Login: React.FC = () => {
 
     const handleClickShowPassword = (): void => setShowPassword(!showPassword);
 
-    const loginFieldChangeHandler = (event: React.ChangeEvent): void => {
-        const nextLogin = (event.target as HTMLInputElement).value;
-        setLogin(nextLogin);
-    }
-
-    const passwordFieldChangeHandler = (event: React.ChangeEvent): void => {
-        const nextPassword = (event.target as HTMLInputElement).value;
-        setPassword(nextPassword);
+    const fieldChangeHandler = (fieldName: TFormFieldNames) => {
+        return (event: React.ChangeEvent): void => {
+            const nextValue = (event.target as HTMLInputElement).value;
+            switch (fieldName) {
+                case 'login': {
+                    setFormData(oldData => ({
+                        ...oldData,
+                        login: nextValue
+                    }));
+                    break;
+                }
+                case 'password': {
+                    setFormData(oldData => ({
+                        ...oldData,
+                        password: nextValue
+                    }));
+                    break;
+                }
+            }
+        }
     }
 
     const loginButtonClickHandler = (): void => {
-        dispatch(loginUser({login, password}));
+        dispatch(loginUser(formData));
     }
 
     return (
-        <Container sx={{display: 'flex', justifyContent: 'center'}}>
-            <Stack spacing={2} maxWidth="30em" sx={{width: '25em'}}>
+        <Container sx={containerStyle}>
+            <Stack spacing={2} sx={{width: '25em'}}>
                 <Typography variant="h5" gutterBottom component="div" sx={{textAlign: 'center'}}>
                     Введите учетные данные
                 </Typography>
@@ -55,44 +68,24 @@ const Login: React.FC = () => {
                     id="login_field"
                     label="Логин"
                     variant="outlined"
-                    value={login}
-                    onChange={loginFieldChangeHandler}
+                    value={formData.login}
+                    onChange={fieldChangeHandler('login')}
                     disabled={hasUserDataPending}
                 />
-                <FormControl variant="outlined">
-                    <InputLabel htmlFor="password_field">Пароль</InputLabel>
-                    <OutlinedInput
-                        id="password_field"
-                        type={showPassword ? 'text' : 'password'}
-                        value={password}
-                        onChange={passwordFieldChangeHandler}
-                        disabled={hasUserDataPending}
-                        endAdornment={
-                            <InputAdornment position="end">
-                                <IconButton
-                                    aria-label="toggle password visibility"
-                                    onClick={handleClickShowPassword}
-                                    edge="end"
-                                >
-                                    {showPassword ? <VisibilityOff/> : <Visibility/>}
-                                </IconButton>
-                            </InputAdornment>
-                        }
-                        label="Пароль"
-                    />
-                </FormControl>
+                <PasswordField
+                    hasShow={showPassword}
+                    hasDisabled={hasUserDataPending}
+                    value={formData.password}
+                    showSwitcherHandler={handleClickShowPassword}
+                    changeHandler={fieldChangeHandler('password')}
+                />
                 {loggedUserError && <Alert severity="error">{loggedUserError}</Alert>}
-                <LoadingButton
-                    variant="contained"
-                    disableElevation
-                    loading={hasUserDataPending}
-                    loadingPosition="center"
-                    startIcon={<LoginIcon/>}
-                    disabled={!(login && password)}
-                    onClick={loginButtonClickHandler}
-                >
-                    Войти
-                </LoadingButton>
+                <PreloaderButton
+                    hasLoading={hasUserDataPending}
+                    hasDisabled={!(formData.login && formData.password)}
+                    clickHandler={loginButtonClickHandler}
+                    label="Войти"
+                />
             </Stack>
         </Container>
     );
