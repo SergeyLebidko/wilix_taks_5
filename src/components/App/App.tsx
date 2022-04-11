@@ -19,6 +19,7 @@ import {loadTagList} from "../../redux/tag_list";
 import {loadPostTagList} from "../../redux/posttag_list";
 import {loggedUserSlice} from "../../redux/logged_user";
 import {allListDoneSelector, loggedUserSelector, loggedUserStatusSelector} from "../../redux/selectors";
+import Preloader from "../common/Preloader/Preloader";
 
 const {setLoggedUser} = loggedUserSlice.actions;
 
@@ -54,20 +55,7 @@ const App: React.FC = () => {
     }, [allListDone, loggedUserStatus]);
 
     // Пока не загружены все необходимые данные - показываем пользователю прелоадер
-    if (!hasAllDataLoad) return (
-        <Box sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%'
-        }}>
-            <CircularProgress/>
-        </Box>
-    );
+    if (!hasAllDataLoad) return <Preloader/>;
 
     return (
         <Routes>
