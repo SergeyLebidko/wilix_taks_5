@@ -1,5 +1,5 @@
 import React from 'react';
-import {Avatar, Fab, Typography} from '@mui/material';
+import {Avatar, Fab, Stack, Typography} from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import {useSelector} from 'react-redux';
 
@@ -7,7 +7,24 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import {loggedUserSelector} from '../../../redux/selectors';
 import useNavigator from '../../../helpers/hooks/useNavigator';
 import {TUser} from '../../../backend/types';
-import './AccountActions.scss';
+
+const accountActionsStyle = {
+    alignItems: 'center'
+}
+
+const headerStyle = {
+    color: 'white'
+}
+
+const emptyAvatarStyle = {
+    color: 'deepskyblue',
+    backgroundColor: 'white'
+}
+
+const actionButtonStyle = {
+    color: 'deepskyblue',
+    backgroundColor: 'white'
+}
 
 const AccountActions: React.FC = () => {
     const {toLogout, toCreatePost} = useNavigator();
@@ -18,22 +35,22 @@ const AccountActions: React.FC = () => {
     const userInitial = `${first_name[0]}${last_name[0]}`;
 
     return (
-        <>
-            <Typography className="account_actions__user_full_name" variant="h6">
+        <Stack direction="row" spacing={1} sx={accountActionsStyle}>
+            <Typography variant="h6" sx={headerStyle}>
                 {userFullName}
             </Typography>
             {avatar ?
                 <Avatar src={avatar}/>
                 :
-                <Avatar className="account_actions__empty_avatar">{userInitial}</Avatar>
+                <Avatar sx={emptyAvatarStyle}>{userInitial}</Avatar>
             }
-            <Fab size="small" className="account_actions__action_btn" onClick={toCreatePost}>
+            <Fab size="small" sx={actionButtonStyle} onClick={toCreatePost}>
                 <AddCircleOutlineIcon/>
             </Fab>
-            <Fab size="small" className="account_actions__action_btn" onClick={toLogout}>
+            <Fab size="small" sx={actionButtonStyle} onClick={toLogout}>
                 <LogoutIcon/>
             </Fab>
-        </>
+        </Stack>
     );
 }
 

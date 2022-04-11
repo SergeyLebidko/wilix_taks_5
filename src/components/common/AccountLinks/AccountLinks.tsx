@@ -1,18 +1,19 @@
 import React from 'react';
-import {Link} from '@mui/material';
-
-import './AccountLinks.scss';
+import {Link, Stack} from '@mui/material';
 
 const AccountLinks: React.FC = () => {
+    const linkStyle = {
+        typography: 'body1',
+        color: '#fff',
+        textDecoration: 'none',
+        alignSelf: 'center'
+    };
+
     return (
-        <>
-            <Link sx={{typography: 'body1'}} className="account_links" href="#/login">
-                Вход
-            </Link>
-            <Link sx={{typography: 'body1'}} className="account_links" href="#/register">
-                Регистрация
-            </Link>
-        </>
+        <Stack direction="row" spacing={1}>
+            <Link sx={linkStyle} href="#/login">Вход</Link>
+            <Link sx={linkStyle} href="#/register">Регистрация</Link>
+        </Stack>
     );
 };
 
