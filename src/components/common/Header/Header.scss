@@ -6,7 +6,13 @@
   align-items: center;
   padding: 1rem;
 
-  &__content_block {
+  &__title {
+    color: white;
+    text-decoration: none;
+    font-size: 1.5rem;
+  }
+
+  &__account {
     color: white;
     align-items: center;
   }
