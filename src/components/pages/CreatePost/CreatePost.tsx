@@ -5,8 +5,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {createPost} from '../../../redux/post_list';
 import {loggedUserSelector, postListStatusSelector} from '../../../redux/selectors';
 import useNavigator from '../../../helpers/hooks/useNavigator';
-import PreloaderButton from "../../common/PreloaderButton/PreloaderButton";
-import {TUser} from "../../../types";
+import PreloaderButton from '../../common/PreloaderButton/PreloaderButton';
+import {TUser} from '../../../types';
 
 type TFormFieldNames = 'title' | 'text';
 
