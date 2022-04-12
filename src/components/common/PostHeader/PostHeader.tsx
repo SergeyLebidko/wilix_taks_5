@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Box, CircularProgress, Fab, Stack, Typography} from '@mui/material';
-import ClearIcon from '@mui/icons-material/Clear';
+import {Stack, Typography} from '@mui/material';
 
 import getDateStringForTimestamp from '../../../helpers/utils/getDateStringForTimestamp';
 import {loggedUserSelector, userListSelector} from '../../../redux/selectors';
@@ -9,6 +8,7 @@ import {removePost} from '../../../redux/post_list';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import getUserFullName from "../../../helpers/utils/getUserFullName";
 import {TPost, TUser} from "../../../types";
+import PreloaderRemoveFab from "../PreloaderRemoveFab/PreloaderRemoveFab";
 
 type PostHeaderProps = {
     post: TPost
@@ -18,15 +18,6 @@ const containerStyle = {
     justifyContent: 'flex-start',
     alignItems: 'center',
     marginBottom: '0.5em'
-};
-
-const removeProgressStyle = {
-    display: 'flex',
-    marginLeft: 'auto!important'
-};
-
-const removeButtonStyle = {
-    marginLeft: 'auto!important'
 };
 
 const usernameStyle = {
@@ -53,15 +44,6 @@ const PostHeader: React.FC<PostHeaderProps> = ({post}) => {
         dispatch(removePost({id: post.id as number}));
     };
 
-    let control = null;
-    if ((loggedUser !== null && post.user_id === loggedUser.id)) {
-        if (hasRemoveProcess) {
-            control = <Box sx={removeProgressStyle}><CircularProgress/></Box>;
-        } else {
-            control = <Fab size="small" onClick={removePostHandler} sx={removeButtonStyle}><ClearIcon/></Fab>;
-        }
-    }
-
     return (
         <Stack direction="row" spacing={2} sx={containerStyle}>
             <UserAvatar user={user}/>
@@ -73,7 +55,12 @@ const PostHeader: React.FC<PostHeaderProps> = ({post}) => {
                     {getDateStringForTimestamp(post.dt_created)}
                 </Typography>
             </Stack>
-            {control}
+            {(loggedUser !== null && post.user_id === loggedUser.id) &&
+                <PreloaderRemoveFab
+                    hasRemoveProcess={hasRemoveProcess}
+                    removeButtonClickHandler={removePostHandler}
+                />
+            }
         </Stack>
     );
 };

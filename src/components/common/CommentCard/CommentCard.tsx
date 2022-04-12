@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
-import {Box, CircularProgress, Fab, Stack, Typography} from '@mui/material';
+import {Stack, Typography} from '@mui/material';
 import {useDispatch, useSelector} from 'react-redux';
-import ClearIcon from '@mui/icons-material/Clear';
 
 import {loggedUserSelector, userListSelector} from '../../../redux/selectors';
 import UserAvatar from '../UserAvatar/UserAvatar';
@@ -9,6 +8,7 @@ import getUserFullName from '../../../helpers/utils/getUserFullName';
 import getDateStringForTimestamp from '../../../helpers/utils/getDateStringForTimestamp';
 import {TComment, TUser} from '../../../types';
 import {removeComment} from "../../../redux/comment_list";
+import PreloaderRemoveFab from "../PreloaderRemoveFab/PreloaderRemoveFab";
 
 type CommentCardProps = {
     comment: TComment
@@ -18,10 +18,6 @@ const containerStyle = {
     backgroundColor: 'whitesmoke',
     padding: '6px',
     borderRadius: 1
-};
-
-const removeButtonStyle = {
-    marginLeft: 'auto!important'
 };
 
 const CommentCard: React.FC<CommentCardProps> = ({comment}) => {
@@ -40,26 +36,6 @@ const CommentCard: React.FC<CommentCardProps> = ({comment}) => {
         }));
     }
 
-    let control = null;
-    if (loggedUser && loggedUser.id === user.id) {
-        if (hasRemoveProcess) {
-            control = (
-                <Box sx={removeButtonStyle}>
-                    <CircularProgress/>
-                </Box>
-            );
-        } else {
-            control = (
-                <Fab
-                    size="small"
-                    onClick={removeButtonClickHandler}
-                    sx={removeButtonStyle}>
-                    <ClearIcon/>
-                </Fab>
-            );
-        }
-    }
-
     return (
         <Stack direction="row" spacing={2} sx={containerStyle}>
             <UserAvatar user={user}/>
@@ -76,7 +52,12 @@ const CommentCard: React.FC<CommentCardProps> = ({comment}) => {
                     {comment.text}
                 </Typography>
             </Stack>
-            {control}
+            {(loggedUser && loggedUser.id === user.id) &&
+                <PreloaderRemoveFab
+                    hasRemoveProcess={hasRemoveProcess}
+                    removeButtonClickHandler={removeButtonClickHandler}
+                />
+            }
         </Stack>
     );
 }
