@@ -28,6 +28,13 @@ const CommentCreator: React.FC<CommentCreatorProp> = ({post}) => {
         setText(nextValue);
     }
 
+    const textKeyDownHandler = (event: React.KeyboardEvent): void => {
+        const {code} = event;
+        if (code === 'Enter' || code === 'NumpadEnter') {
+            createButtonClickHandler();
+        }
+    }
+
     const createButtonClickHandler = async () => {
         setHasProcess(true);
         await dispatch(createComment({
@@ -48,6 +55,7 @@ const CommentCreator: React.FC<CommentCreatorProp> = ({post}) => {
                 sx={{flex: 1}}
                 value={text}
                 onChange={textChangeHandler}
+                onKeyDown={textKeyDownHandler}
                 disabled={hasProcess}
             />
             <PreloaderButton
