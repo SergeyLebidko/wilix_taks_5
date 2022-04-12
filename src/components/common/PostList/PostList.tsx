@@ -19,15 +19,14 @@ const PostList: React.FC<PostListProps> = ({sortType, sortDirection, keyWord}) =
     const userList = useSelector(userListSelector);
     const [page, setPage] = useState<number>(1);
 
+    let postListToShow = Array.from(useSelector(postListSelector));
 
     const getUserForId = (id: number): TUser => {
         return userList.find(user => user.id === id) as TUser;
     }
 
-    let postListToShow = Array.from(useSelector(postListSelector));
-
     const pageChangeHandler = (event: React.ChangeEvent<unknown>, nextPage: number): void => {
-        setPage(nextPage)
+        setPage(nextPage);
     }
 
     // Применяем параметры сортировки

@@ -7,8 +7,8 @@ import UserAvatar from '../UserAvatar/UserAvatar';
 import getUserFullName from '../../../helpers/utils/getUserFullName';
 import getDateStringForTimestamp from '../../../helpers/utils/getDateStringForTimestamp';
 import {TComment, TUser} from '../../../types';
-import {removeComment} from "../../../redux/comment_list";
-import PreloaderRemoveFab from "../PreloaderRemoveFab/PreloaderRemoveFab";
+import {removeComment} from '../../../redux/comment_list';
+import PreloaderRemoveFab from '../PreloaderRemoveFab/PreloaderRemoveFab';
 
 type CommentCardProps = {
     comment: TComment
