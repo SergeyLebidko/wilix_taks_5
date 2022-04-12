@@ -46,6 +46,7 @@ const CommentCreator: React.FC<CommentCreatorProp> = ({post}) => {
                 label="Ваш комментарий"
                 variant="outlined"
                 sx={{flex: 1}}
+                value={text}
                 onChange={textChangeHandler}
                 disabled={hasProcess}
             />

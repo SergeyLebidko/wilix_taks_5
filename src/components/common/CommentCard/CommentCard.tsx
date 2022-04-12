@@ -1,13 +1,14 @@
-import React from 'react';
-import {Fab, Stack, Typography} from '@mui/material';
-import {useSelector} from 'react-redux';
+import React, {useState} from 'react';
+import {Box, CircularProgress, Fab, Stack, Typography} from '@mui/material';
+import {useDispatch, useSelector} from 'react-redux';
+import ClearIcon from '@mui/icons-material/Clear';
 
 import {loggedUserSelector, userListSelector} from '../../../redux/selectors';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import getUserFullName from '../../../helpers/utils/getUserFullName';
 import getDateStringForTimestamp from '../../../helpers/utils/getDateStringForTimestamp';
-import ClearIcon from "@mui/icons-material/Clear";
-import {TComment, TUser} from "../../../types";
+import {TComment, TUser} from '../../../types';
+import {removeComment} from "../../../redux/comment_list";
 
 type CommentCardProps = {
     comment: TComment
@@ -24,13 +25,39 @@ const removeButtonStyle = {
 };
 
 const CommentCard: React.FC<CommentCardProps> = ({comment}) => {
+    const dispatch = useDispatch();
+    const [hasRemoveProcess, setHasRemoveProcess] = useState(false);
+
     const loggedUser = useSelector(loggedUserSelector);
     const userList = useSelector(userListSelector);
 
     const user = userList.find(user => user.id === comment.user_id) as TUser;
 
     const removeButtonClickHandler = (): void => {
-        console.log('Удаление комментария');
+        setHasRemoveProcess(true);
+        dispatch(removeComment({
+            id: comment.id as number
+        }));
+    }
+
+    let control = null;
+    if (loggedUser && loggedUser.id === user.id) {
+        if (hasRemoveProcess) {
+            control = (
+                <Box sx={removeButtonStyle}>
+                    <CircularProgress/>
+                </Box>
+            );
+        } else {
+            control = (
+                <Fab
+                    size="small"
+                    onClick={removeButtonClickHandler}
+                    sx={removeButtonStyle}>
+                    <ClearIcon/>
+                </Fab>
+            );
+        }
     }
 
     return (
@@ -49,14 +76,7 @@ const CommentCard: React.FC<CommentCardProps> = ({comment}) => {
                     {comment.text}
                 </Typography>
             </Stack>
-            {(loggedUser && loggedUser.id === user.id) &&
-                <Fab
-                    size="small"
-                    onClick={removeButtonClickHandler}
-                    sx={removeButtonStyle}>
-                    <ClearIcon/>
-                </Fab>
-            }
+            {control}
         </Stack>
     );
 }
