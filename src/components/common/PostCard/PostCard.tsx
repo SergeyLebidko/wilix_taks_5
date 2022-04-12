@@ -5,8 +5,8 @@ import {useSelector} from 'react-redux';
 import PostHeader from '../PostHeader/PostHeader';
 import CommentList from '../CommentList/CommentList';
 
-import {loggedUserSelector} from "../../../redux/selectors";
-import CommentCreator from "../CommentCreator";
+import {commentListSelector, loggedUserSelector} from "../../../redux/selectors";
+import CommentCreator from "../CommentCreator/CommentCreator";
 import {TPost} from "../../../types";
 
 type PostCardProps = {
@@ -14,6 +14,7 @@ type PostCardProps = {
 }
 
 const PostCard: React.FC<PostCardProps> = ({post}) => {
+    const commentList = useSelector(commentListSelector);
     const loggedUser = useSelector(loggedUserSelector);
 
     return (
@@ -26,8 +27,8 @@ const PostCard: React.FC<PostCardProps> = ({post}) => {
                 <Typography variant="body1">
                     {post.text}
                 </Typography>
-                <CommentList post={post}/>
-                {loggedUser && <CommentCreator/>}
+                {commentList.some(comment => comment.post_id === post.id) && <CommentList post={post}/>}
+                {loggedUser && <CommentCreator post={post}/>}
             </CardContent>
         </Card>
     );

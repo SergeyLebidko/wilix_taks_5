@@ -1,5 +1,5 @@
 import {configureStore} from '@reduxjs/toolkit';
-import {userListSlice} from './users';
+import {userListSlice} from './user_list';
 import {postListSlice} from './post_list';
 import {commentListSlice} from './comment_list';
 import {tagListSlice} from './tag_list';

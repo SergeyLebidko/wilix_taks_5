@@ -23,3 +23,6 @@ export const SPECS_PASS_COUNT = 4;
 
 // Размер страницы для пагинации
 export const PAGINATION_PAGE_SIZE = 5;
+
+// Количество комментариев, отображаемых по-умолчанию
+export const DEFAULT_SHOW_COMMENT_COUNT = 3;

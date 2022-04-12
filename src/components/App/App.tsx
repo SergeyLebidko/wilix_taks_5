@@ -11,7 +11,7 @@ import Logout from '../pages/Logout/Logout';
 import NoMatch from '../pages/NoMatch/NoMatch';
 import Preloader from '../common/Preloader/Preloader';
 import {LOGGED_USER_NAME} from '../../constants';
-import {loadUserList} from '../../redux/users';
+import {loadUserList} from '../../redux/user_list';
 import {loadPostList} from '../../redux/post_list';
 import {loadCommentList} from '../../redux/comment_list';
 import {loadTagList} from '../../redux/tag_list';
