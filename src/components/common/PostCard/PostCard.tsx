@@ -17,7 +17,7 @@ const PostCard: React.FC<PostCardProps> = ({post}) => {
                 <Typography variant="h6">
                     {post.title}
                 </Typography>
-                <Typography variant="body2">
+                <Typography variant="body1">
                     {post.text}
                 </Typography>
                 <CommentList post={post}/>

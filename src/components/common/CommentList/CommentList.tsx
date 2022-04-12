@@ -10,6 +10,11 @@ type CommentListProps = {
     post: TPost
 }
 
+const containerStyle = {
+    marginTop: '1.2rem',
+    marginLeft: '3rem'
+};
+
 const CommentList: React.FC<CommentListProps> = ({post}) => {
     let commentList = Array.from(useSelector(commentListSelector));
 
@@ -18,8 +23,10 @@ const CommentList: React.FC<CommentListProps> = ({post}) => {
         .filter(comment => comment.post_id === post.id)
         .sort((a: TComment, b: TComment) => b.dt_created - a.dt_created);
 
+    if (!commentList.length) return null;
+
     return (
-        <Stack spacing={2}>
+        <Stack spacing={2} sx={containerStyle}>
             {commentList.map(comment => <CommentCard key={comment.id} comment={comment}/>)}
         </Stack>
     );

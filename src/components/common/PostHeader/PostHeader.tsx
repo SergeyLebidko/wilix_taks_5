@@ -17,7 +17,7 @@ type PostHeaderProps = {
 const containerStyle = {
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginBottom: '1.5em'
+    marginBottom: '0.5em'
 };
 
 const removeProgressStyle = {
