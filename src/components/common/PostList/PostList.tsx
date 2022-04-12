@@ -63,7 +63,7 @@ const PostList: React.FC<PostListProps> = ({sortType, sortDirection, keyWord}) =
         return (sortDirection === TSortDirection.ToDown) ? (-1) * result : result;
     });
 
-    // Применяем фильтр по ключевым словам
+    // Применяем фильтр по ключевым словам (ищем по имени пользователя, заголовку и телу поста, а также по тегам)
     if (keyWord !== '') {
         const _keyWord = keyWord.toLocaleLowerCase();
         postListToShow = postListToShow.filter(post => {
