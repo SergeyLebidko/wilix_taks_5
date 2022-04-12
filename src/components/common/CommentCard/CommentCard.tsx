@@ -1,24 +1,40 @@
 import React from 'react';
-import {Stack, Typography} from '@mui/material';
+import {Fab, Stack, Typography} from '@mui/material';
 import {useSelector} from 'react-redux';
 
 import {TComment, TUser} from '../../../backend/types';
-import {userListSelector} from '../../../redux/selectors';
-import UserAvatar from "../UserAvatar/UserAvatar";
-import getUserFullName from "../../../helpers/utils/getUserFullName";
-import getDateStringForTimestamp from "../../../helpers/utils/getDateStringForTimestamp";
+import {loggedUserSelector, userListSelector} from '../../../redux/selectors';
+import UserAvatar from '../UserAvatar/UserAvatar';
+import getUserFullName from '../../../helpers/utils/getUserFullName';
+import getDateStringForTimestamp from '../../../helpers/utils/getDateStringForTimestamp';
+import ClearIcon from "@mui/icons-material/Clear";
 
 type CommentCardProps = {
     comment: TComment
 }
 
+const containerStyle = {
+    backgroundColor: 'whitesmoke',
+    padding: '6px',
+    borderRadius: 1
+};
+
+const removeButtonStyle = {
+    marginLeft: 'auto!important'
+};
+
 const CommentCard: React.FC<CommentCardProps> = ({comment}) => {
-    const userList = useSelector((userListSelector));
+    const loggedUser = useSelector(loggedUserSelector);
+    const userList = useSelector(userListSelector);
 
     const user = userList.find(user => user.id === comment.user_id) as TUser;
 
+    const removeButtonClickHandler = (): void => {
+        console.log('Удаление комментария');
+    }
+
     return (
-        <Stack direction="row" spacing={2}>
+        <Stack direction="row" spacing={2} sx={containerStyle}>
             <UserAvatar user={user}/>
             <Stack>
                 <Stack direction="row" spacing={2} sx={{alignItems: 'center'}}>
@@ -33,6 +49,14 @@ const CommentCard: React.FC<CommentCardProps> = ({comment}) => {
                     {comment.text}
                 </Typography>
             </Stack>
+            {(loggedUser && loggedUser.id === user.id) &&
+                <Fab
+                    size="small"
+                    onClick={removeButtonClickHandler}
+                    sx={removeButtonStyle}>
+                    <ClearIcon/>
+                </Fab>
+            }
         </Stack>
     );
 }

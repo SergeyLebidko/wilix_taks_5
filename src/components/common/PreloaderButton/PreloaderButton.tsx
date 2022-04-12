@@ -1,5 +1,4 @@
 import React from 'react';
-import LoginIcon from "@mui/icons-material/Login";
 import LoadingButton from "@mui/lab/LoadingButton";
 
 type PreloaderButtonProps = {
@@ -17,7 +16,6 @@ const PreloaderButton: React.FC<PreloaderButtonProps> = (props) => {
             variant="contained"
             loading={hasLoading}
             loadingPosition="center"
-            startIcon={<LoginIcon/>}
             disabled={hasDisabled}
             onClick={clickHandler}
         >
