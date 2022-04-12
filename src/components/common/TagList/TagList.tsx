@@ -20,7 +20,7 @@ const TagList: React.FC<TagListProp> = ({post}) => {
         <Stack direction="row" spacing={2} sx={{flexWrap: 'wrap'}}>
             {tagList
                 .filter(tag => linkedPostTag.find(postTag => postTag.tag_id === tag.id))
-                .map(tag => <Chip key={tag.id} label={tag.text} variant="outlined"/>)
+                .map(tag => <Chip key={tag.id} label={tag.text} color="primary"/>)
             }
         </Stack>
     );
