@@ -1,9 +1,8 @@
 import {createAsyncThunk, createSlice, SerializedError} from '@reduxjs/toolkit';
 
-import {TBackendResponse, TLoginOpt, TRegisterOpt, TUrls, TUser} from '../backend/types';
 import backend from '../backend/backend';
 import {LOGGED_USER_NAME} from '../constants';
-import {TStatus} from '../types';
+import {TBackendResponse, TLoginOpt, TRegisterOpt, TStatus, TUrls, TUser} from '../types';
 
 export const registerUser = createAsyncThunk(
     'register_user',

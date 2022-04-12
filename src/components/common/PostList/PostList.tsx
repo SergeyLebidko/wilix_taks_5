@@ -5,8 +5,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 import PostCard from '../PostCard/PostCard';
-import {TPost, TUser} from '../../../backend/types';
-import {TSortDirection, TSortType} from '../../../types';
+import {TPost, TSortDirection, TSortType, TUser} from '../../../types';
 import {PAGINATION_PAGE_SIZE} from '../../../constants';
 import {postListSelector, userListSelector} from '../../../redux/selectors';
 

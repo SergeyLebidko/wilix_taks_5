@@ -2,12 +2,12 @@ import React from 'react';
 import {Card, CardContent, Typography} from '@mui/material';
 import {useSelector} from 'react-redux';
 
-import {TPost} from '../../../backend/types';
 import PostHeader from '../PostHeader/PostHeader';
 import CommentList from '../CommentList/CommentList';
 
 import {loggedUserSelector} from "../../../redux/selectors";
 import CommentCreator from "../CommentCreator";
+import {TPost} from "../../../types";
 
 type PostCardProps = {
     post: TPost

@@ -1,4 +1,4 @@
-import {TDataSet, TDataBase} from './types';
+import {TDataBase, TDataSet} from "../types";
 
 export const MOCK_DATA: TDataBase = {
     [TDataSet.User]: [

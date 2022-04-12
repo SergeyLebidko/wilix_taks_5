@@ -1,6 +1,5 @@
-import {TPost, TUser, TComment} from '../backend/types';
 import {TRootState} from './store';
-import {TStatus} from '../types';
+import {TComment, TPost, TStatus, TUser} from '../types';
 
 // Селектор, возвращающий признак полной загрузки всех списков данных
 export const allListDoneSelector = (state: TRootState): boolean => {

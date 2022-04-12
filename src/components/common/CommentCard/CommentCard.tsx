@@ -2,12 +2,12 @@ import React from 'react';
 import {Fab, Stack, Typography} from '@mui/material';
 import {useSelector} from 'react-redux';
 
-import {TComment, TUser} from '../../../backend/types';
 import {loggedUserSelector, userListSelector} from '../../../redux/selectors';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import getUserFullName from '../../../helpers/utils/getUserFullName';
 import getDateStringForTimestamp from '../../../helpers/utils/getDateStringForTimestamp';
 import ClearIcon from "@mui/icons-material/Clear";
+import {TComment, TUser} from "../../../types";
 
 type CommentCardProps = {
     comment: TComment

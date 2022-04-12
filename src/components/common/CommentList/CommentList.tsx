@@ -2,9 +2,9 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import {Stack} from '@mui/material';
 
-import {TPost, TComment} from '../../../backend/types';
 import {commentListSelector} from '../../../redux/selectors';
 import CommentCard from '../CommentCard/CommentCard';
+import {TComment, TPost} from "../../../types";
 
 type CommentListProps = {
     post: TPost

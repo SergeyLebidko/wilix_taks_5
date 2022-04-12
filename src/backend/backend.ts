@@ -1,17 +1,16 @@
 import {BACKEND_TIMEOUT, DB_NAME} from '../constants';
 import {MOCK_DATA} from './mock_data';
 import {
-    TBackendResponse,
-    TDataBase,
-    TDataSet,
+    TBackendResponse, TDataBase, TDataSet,
     TEntity,
-    TEntityList, TEntityOpt,
+    TEntityList,
+    TEntityOpt,
     TLoginOpt,
-    TOptions, TQueryOpt,
+    TOptions,
+    TQueryOpt,
     TRegisterOpt,
-    TUrls,
-    TUser
-} from './types';
+    TUrls, TUser
+} from "../types";
 
 class Backend {
     private db: TDataBase | undefined;

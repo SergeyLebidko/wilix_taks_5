@@ -3,12 +3,12 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Box, CircularProgress, Fab, Stack, Typography} from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 
-import {TPost, TUser} from '../../../backend/types';
 import getDateStringForTimestamp from '../../../helpers/utils/getDateStringForTimestamp';
 import {loggedUserSelector, userListSelector} from '../../../redux/selectors';
 import {removePost} from '../../../redux/post_list';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import getUserFullName from "../../../helpers/utils/getUserFullName";
+import {TPost, TUser} from "../../../types";
 
 type PostHeaderProps = {
     post: TPost

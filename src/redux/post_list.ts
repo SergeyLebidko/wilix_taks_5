@@ -1,8 +1,7 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
-import {TPost, TQueryOpt, TUrls} from '../backend/types';
 import backend from '../backend/backend';
-import {TStatus} from '../types';
+import {TPost, TQueryOpt, TStatus, TUrls} from '../types';
 
 export const loadPostList = createAsyncThunk(
     'post_list',

@@ -6,9 +6,9 @@ import {useSelector} from 'react-redux';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import {loggedUserSelector} from '../../../redux/selectors';
 import useNavigator from '../../../helpers/hooks/useNavigator';
-import {TUser} from '../../../backend/types';
 import getUserFullName from '../../../helpers/utils/getUserFullName';
 import UserAvatar from '../UserAvatar/UserAvatar';
+import {TUser} from "../../../types";
 
 const accountActionsStyle = {
     alignItems: 'center'
