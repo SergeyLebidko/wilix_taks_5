@@ -143,10 +143,10 @@ const Register: React.FC = () => {
     const registerButtonClickHandler = (): void => {
         const {login, password1: password, firstName: first_name, lastName: last_name} = formData;
         dispatch(registerUser({
-            login,
+            login: login.trim(),
             password,
-            first_name,
-            last_name,
+            first_name: first_name.trim(),
+            last_name: last_name.trim(),
             avatar: formData.avatarData
         }));
     }
@@ -154,11 +154,11 @@ const Register: React.FC = () => {
     const hasRegisterButtonDisabled = (): boolean => {
         const {login, password1, password2, firstName, lastName} = formData;
         return !(
-            login &&
+            login.trim() &&
             password1 &&
             password2 &&
-            firstName &&
-            lastName &&
+            firstName.trim() &&
+            lastName.trim() &&
             password1 === password2 &&
             password1.length >= PASSWORD_MIN_LEN
         );
