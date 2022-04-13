@@ -8,7 +8,7 @@ import getUserFullName from '../../../helpers/utils/getUserFullName';
 import getDateStringForTimestamp from '../../../helpers/utils/getDateStringForTimestamp';
 import {TComment, TUser} from '../../../types';
 import {removeComment} from '../../../redux/comment_list';
-import PreloaderRemoveFab from '../PreloaderRemoveFab/PreloaderRemoveFab';
+import RemoveButton from '../RemoveButton/RemoveButton';
 
 type CommentCardProps = {
     comment: TComment
@@ -53,7 +53,7 @@ const CommentCard: React.FC<CommentCardProps> = ({comment}) => {
                 </Typography>
             </Stack>
             {(loggedUser && loggedUser.id === user.id) &&
-                <PreloaderRemoveFab
+                <RemoveButton
                     hasRemoveProcess={hasRemoveProcess}
                     removeButtonClickHandler={removeButtonClickHandler}
                 />

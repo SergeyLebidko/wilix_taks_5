@@ -8,7 +8,7 @@ import {removePost} from '../../../redux/post_list';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import getUserFullName from "../../../helpers/utils/getUserFullName";
 import {TPost, TUser} from "../../../types";
-import PreloaderRemoveFab from "../PreloaderRemoveFab/PreloaderRemoveFab";
+import RemoveButton from "../RemoveButton/RemoveButton";
 
 type PostHeaderProps = {
     post: TPost
@@ -56,7 +56,7 @@ const PostHeader: React.FC<PostHeaderProps> = ({post}) => {
                 </Typography>
             </Stack>
             {(loggedUser !== null && post.user_id === loggedUser.id) &&
-                <PreloaderRemoveFab
+                <RemoveButton
                     hasRemoveProcess={hasRemoveProcess}
                     removeButtonClickHandler={removePostHandler}
                 />

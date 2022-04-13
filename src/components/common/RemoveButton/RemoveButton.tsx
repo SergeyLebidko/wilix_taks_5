@@ -11,7 +11,7 @@ const removeButtonStyle = {
     marginLeft: 'auto!important'
 }
 
-const PreloaderRemoveFab: React.FC<PreloaderRemoveFabProp> = (props) => {
+const RemoveButton: React.FC<PreloaderRemoveFabProp> = (props) => {
     const {hasRemoveProcess, removeButtonClickHandler} = props;
 
     if (hasRemoveProcess) {
@@ -32,4 +32,4 @@ const PreloaderRemoveFab: React.FC<PreloaderRemoveFabProp> = (props) => {
     }
 }
 
-export default PreloaderRemoveFab;
+export default RemoveButton;
