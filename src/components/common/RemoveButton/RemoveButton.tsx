@@ -7,29 +7,43 @@ type PreloaderRemoveFabProp = {
     removeButtonClickHandler: () => void
 }
 
-const removeButtonStyle = {
-    marginLeft: 'auto!important'
+const containerStyle = {
+    marginLeft: 'auto!important',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minWidth: '32px',
+    minHeight: '32px'
+}
+
+const removeElementStyle = {
+    boxShadow: 'none',
+    backgroundColor: 'transparent',
+    '&:hover': {
+        backgroundColor: 'transparent'
+    },
+    '&:active': {
+        boxShadow: 'none',
+        backgroundColor: 'transparent'
+    }
 }
 
 const RemoveButton: React.FC<PreloaderRemoveFabProp> = (props) => {
     const {hasRemoveProcess, removeButtonClickHandler} = props;
 
-    if (hasRemoveProcess) {
-        return (
-            <Box sx={removeButtonStyle}>
-                <CircularProgress/>
-            </Box>
-        );
-    } else {
-        return (
-            <Fab
-                size="small"
-                onClick={removeButtonClickHandler}
-                sx={removeButtonStyle}>
-                <ClearIcon/>
-            </Fab>
-        );
-    }
+    return (
+        <Box sx={containerStyle}>
+            {hasRemoveProcess ?
+                <Box sx={removeElementStyle}>
+                    <CircularProgress size={24} color="inherit"/>
+                </Box>
+                :
+                <Fab size="small" sx={removeElementStyle} onClick={removeButtonClickHandler}>
+                    <ClearIcon/>
+                </Fab>
+            }
+        </Box>
+    )
 }
 
 export default RemoveButton;

@@ -3,11 +3,11 @@ import {Stack, TextField, Typography} from '@mui/material';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {createPost} from '../../../redux/post_list';
-import {loggedUserSelector, postListStatusSelector, tagListSelector} from '../../../redux/selectors';
+import {loggedUserSelector, postListStatusSelector} from '../../../redux/selectors';
 import useNavigator from '../../../helpers/hooks/useNavigator';
 import PreloaderButton from '../../common/PreloaderButton/PreloaderButton';
-import {TUser} from '../../../types';
-import TagListCreator from "../../common/TagListCreator/TagListCreator";
+import TagListCreator from '../../common/TagListCreator/TagListCreator';
+import {TTag, TUser} from '../../../types';
 
 type TFormFieldNames = 'title' | 'text';
 
@@ -20,10 +20,7 @@ const CreatePost: React.FC = () => {
     const {toMain} = useNavigator();
     const dispatch = useDispatch();
 
-    const tagList = useSelector(tagListSelector);
-    const [editableTagList, setEditableTagList] = useState(() =>
-        tagList.map(tag => ({tag, hasSelection: false}))
-    );
+    const [editableTagList, setEditableTagList] = useState<TTag[]>([]);
 
     const loggedUser = useSelector(loggedUserSelector);
     const [formData, setFormData] = useState<TCreatePostFormData>({
@@ -67,21 +64,21 @@ const CreatePost: React.FC = () => {
 
     return (
         <Stack spacing={2}>
-            <Typography variant="h5" gutterBottom component="div" sx={{textAlign: 'center'}}>
+            <Typography variant='h5' gutterBottom component='div' sx={{textAlign: 'center'}}>
                 Новый пост
             </Typography>
             <TextField
-                id="title_field"
-                label="Заголовок"
-                variant="outlined"
+                id='title_field'
+                label='Заголовок'
+                variant='outlined'
                 required
                 value={formData.title}
                 disabled={hasPostListPending}
                 onChange={fieldChangeHandler('title')}
             />
             <TextField
-                id="text_field"
-                label="Текст"
+                id='text_field'
+                label='Текст'
                 multiline
                 rows={8}
                 value={formData.text}
@@ -93,7 +90,7 @@ const CreatePost: React.FC = () => {
                 hasLoading={hasPostListPending}
                 hasDisabled={hasCreatePostButtonDisabled}
                 clickHandler={createPostButtonClickHandler}
-                label="Опубликовать"
+                label='Опубликовать'
             />
         </Stack>
     );

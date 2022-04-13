@@ -1,120 +1,44 @@
 import React, {Dispatch, SetStateAction, useState} from 'react';
-import {Button, Chip, Stack, TextField} from '@mui/material';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import {Autocomplete, Chip, TextField} from '@mui/material';
 
 import {TTag} from '../../../types';
-
-type TEditableTagElement = {
-    tag: TTag,
-    hasSelection: boolean
-}
+import {useSelector} from "react-redux";
+import {tagListSelector} from "../../../redux/selectors";
 
 type TagListCreatorProp = {
-    editableList: TEditableTagElement[],
-    setEditableList: Dispatch<SetStateAction<TEditableTagElement[]>>
+    editableList: TTag[],
+    setEditableList: Dispatch<SetStateAction<TTag[]>>
 }
 
 const TagListCreator: React.FC<TagListCreatorProp> = ({editableList, setEditableList}) => {
-    const [text, setText] = useState('');
+    const tagList = useSelector(tagListSelector);
 
-    const addTag = (): void => {
-        const _text = text.trim();
-
-        const foundElement = editableList.find(editableTag => {
-            return editableTag.tag.text.toLowerCase() === _text.toLowerCase();
-        })
-
-        // Если пользователь пытается добавить тег, который уже есть - просто делаем найденный существующий тег выделенным
-        if (foundElement) {
-            setEditableList(oldList => oldList.map(editableTag => {
-                if (editableTag === foundElement) {
-                    return {
-                        ...foundElement,
-                        hasSelection: true
-                    }
-                } else {
-                    return editableTag;
-                }
-            }));
-        } else {
-            setEditableList(oldList => [
-                ...oldList,
-                {
-                    tag: {
-                        text: _text.trim()
-                    },
-                    hasSelection: true
-                }
-            ]);
-        }
-    }
-
-    const tagChipClickHandler = (editableTag: TEditableTagElement): void => {
-        setEditableList(oldList => {
-            return oldList.map(_editableTag => {
-                if (_editableTag !== editableTag) return _editableTag;
-                return {...editableTag, hasSelection: !editableTag.hasSelection};
-            })
-        });
-    }
-
-    const textFieldChangeHandler = (event: React.ChangeEvent): void => {
-        const nextValue = (event.target as HTMLInputElement).value;
-        setText(nextValue);
-    }
-
-    const textFieldKeyDownHandler = (event: React.KeyboardEvent): void => {
-        const {code} = event;
-        if ((code === 'Enter' || code === 'NumpadEnter') && text.trim()) {
-            addTag();
-            setText('');
-        }
-    }
-
-    const createTagButtonClickHandler = (): void => {
-        if (text.trim()) {
-            addTag();
-            setText('');
-        }
+    const changeHandler = (event: React.SyntheticEvent, value: string[], reason: string): void => {
+        console.log(value);
     }
 
     return (
-        <>
-            <Stack direction="row" spacing={1} sx={{flexWrap: 'wrap', alignItems: 'center'}}>
-                {editableList.map(
-                    editableTag =>
-                        editableTag.hasSelection ?
-                            <Chip
-                                sx={{margin: '4px'}}
-                                key={editableTag.tag.id || editableTag.tag.text}
-                                label={editableTag.tag.text}
-                                onClick={() => tagChipClickHandler(editableTag)}
-                                color="primary"
-                            />
-                            :
-                            <Chip
-                                sx={{margin: '4px'}}
-                                key={editableTag.tag.id || editableTag.tag.text}
-                                label={editableTag.tag.text}
-                                onClick={() => tagChipClickHandler(editableTag)}
-                                variant="outlined"
-                            />
-                )}
-            </Stack>
-            <Stack direction="row" spacing={2}>
+        <Autocomplete
+            onChange={changeHandler}
+            multiple
+            options={tagList.map(tag => tag.text)}
+            defaultValue={[]}
+            freeSolo
+            renderTags={(value: readonly string[], getTagProps) =>
+                value.map((option: string, index: number) => (
+                    // eslint-disable-next-line react/jsx-key
+                    <Chip variant="outlined" label={option} {...getTagProps({index})}/>
+                ))
+            }
+            renderInput={(params) => (
                 <TextField
-                    label="Введите тег, чтобы выделить или добавить его"
+                    {...params}
                     variant="outlined"
-                    value={text}
-                    sx={{flex: 1}}
-                    onChange={textFieldChangeHandler}
-                    onKeyDown={textFieldKeyDownHandler}
+                    label="Введите или выберите теги"
+                    placeholder="Введите или выберите теги"
                 />
-                <Button variant="contained" onClick={createTagButtonClickHandler}>
-                    <PlayArrowIcon/>
-                </Button>
-            </Stack>
-        </>
+            )}
+        />
     );
 };
 

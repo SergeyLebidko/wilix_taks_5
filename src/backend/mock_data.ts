@@ -55,6 +55,18 @@ export const MOCK_DATA: TDataBase = {
         {
             id: 1,
             text: 'Обо мне'
+        },
+        {
+            id: 2,
+            text: 'Природа'
+        },
+        {
+            id: 3,
+            text: 'Музыка'
+        },
+        {
+            id: 4,
+            text: 'Кино'
         }
     ],
     [TDataSet.PostTag]: [

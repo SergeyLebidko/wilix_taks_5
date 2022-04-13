@@ -8,19 +8,26 @@ import {loggedUserSelector} from '../../../redux/selectors';
 import useNavigator from '../../../helpers/hooks/useNavigator';
 import getUserFullName from '../../../helpers/utils/getUserFullName';
 import UserAvatar from '../UserAvatar/UserAvatar';
-import {TUser} from "../../../types";
+import {TUser} from '../../../types';
 
 const accountActionsStyle = {
     alignItems: 'center'
 }
 
-const headerStyle = {
+const usernameStyle = {
     color: 'white'
 }
 
 const actionButtonStyle = {
     color: 'deepskyblue',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    boxShadow: 'none',
+    '&:hover': {
+        backgroundColor: 'white'
+    },
+    '&:active': {
+        boxShadow: 'none'
+    }
 }
 
 const AccountActions: React.FC = () => {
@@ -29,15 +36,17 @@ const AccountActions: React.FC = () => {
 
     return (
         <Stack direction="row" spacing={1} sx={accountActionsStyle}>
-            <Typography variant="h6" sx={headerStyle}>
+            <Typography variant="h6" sx={usernameStyle}>
                 {getUserFullName(user)}
             </Typography>
             <UserAvatar user={user}/>
-            <Fab size="small" sx={actionButtonStyle} onClick={toCreatePost}>
-                <AddCircleOutlineIcon/>
+            <Fab size="small" variant="extended" sx={actionButtonStyle} onClick={toCreatePost}>
+                <AddCircleOutlineIcon sx={{marginRight: '4px'}}/>
+                Новый пост
             </Fab>
-            <Fab size="small" sx={actionButtonStyle} onClick={toLogout}>
-                <LogoutIcon/>
+            <Fab size="small" variant="extended" sx={actionButtonStyle} onClick={toLogout}>
+                <LogoutIcon sx={{marginRight: '4px'}}/>
+                Выход
             </Fab>
         </Stack>
     );

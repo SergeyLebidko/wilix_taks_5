@@ -23,21 +23,34 @@ const CommentCreator: React.FC<CommentCreatorProp> = ({post}) => {
     const [text, setText] = useState('');
     const [hasProcess, setHasProcess] = useState(false);
 
+    const addComment = () => {
+        (async function () {
+            setHasProcess(true);
+            await dispatch(createComment({
+                user_id: (loggedUser as TUser).id as number,
+                post_id: post.id as number,
+                text: text.trim(),
+                dt_created: +new Date()
+            }));
+            setText('');
+            setHasProcess(false);
+        })();
+    }
+
     const textChangeHandler = (event: React.ChangeEvent): void => {
         const nextValue = (event.target as HTMLInputElement).value;
         setText(nextValue);
     }
 
-    const createButtonClickHandler = async () => {
-        setHasProcess(true);
-        await dispatch(createComment({
-            user_id: (loggedUser as TUser).id as number,
-            post_id: post.id as number,
-            text: text.trim(),
-            dt_created: +new Date()
-        }));
-        setText('');
-        setHasProcess(false);
+    const textKeyDownHandler = (event: React.KeyboardEvent): void => {
+        const code = event.code;
+        if (code === 'Enter' || code === 'NumpadEnter') {
+            addComment();
+        }
+    };
+
+    const createButtonClickHandler = (): void => {
+        addComment();
     }
 
     return (
@@ -48,6 +61,7 @@ const CommentCreator: React.FC<CommentCreatorProp> = ({post}) => {
                 sx={{flex: 1}}
                 value={text}
                 onChange={textChangeHandler}
+                onKeyDown={textKeyDownHandler}
                 disabled={hasProcess}
             />
             <PreloaderButton

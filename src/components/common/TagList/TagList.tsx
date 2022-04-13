@@ -17,7 +17,13 @@ const TagList: React.FC<TagListProp> = ({post}) => {
     return (
         <Stack direction="row" spacing={2} sx={{flexWrap: 'wrap'}}>
             {getTagListForPost(post, postTagList, tagList)
-                .map(tag => <Chip key={tag.id} label={tag.text} color="primary"/>)
+                .map(tag =>
+                    <Chip
+                        key={tag.id}
+                        size="small"
+                        label={tag.text}
+                        color="primary"
+                    />)
             }
         </Stack>
     );
