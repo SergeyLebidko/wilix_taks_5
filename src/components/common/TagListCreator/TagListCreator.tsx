@@ -27,7 +27,12 @@ const TagListCreator: React.FC<TagListCreatorProp> = ({editableList, setEditable
             renderTags={(value: readonly string[], getTagProps) =>
                 value.map((option: string, index: number) => (
                     // eslint-disable-next-line react/jsx-key
-                    <Chip variant="outlined" label={option} {...getTagProps({index})}/>
+                    <Chip
+                        onClick={()=>console.log(`Клик по чипсе: ${option}`)}
+                        variant="outlined"
+                        label={option}
+                        {...getTagProps({index})}
+                    />
                 ))
             }
             renderInput={(params) => (
@@ -35,7 +40,6 @@ const TagListCreator: React.FC<TagListCreatorProp> = ({editableList, setEditable
                     {...params}
                     variant="outlined"
                     label="Введите или выберите теги"
-                    placeholder="Введите или выберите теги"
                 />
             )}
         />
