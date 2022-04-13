@@ -3,8 +3,7 @@ import {useSelector} from 'react-redux';
 import {Chip, Stack} from '@mui/material';
 
 import {TPost} from '../../../types';
-import {postTagListSelector, tagListSelector} from '../../../redux/selectors';
-import getTagListForPost from '../../../helpers/utils/getTagListForPost';
+import {tagListSelector} from '../../../redux/selectors';
 
 type TagListProp = {
     post: TPost
@@ -12,11 +11,11 @@ type TagListProp = {
 
 const TagList: React.FC<TagListProp> = ({post}) => {
     const tagList = useSelector(tagListSelector);
-    const postTagList = useSelector(postTagListSelector);
 
     return (
         <Stack direction="row" spacing={2} sx={{flexWrap: 'wrap'}}>
-            {getTagListForPost(post, postTagList, tagList)
+            {tagList
+                .filter(tag => tag.post_id === post.id)
                 .map(tag =>
                     <Chip
                         key={tag.id}

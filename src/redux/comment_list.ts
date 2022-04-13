@@ -1,7 +1,8 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 import backend from '../backend/backend';
-import {TComment, TQueryOpt, TStatus, TUrls} from '../types';
+import {TComment, TPost, TQueryOpt, TStatus, TUrls} from '../types';
+import {removePost} from "./post_list";
 
 export const loadCommentList = createAsyncThunk(
     'comment_list',
@@ -53,6 +54,10 @@ export const commentListSlice = createSlice({
             .addCase(removeComment.fulfilled, (state, action) => {
                 state.status = 'done';
                 state.data = (state.data as any[]).filter(comment => (comment as TComment).id !== (action.payload as TComment).id);
+            })
+            .addCase(removePost.fulfilled, (state, action) => {
+                // При удалении поста - удаляем связанные с ним комментарии
+                state.data = state.data.filter(comment => comment.post_id !== (action.payload as TPost).id);
             });
     }
 });

@@ -15,7 +15,6 @@ import {loadUserList} from '../../redux/user_list';
 import {loadPostList} from '../../redux/post_list';
 import {loadCommentList} from '../../redux/comment_list';
 import {loadTagList} from '../../redux/tag_list';
-import {loadPostTagList} from '../../redux/posttag_list';
 import {loggedUserSlice} from '../../redux/logged_user';
 import {allListDoneSelector, loggedUserSelector, loggedUserStatusSelector} from '../../redux/selectors';
 import {TUser} from "../../types";
@@ -37,7 +36,6 @@ const App: React.FC = () => {
         dispatch(loadPostList());
         dispatch(loadCommentList());
         dispatch(loadTagList());
-        dispatch(loadPostTagList());
 
         // Проверяем наличие в local storage записи о залогиненом пользователе и, если нужно, записываем данные в redux
         const loggedUserRaw = localStorage.getItem(LOGGED_USER_NAME);

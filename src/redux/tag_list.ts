@@ -1,7 +1,8 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 import backend from '../backend/backend';
-import {TStatus, TTag, TUrls} from '../types';
+import {TPost, TStatus, TTag, TUrls} from '../types';
+import {removePost} from './post_list';
 
 export const loadTagList = createAsyncThunk(
     'tag_list',
@@ -25,6 +26,10 @@ export const tagListSlice = createSlice({
             .addCase(loadTagList.fulfilled, (state, action) => {
                 state.status = 'done';
                 state.data = action.payload as TTag[];
+            })
+            .addCase(removePost.fulfilled, (state, action) => {
+                // При удалении поста - удаляем связанные с ним теги
+                state.data = state.data.filter(tag => tag.post_id !== (action.payload as TPost).id);
             });
     }
 });

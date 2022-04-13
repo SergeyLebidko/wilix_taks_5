@@ -4,19 +4,18 @@ import {useSelector} from 'react-redux';
 
 import PostHeader from '../PostHeader/PostHeader';
 import CommentList from '../CommentList/CommentList';
-
-import {commentListSelector, loggedUserSelector, postTagListSelector} from "../../../redux/selectors";
-import CommentCreator from "../CommentCreator/CommentCreator";
-import {TPost} from "../../../types";
-import TagList from "../TagList/TagList";
+import CommentCreator from '../CommentCreator/CommentCreator';
+import {commentListSelector, loggedUserSelector, tagListSelector} from '../../../redux/selectors';
+import {TPost} from '../../../types';
+import TagList from '../TagList/TagList';
 
 type PostCardProps = {
     post: TPost
 }
 
 const PostCard: React.FC<PostCardProps> = ({post}) => {
-    const postTagList = useSelector(postTagListSelector);
     const commentList = useSelector(commentListSelector);
+    const tagList = useSelector(tagListSelector);
     const loggedUser = useSelector(loggedUserSelector);
 
     return (
@@ -30,7 +29,7 @@ const PostCard: React.FC<PostCardProps> = ({post}) => {
                     <Typography variant="body1">
                         {post.text}
                     </Typography>
-                    {postTagList.some(postTag => postTag.post_id === post.id) && <TagList post={post}/>}
+                    {tagList.some(tag => tag.post_id === post.id) && <TagList post={post}/>}
                 </Stack>
                 {commentList.some(comment => comment.post_id === post.id) && <CommentList post={post}/>}
                 {loggedUser && <CommentCreator post={post}/>}

@@ -6,8 +6,7 @@ export enum TDataSet {
     User = 'User',
     Post = 'Post',
     Comment = 'Comment',
-    Tag = 'Tag',
-    PostTag = 'PostTag'
+    Tag = 'Tag'
 }
 
 // Тип данных для таблицы пользователей
@@ -41,14 +40,8 @@ export type TComment = {
 // Тип данных для таблицы тегов
 export type TTag = {
     id?: number,
+    post_id: number,
     text: string
-}
-
-// Тип данных для таблицы связи постов и тегов
-export type TPostTag = {
-    id?: number,
-    tag_id: number,
-    post_id: number
 }
 
 // Тип данных для представления всей базы данных в целом
@@ -56,15 +49,14 @@ export type TDataBase = {
     [TDataSet.User]: TUser[],
     [TDataSet.Post]: TPost[],
     [TDataSet.Comment]: TComment[],
-    [TDataSet.Tag]: TTag[],
-    [TDataSet.PostTag]: TPostTag[]
+    [TDataSet.Tag]: TTag[]
 }
 
 // Собирательный тип данных для всех сущностей
-export type TEntity = TUser | TPost | TComment | TTag | TPostTag;
+export type TEntity = TUser | TPost | TComment | TTag;
 
 // Собирательный тип для списков сущностей
-export type TEntityList = TUser[] | TPost[] | TComment[] | TTag[] | TPostTag[];
+export type TEntityList = TUser[] | TPost[] | TComment[] | TTag[];
 
 // Собирательный тип для всех возможных ответов бэкенда
 export type TBackendResponse = TEntity | TEntityList | string;
@@ -75,24 +67,20 @@ export enum TUrls {
     GetPostList = 'get_post_list',
     GetCommentList = 'get_comment_list',
     GetTagList = 'get_tag_list',
-    GetPostTagList = 'get_post_tag_list',
     Register = 'register',
     Login = 'login',
     GetUser = 'get_user',
     GetPost = 'get_post',
     GetComment = 'get_comment',
     GetTag = 'get_tag',
-    GetPostTag = 'get_post_tag',
     CreateUser = 'create_user',
     CreatePost = 'create_post',
     CreateComment = 'create_comment',
     CreateTag = 'create_tag',
-    CreatePostTag = 'create_post_tag',
     RemoveUser = 'remove_user',
     RemovePost = 'remove_post',
     RemoveComment = 'remove_comment',
-    RemoveTag = 'remove_tag',
-    RemovePostTag = 'remove_post_tag'
+    RemoveTag = 'remove_tag'
 }
 
 // Типы объектов-параметров (опций) для запросов к бэкенду

@@ -7,8 +7,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import PostCard from '../PostCard/PostCard';
 import {TPost, TSortDirection, TSortType, TUser} from '../../../types';
 import {PAGINATION_PAGE_SIZE} from '../../../constants';
-import {postListSelector, postTagListSelector, tagListSelector, userListSelector} from '../../../redux/selectors';
-import getTagListForPost from "../../../helpers/utils/getTagListForPost";
+import {postListSelector, tagListSelector, userListSelector} from '../../../redux/selectors';
 
 type PostListProps = {
     sortType: TSortType,
@@ -18,7 +17,6 @@ type PostListProps = {
 
 const PostList: React.FC<PostListProps> = ({sortType, sortDirection, keyWord}) => {
     const userList = useSelector(userListSelector);
-    const postTagList = useSelector(postTagListSelector);
     const tagList = useSelector(tagListSelector);
     const [page, setPage] = useState<number>(1);
 
@@ -73,11 +71,7 @@ const PostList: React.FC<PostListProps> = ({sortType, sortDirection, keyWord}) =
                 user.last_name.toLocaleLowerCase().includes(_keyWord) ||
                 post.title.toLocaleLowerCase().includes(_keyWord) ||
                 post.text.toLocaleLowerCase().includes(_keyWord) ||
-                !!getTagListForPost(
-                    post,
-                    postTagList,
-                    tagList
-                ).find(tag => tag.text.toLocaleLowerCase().includes(_keyWord))
+                tagList.find(tag => tag.post_id === post.id && tag.text.toLocaleLowerCase().includes(_keyWord))
             );
         });
     }

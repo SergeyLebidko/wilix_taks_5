@@ -1,15 +1,21 @@
 import {BACKEND_TIMEOUT, DB_NAME} from '../constants';
 import {MOCK_DATA} from './mock_data';
 import {
-    TBackendResponse, TDataBase, TDataSet,
+    TBackendResponse,
+    TComment,
+    TDataBase,
+    TDataSet,
     TEntity,
     TEntityList,
     TEntityOpt,
     TLoginOpt,
     TOptions,
+    TPost,
     TQueryOpt,
     TRegisterOpt,
-    TUrls, TUser
+    TTag,
+    TUrls,
+    TUser
 } from "../types";
 
 class Backend {
@@ -86,80 +92,55 @@ class Backend {
         return entity;
     }
 
+    // TODO Вставить создание списков сущностей
+
     // Удаление сущностей
     private removeEntity(entityType: TDataSet, options: TQueryOpt): TEntity {
         const {id} = options;
 
         // Удаляемая сущность, которая должна быть возвращена
-        const entityList = (this.db as TDataBase)[entityType];
+        const entityList = this.getEntityList(entityType);
         const entity = (entityList as any[]).find((value: TEntity) => (value.id as number) === id);
         if (!entity) {
-            throw new Error('Не удалось найти объект...');
+            throw new Error('Не удалось найти объект для удаления...');
         }
 
-        // Списки с идентификаторами удаляемых объектов
-        const userIds = entityType === TDataSet.User ? [id] : [];
-        let postIds = entityType === TDataSet.Post ? [id] : [];
-        let commentIds = entityType === TDataSet.Comment ? [id] : [];
-        const tagIds = entityType === TDataSet.Tag ? [id] : [];
-        let postTagIds = entityType === TDataSet.PostTag ? [id] : [];
+        let users = this.getEntityList(TDataSet.User) as TUser[];
+        let posts = this.getEntityList(TDataSet.Post) as TPost[];
+        let comments = this.getEntityList(TDataSet.Comment) as TComment[];
+        let tags = this.getEntityList(TDataSet.Tag) as TTag[];
 
-        // Если есть объекты для удаления на сороне "один", то ищем связанные объекты на стороне "многие"
-        // и вносим их идентификаторы в списки удаляемых объектов
-
-        // Если есть удаляемые пользователи, то ищем посты и комменты, которые должны быть удалены по цепочке
-        if (userIds.length) {
-            userIds.forEach(userId => {
-                postIds = [...postIds, ...this.getLinkedPostsIds(userId)];
-                commentIds = [...commentIds, ...this.getLinkedCommentIds(userId, null)];
-            });
+        if (entityType === TDataSet.User) {
+            users = users.filter(user => user.id !== id);
+        } else if (entityType === TDataSet.Post) {
+            posts = posts.filter(post => post.id !== id);
+        } else if (entityType === TDataSet.Comment) {
+            comments = comments.filter(comment => comment.id !== id);
+        } else if (entityType === TDataSet.Tag) {
+            tags = tags.filter(tag => tag.id !== id);
         }
 
-        // Если есть удаляемые посты, то ищем комменты, которые должны быть удалены по цепочке
-        // и связи постов и тегов, которые также должны быть удалены
-        if (postIds.length) {
-            postIds.forEach(postId => {
-                commentIds = [...commentIds, ...this.getLinkedCommentIds(null, postId)];
-                postTagIds = [...postTagIds, ...this.getLinkedPostTagIds(postId, null)];
-            });
-        }
+        // Удаляем посты без пользователей
+        posts = posts.filter(post => users.some(user => user.id === post.user_id));
 
-        // Если есть удаляемые теги, то помечаем для удаления все их связи с постами
-        if (tagIds.length) {
-            tagIds.forEach(tagId => {
-                postTagIds = [...postTagIds, ...this.getLinkedPostTagIds(null, tagId)];
-            })
-        }
+        // Удаляем комменты без пользователей
+        comments = comments.filter(comment => users.some(user => user.id === comment.user_id));
 
-        // Удаляем помеченные объекты из БД
+        // Удаляем комменты без постов
+        comments = comments.filter(comment => posts.some(post => post.id === comment.post_id));
+
+        // Удаляем теги без постов
+        tags = tags.filter(tag => posts.some(post => post.id === tag.post_id));
+
+        // Формируем новое состояние базы данных
         this.db = {
-            [TDataSet.User]: ((this.db as TDataBase)[TDataSet.User] as any[]).filter(({id}) => !userIds.includes(id)),
-            [TDataSet.Post]: ((this.db as TDataBase)[TDataSet.Post] as any[]).filter(({id}) => !postIds.includes(id)),
-            [TDataSet.Comment]: ((this.db as TDataBase)[TDataSet.Comment] as any[]).filter(({id}) => !commentIds.includes(id)),
-            [TDataSet.Tag]: ((this.db as TDataBase)[TDataSet.Tag] as any[]).filter(({id}) => !tagIds.includes(id)),
-            [TDataSet.PostTag]: ((this.db as TDataBase)[TDataSet.PostTag] as any[]).filter(({id}) => !postTagIds.includes(id))
+            [TDataSet.User]: users,
+            [TDataSet.Post]: posts,
+            [TDataSet.Comment]: comments,
+            [TDataSet.Tag]: tags
         }
 
         return entity;
-    }
-
-    // Вспомогательные методы для поиска связанных сущностей в отношениях один-ко-многим
-    private getLinkedPostsIds(userId: number): number[] {
-        return (this.db as TDataBase)[TDataSet.Post]
-            .filter(post => post.user_id === userId)
-            .map(post => post.id as number);
-    }
-
-    private getLinkedCommentIds(userId: number | null, postId: number | null): number[] {
-        return (this.db as TDataBase)[TDataSet.Comment]
-            .filter(comment => comment.user_id === userId || comment.post_id === postId)
-            .map(comment => comment.id as number);
-    }
-
-    private getLinkedPostTagIds(postId: number | null, tagId: number | null): number[] {
-        return (this.db as TDataBase)[TDataSet.PostTag]
-            .filter(postTag => postTag.post_id === postId || postTag.tag_id === tagId)
-            .map(postTag => postTag.id as number);
     }
 
     // Метод вызывает нужные методы манипулирования данными в зависимости от переданного URL
@@ -176,9 +157,6 @@ class Backend {
             }
             case TUrls.GetTagList: {
                 return this.getEntityList(TDataSet.Tag);
-            }
-            case TUrls.GetPostTagList: {
-                return this.getEntityList(TDataSet.PostTag);
             }
             case TUrls.Register: {
                 return this.register(options as TRegisterOpt);
@@ -198,9 +176,6 @@ class Backend {
             case TUrls.GetTag: {
                 return this.getEntity(TDataSet.Tag, options as TQueryOpt);
             }
-            case TUrls.GetPostTag: {
-                return this.getEntity(TDataSet.PostTag, options as TQueryOpt);
-            }
             case TUrls.CreateUser: {
                 return this.createEntity(TDataSet.User, options as TEntityOpt);
             }
@@ -213,9 +188,6 @@ class Backend {
             case TUrls.CreateTag: {
                 return this.createEntity(TDataSet.Tag, options as TEntityOpt);
             }
-            case TUrls.CreatePostTag: {
-                return this.createEntity(TDataSet.PostTag, options as TEntityOpt);
-            }
             case TUrls.RemoveUser: {
                 return this.removeEntity(TDataSet.User, options as TQueryOpt);
             }
@@ -227,9 +199,6 @@ class Backend {
             }
             case TUrls.RemoveTag: {
                 return this.removeEntity(TDataSet.Tag, options as TQueryOpt);
-            }
-            case TUrls.RemovePostTag: {
-                return this.removeEntity(TDataSet.PostTag, options as TQueryOpt);
             }
         }
     }

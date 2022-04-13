@@ -1,5 +1,5 @@
 import {TRootState} from './store';
-import {TComment, TPost, TPostTag, TStatus, TTag, TUser} from '../types';
+import {TComment, TPost, TStatus, TTag, TUser} from '../types';
 
 // Селектор, возвращающий признак полной загрузки всех списков данных
 export const allListDoneSelector = (state: TRootState): boolean => {
@@ -7,10 +7,9 @@ export const allListDoneSelector = (state: TRootState): boolean => {
         user_list: {status: us},
         post_list: {status: ps},
         comment_list: {status: cs},
-        tag_list: {status: ts},
-        post_tag_list: {status: pts}
+        tag_list: {status: ts}
     } = state;
-    return us === 'done' && ps === 'done' && ts === 'done' && cs === 'done' && pts === 'done';
+    return us === 'done' && ps === 'done' && ts === 'done' && cs === 'done';
 }
 
 // Селекторы залогиненного пользователя
@@ -28,6 +27,5 @@ export const postListStatusSelector = (state: TRootState): TStatus => state.post
 // Селекторы списка комментариев
 export const commentListSelector = (state: TRootState): TComment[] => state.comment_list.data;
 
-// Селекторы списка тегов и связей между постами и тегами
+// Селекторы списка тегов
 export const tagListSelector = (state: TRootState): TTag[] => state.tag_list.data;
-export const postTagListSelector = (state: TRootState): TPostTag[] => state.post_tag_list.data;
