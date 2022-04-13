@@ -11,6 +11,13 @@ export const loadTagList = createAsyncThunk(
     }
 );
 
+export const createTagList = createAsyncThunk(
+    'create_tag_list',
+    async (tagData: TTag[]) => {
+        return backend.fetch(TUrls.CreateTagList, tagData);
+    }
+)
+
 export const tagListSlice = createSlice({
     name: 'tag_list',
     initialState: {
@@ -30,6 +37,13 @@ export const tagListSlice = createSlice({
             .addCase(removePost.fulfilled, (state, action) => {
                 // При удалении поста - удаляем связанные с ним теги
                 state.data = state.data.filter(tag => tag.post_id !== (action.payload as TPost).id);
+            })
+            .addCase(createTagList.pending, state => {
+                state.status = 'pending';
+            })
+            .addCase(createTagList.fulfilled, (state, action) => {
+                state.status = 'done';
+                state.data.push(...(action.payload as TTag[]));
             });
     }
 });

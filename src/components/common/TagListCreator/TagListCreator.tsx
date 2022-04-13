@@ -1,20 +1,18 @@
-import React, {Dispatch, SetStateAction, useState} from 'react';
+import React, {Dispatch, SetStateAction} from 'react';
 import {Autocomplete, Chip, TextField} from '@mui/material';
 
-import {TTag} from '../../../types';
-import {useSelector} from "react-redux";
-import {tagListSelector} from "../../../redux/selectors";
+import {useSelector} from 'react-redux';
+import {tagListSelector} from '../../../redux/selectors';
 
 type TagListCreatorProp = {
-    editableList: TTag[],
-    setEditableList: Dispatch<SetStateAction<TTag[]>>
+    setCreatedTagList: Dispatch<SetStateAction<string[]>>
 }
 
-const TagListCreator: React.FC<TagListCreatorProp> = ({editableList, setEditableList}) => {
+const TagListCreator: React.FC<TagListCreatorProp> = ({setCreatedTagList}) => {
     const tagList = useSelector(tagListSelector);
 
-    const changeHandler = (event: React.SyntheticEvent, value: string[], reason: string): void => {
-        console.log(value);
+    const changeHandler = (event: React.SyntheticEvent, value: string[]): void => {
+        setCreatedTagList(value);
     }
 
     return (
@@ -28,7 +26,7 @@ const TagListCreator: React.FC<TagListCreatorProp> = ({editableList, setEditable
                 value.map((option: string, index: number) => (
                     // eslint-disable-next-line react/jsx-key
                     <Chip
-                        onClick={()=>console.log(`Клик по чипсе: ${option}`)}
+                        onClick={() => console.log(`Клик по чипсе: ${option}`)}
                         variant="outlined"
                         label={option}
                         {...getTagProps({index})}

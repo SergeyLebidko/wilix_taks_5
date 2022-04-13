@@ -3,11 +3,12 @@ import {Stack, TextField, Typography} from '@mui/material';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {createPost} from '../../../redux/post_list';
-import {loggedUserSelector, postListStatusSelector} from '../../../redux/selectors';
+import {loggedUserSelector, postListStatusSelector, tagListStatusSelector} from '../../../redux/selectors';
 import useNavigator from '../../../helpers/hooks/useNavigator';
 import PreloaderButton from '../../common/PreloaderButton/PreloaderButton';
 import TagListCreator from '../../common/TagListCreator/TagListCreator';
-import {TTag, TUser} from '../../../types';
+import {TUser} from '../../../types';
+import {createTagList} from "../../../redux/tag_list";
 
 type TFormFieldNames = 'title' | 'text';
 
@@ -20,7 +21,7 @@ const CreatePost: React.FC = () => {
     const {toMain} = useNavigator();
     const dispatch = useDispatch();
 
-    const [editableTagList, setEditableTagList] = useState<TTag[]>([]);
+    const [createdTagList, setCreatedTagList] = useState<string[]>([]);
 
     const loggedUser = useSelector(loggedUserSelector);
     const [formData, setFormData] = useState<TCreatePostFormData>({
@@ -29,7 +30,8 @@ const CreatePost: React.FC = () => {
     });
 
     const postListStatus = useSelector(postListStatusSelector);
-    const hasPostListPending = postListStatus === 'pending';
+    const tagListStatus = useSelector(tagListStatusSelector);
+    const hasPostListPending = postListStatus === 'pending' || tagListStatus === 'pending';
 
     const fieldChangeHandler = (fieldName: TFormFieldNames) => {
         return (event: React.ChangeEvent) => {
@@ -50,14 +52,22 @@ const CreatePost: React.FC = () => {
     };
 
     const createPostButtonClickHandler = async () => {
-        await dispatch(createPost({
+        const result = await dispatch(createPost({
             user_id: (loggedUser as TUser).id as number,
             title: formData.title,
             text: formData.text,
             dt_created: +new Date()
         }));
+
+        await dispatch(
+            createTagList(
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                createdTagList.map(text => ({text, post_id: result.payload.id}))
+            )
+        );
+
         toMain();
-        // TODO Дополнить кодом создания списка тегов
     };
 
     const hasCreatePostButtonDisabled = !formData.title || !formData.text;
@@ -85,7 +95,7 @@ const CreatePost: React.FC = () => {
                 disabled={hasPostListPending}
                 onChange={fieldChangeHandler('text')}
             />
-            <TagListCreator editableList={editableTagList} setEditableList={setEditableTagList}/>
+            <TagListCreator setCreatedTagList={setCreatedTagList}/>
             <PreloaderButton
                 hasLoading={hasPostListPending}
                 hasDisabled={hasCreatePostButtonDisabled}

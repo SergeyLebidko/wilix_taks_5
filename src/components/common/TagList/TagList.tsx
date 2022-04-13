@@ -13,7 +13,7 @@ const TagList: React.FC<TagListProp> = ({post}) => {
     const tagList = useSelector(tagListSelector);
 
     return (
-        <Stack direction="row" spacing={2} sx={{flexWrap: 'wrap'}}>
+        <Stack direction="row" spacing={1} sx={{flexWrap: 'wrap'}}>
             {tagList
                 .filter(tag => tag.post_id === post.id)
                 .map(tag =>

@@ -29,3 +29,4 @@ export const commentListSelector = (state: TRootState): TComment[] => state.comm
 
 // Селекторы списка тегов
 export const tagListSelector = (state: TRootState): TTag[] => state.tag_list.data;
+export const tagListStatusSelector = (state: TRootState): TStatus => state.tag_list.status;
