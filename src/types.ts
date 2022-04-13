@@ -80,7 +80,11 @@ export enum TUrls {
     RemoveUser = 'remove_user',
     RemovePost = 'remove_post',
     RemoveComment = 'remove_comment',
-    RemoveTag = 'remove_tag'
+    RemoveTag = 'remove_tag',
+    CreateUserList = 'create_user_list',
+    CreatePostList = 'create_post_list',
+    CreateCommentList = 'create_comment_list',
+    CreateTagList = 'create_tag_list'
 }
 
 // Типы объектов-параметров (опций) для запросов к бэкенду
@@ -93,11 +97,13 @@ export type TLoginOpt = {
 
 export type TEntityOpt = TEntity;
 
+export type TEntityListOpt = TEntityList;
+
 export type TQueryOpt = {
     id: number
 }
 
-export type TOptions = TRegisterOpt | TLoginOpt | TEntityOpt | TQueryOpt;
+export type TOptions = TRegisterOpt | TLoginOpt | TEntityOpt | TEntityListOpt | TQueryOpt;
 
 // Тип сортировки постов - по дате, по пользователю, по заголовку
 export enum TSortType {

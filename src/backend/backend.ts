@@ -7,6 +7,7 @@ import {
     TDataSet,
     TEntity,
     TEntityList,
+    TEntityListOpt,
     TEntityOpt,
     TLoginOpt,
     TOptions,
@@ -92,7 +93,10 @@ class Backend {
         return entity;
     }
 
-    // TODO Вставить создание списков сущностей
+    // Создание списков сущностей
+    private createEntityList(entityType: TDataSet, options: TEntityListOpt): TEntityList {
+        return options.map(entity => this.createEntity(entityType, entity)) as TEntityList;
+    }
 
     // Удаление сущностей
     private removeEntity(entityType: TDataSet, options: TQueryOpt): TEntity {
@@ -199,6 +203,18 @@ class Backend {
             }
             case TUrls.RemoveTag: {
                 return this.removeEntity(TDataSet.Tag, options as TQueryOpt);
+            }
+            case TUrls.CreateUserList: {
+                return this.createEntityList(TDataSet.User, options as TEntityListOpt);
+            }
+            case TUrls.CreatePostList: {
+                return this.createEntityList(TDataSet.Post, options as TEntityListOpt);
+            }
+            case TUrls.CreateCommentList: {
+                return this.createEntityList(TDataSet.Comment, options as TEntityListOpt);
+            }
+            case TUrls.CreateTagList: {
+                return this.createEntityList(TDataSet.Tag, options as TEntityListOpt);
             }
         }
     }
