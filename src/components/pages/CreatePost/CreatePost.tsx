@@ -52,6 +52,7 @@ const CreatePost: React.FC = () => {
     };
 
     const createPostButtonClickHandler = async () => {
+        // Создаем пост
         const result = await dispatch(createPost({
             user_id: (loggedUser as TUser).id as number,
             title: formData.title,
@@ -59,14 +60,17 @@ const CreatePost: React.FC = () => {
             dt_created: +new Date()
         }));
 
+        // Создаем список тегов, связанных с постом
         await dispatch(
             createTagList(
+                // Подавление добавлено специально, так как иначе ts не дает получить доступ к свойству payload
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 createdTagList.map(text => ({text, post_id: result.payload.id}))
             )
         );
 
+        // После завершения "сетевых" операций - переводим пользователя на главную страницу
         toMain();
     };
 

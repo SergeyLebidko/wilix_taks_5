@@ -3,6 +3,7 @@ import {Autocomplete, Chip, TextField} from '@mui/material';
 
 import {useSelector} from 'react-redux';
 import {tagListSelector} from '../../../redux/selectors';
+import getTagTextList from "../../../helpers/utils/getTagTextList";
 
 type TagListCreatorProp = {
     setCreatedTagList: Dispatch<SetStateAction<string[]>>
@@ -10,6 +11,7 @@ type TagListCreatorProp = {
 
 const TagListCreator: React.FC<TagListCreatorProp> = ({setCreatedTagList}) => {
     const tagList = useSelector(tagListSelector);
+    const tagTextList = getTagTextList(tagList);
 
     const changeHandler = (event: React.SyntheticEvent, value: string[]): void => {
         setCreatedTagList(value);
@@ -19,7 +21,7 @@ const TagListCreator: React.FC<TagListCreatorProp> = ({setCreatedTagList}) => {
         <Autocomplete
             onChange={changeHandler}
             multiple
-            options={tagList.map(tag => tag.text)}
+            options={tagTextList}
             defaultValue={[]}
             freeSolo
             renderTags={(value: readonly string[], getTagProps) =>
