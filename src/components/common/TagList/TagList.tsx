@@ -1,9 +1,10 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {Chip, Stack} from '@mui/material';
+import {Stack} from '@mui/material';
 
 import {TPost} from '../../../types';
 import {tagListSelector} from '../../../redux/selectors';
+import TagCard from '../TagCard';
 
 type TagListProp = {
     post: TPost
@@ -16,13 +17,7 @@ const TagList: React.FC<TagListProp> = ({post}) => {
         <Stack direction="row" spacing={1} sx={{flexWrap: 'wrap'}}>
             {tagList
                 .filter(tag => tag.post_id === post.id)
-                .map(tag =>
-                    <Chip
-                        key={tag.id}
-                        size="small"
-                        label={tag.text}
-                        color="primary"
-                    />)
+                .map(tag => <TagCard key={tag.id} tag={tag}/>)
             }
         </Stack>
     );

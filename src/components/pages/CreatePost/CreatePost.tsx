@@ -69,9 +69,15 @@ const CreatePost: React.FC = () => {
         await dispatch(
             createTagList(
                 // Подавление добавлено специально, так как иначе ts не дает получить доступ к свойству payload
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                createdTagList.map(text => ({text, post_id: result.payload.id}))
+                createdTagList.map(
+                    text => ({
+                        text,
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore
+                        post_id: result.payload.id,
+                        color: '#00BFFF'
+                    })
+                )
             )
         );
 

@@ -43,6 +43,7 @@ export type TTag = {
     id?: number,
     post_id: number,
     text: string
+    color: string
 }
 
 // Тип данных для представления всей базы данных в целом

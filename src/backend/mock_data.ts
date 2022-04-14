@@ -65,17 +65,20 @@ export const MOCK_DATA: TDataBase = {
         {
             id: 1,
             post_id: 1,
-            text: 'Мечта'
+            text: 'Мечта',
+            color: '#FF4500'
         },
         {
             id: 2,
             post_id: 1,
-            text: 'Любимое дело'
+            text: 'Любимое дело',
+            color: '#FF4500'
         },
         {
             id: 3,
             post_id: 2,
-            text: 'Обо мне'
+            text: 'Обо мне',
+            color: '#FF4500'
         }
     ]
 }
