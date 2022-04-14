@@ -25,6 +25,7 @@ export const MOCK_DATA: TDataBase = {
             user_id: 1,
             title: 'Камень реальности',
             text: 'Реальность полна разочарований... Но теперь я сам определяю реальность!',
+            is_comments_enabled: true,
             dt_created: 1649059902423
         },
         {
@@ -32,7 +33,16 @@ export const MOCK_DATA: TDataBase = {
             user_id: 2,
             title: 'Коротко обо мне',
             text: 'Гений, плэйбой, миллиардер, эрудит, филантроп!...',
+            is_comments_enabled: true,
             dt_created: 1649060210268
+        },
+        {
+            id: 3,
+            user_id: 2,
+            title: 'Железный человек',
+            text: 'Я - железный человек. Изобретатель, магнат, победитель по жизни!',
+            is_comments_enabled: false,
+            dt_created: 1649919255987
         }
     ],
     [TDataSet.Comment]: [

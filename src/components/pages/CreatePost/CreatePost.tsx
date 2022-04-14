@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import {Stack, TextField, Typography} from '@mui/material';
+import {Checkbox, Stack, TextField, Typography} from '@mui/material';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {createPost} from '../../../redux/post_list';
@@ -22,6 +23,7 @@ const CreatePost: React.FC = () => {
     const dispatch = useDispatch();
 
     const [createdTagList, setCreatedTagList] = useState<string[]>([]);
+    const [isCommentEnabled, setIsCommentEnabled] = useState(true);
 
     const loggedUser = useSelector(loggedUserSelector);
     const [formData, setFormData] = useState<TCreatePostFormData>({
@@ -51,12 +53,15 @@ const CreatePost: React.FC = () => {
         }
     };
 
+    const commentEnabledChangeHandler = (): void => setIsCommentEnabled(oldValue => !oldValue);
+
     const createPostButtonClickHandler = async () => {
         // Создаем пост
         const result = await dispatch(createPost({
             user_id: (loggedUser as TUser).id as number,
             title: formData.title,
             text: formData.text,
+            is_comments_enabled: isCommentEnabled,
             dt_created: +new Date()
         }));
 
@@ -102,6 +107,11 @@ const CreatePost: React.FC = () => {
                 sx={{backgroundColor: 'white'}}
             />
             <TagListCreator setCreatedTagList={setCreatedTagList} isDisabled={isPostListPending}/>
+            <FormControlLabel
+                control={<Checkbox/>}
+                label="Запретить другим пользователям комментировать данный пост"
+                onChange={commentEnabledChangeHandler}
+            />
             <PreloaderButton
                 isLoading={isPostListPending}
                 isDisabled={isCreatePostButtonDisabled}

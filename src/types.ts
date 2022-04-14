@@ -25,6 +25,7 @@ export type TPost = {
     user_id: number,
     title: string
     text: string,
+    is_comments_enabled: boolean
     dt_created: number
 }
 

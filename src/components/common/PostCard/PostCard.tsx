@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, CardContent, Stack, Typography} from '@mui/material';
+import {Alert, Card, CardContent, Stack, Typography} from '@mui/material';
 import {useSelector} from 'react-redux';
 
 import PostHeader from '../PostHeader/PostHeader';
@@ -32,7 +32,15 @@ const PostCard: React.FC<PostCardProps> = ({post}) => {
                     {tagList.some(tag => tag.post_id === post.id) && <TagList post={post}/>}
                 </Stack>
                 {commentList.some(comment => comment.post_id === post.id) && <CommentList post={post}/>}
-                {loggedUser && <CommentCreator post={post}/>}
+                {loggedUser &&
+                    (post.is_comments_enabled || loggedUser.id === post.user_id ?
+                        <CommentCreator post={post}/>
+                        :
+                        <Alert severity="info" sx={{marginTop: '1.2rem'}}>
+                            Пользователь запретил комментирование
+                        </Alert>
+                    )
+                }
             </CardContent>
         </Card>
     );
