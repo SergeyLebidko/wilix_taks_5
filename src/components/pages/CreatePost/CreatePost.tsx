@@ -8,7 +8,7 @@ import useNavigator from '../../../helpers/hooks/useNavigator';
 import PreloaderButton from '../../common/PreloaderButton/PreloaderButton';
 import TagListCreator from '../../common/TagListCreator/TagListCreator';
 import {TUser} from '../../../types';
-import {createTagList} from "../../../redux/tag_list";
+import {createTagList} from '../../../redux/tag_list';
 
 type TFormFieldNames = 'title' | 'text';
 

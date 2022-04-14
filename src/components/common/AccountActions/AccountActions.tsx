@@ -44,7 +44,7 @@ const AccountActions: React.FC = () => {
             <Typography variant="subtitle1" sx={usernameStyle}>
                 {getUserFullName(user)}
             </Typography>
-            <UserAvatar user={user}/>
+            <UserAvatar user={user} hasHeader/>
             <Fab
                 size="small"
                 variant="extended"
