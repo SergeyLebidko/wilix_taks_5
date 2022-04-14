@@ -15,18 +15,23 @@ const accountActionsStyle = {
 }
 
 const usernameStyle = {
-    color: 'white'
+    color: 'white',
+    userSelect: 'none'
 }
 
 const actionButtonStyle = {
     color: 'deepskyblue',
     backgroundColor: 'white',
     boxShadow: 'none',
+    fontSize: '10px',
+    transition: 'all 150ms',
     '&:hover': {
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        transform: 'translateY(-3px)'
     },
     '&:active': {
-        boxShadow: 'none'
+        boxShadow: 'none',
+        transform: 'translateY(0)'
     }
 }
 
@@ -36,13 +41,18 @@ const AccountActions: React.FC = () => {
 
     return (
         <Stack direction="row" spacing={1} sx={accountActionsStyle}>
-            <Typography variant="h6" sx={usernameStyle}>
+            <Typography variant="subtitle1" sx={usernameStyle}>
                 {getUserFullName(user)}
             </Typography>
             <UserAvatar user={user}/>
-            <Fab size="small" variant="extended" sx={actionButtonStyle} onClick={toCreatePost}>
+            <Fab
+                size="small"
+                variant="extended"
+                sx={actionButtonStyle}
+                onClick={toCreatePost
+            }>
                 <AddCircleOutlineIcon sx={{marginRight: '4px'}}/>
-                Новый пост
+                    Новый пост
             </Fab>
             <Fab size="small" variant="extended" sx={actionButtonStyle} onClick={toLogout}>
                 <LogoutIcon sx={{marginRight: '4px'}}/>

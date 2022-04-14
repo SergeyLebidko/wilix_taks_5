@@ -6,7 +6,7 @@ import Header from '../common/Header/Header';
 
 const Layout: React.FC = () => {
     return (
-        <Container maxWidth="md">
+        <Container maxWidth="lg">
             <Stack spacing={2}>
                 <Header/>
                 <Outlet/>
