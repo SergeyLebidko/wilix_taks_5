@@ -26,3 +26,6 @@ export const PAGINATION_PAGE_SIZE = 5;
 
 // Количество комментариев, отображаемых по-умолчанию
 export const DEFAULT_SHOW_COMMENT_COUNT = 3;
+
+// Максимальная длина тега
+export const MAX_TAG_LEN = 30;

@@ -101,7 +101,7 @@ const CreatePost: React.FC = () => {
                 onChange={fieldChangeHandler('text')}
                 sx={{backgroundColor: 'white'}}
             />
-            <TagListCreator setCreatedTagList={setCreatedTagList}/>
+            <TagListCreator setCreatedTagList={setCreatedTagList} isDisabled={isPostListPending}/>
             <PreloaderButton
                 isLoading={isPostListPending}
                 isDisabled={isCreatePostButtonDisabled}

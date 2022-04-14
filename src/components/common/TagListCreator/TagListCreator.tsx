@@ -1,29 +1,40 @@
-import React, {Dispatch, SetStateAction} from 'react';
+import React, {Dispatch, SetStateAction, SyntheticEvent, useState} from 'react';
 import {Autocomplete, Chip, TextField} from '@mui/material';
 
 import {useSelector} from 'react-redux';
 import {tagListSelector} from '../../../redux/selectors';
 import getTagTextList from "../../../helpers/utils/getTagTextList";
+import {MAX_TAG_LEN} from "../../../constants";
 
 type TagListCreatorProp = {
-    setCreatedTagList: Dispatch<SetStateAction<string[]>>
+    setCreatedTagList: Dispatch<SetStateAction<string[]>>,
+    isDisabled: boolean
 }
 
-const TagListCreator: React.FC<TagListCreatorProp> = ({setCreatedTagList}) => {
+const TagListCreator: React.FC<TagListCreatorProp> = ({setCreatedTagList, isDisabled}) => {
     const tagList = useSelector(tagListSelector);
     const tagTextList = getTagTextList(tagList);
 
-    const changeHandler = (event: React.SyntheticEvent, value: string[]): void => {
+    const [tagText, setTagText] = useState('');
+
+    const changeTagListHandler = (event: React.SyntheticEvent, value: string[]): void => {
         setCreatedTagList(value);
+    }
+
+    const changeTagTextHandler = (event: SyntheticEvent, value: string): void => {
+        setTagText(value.slice(0, MAX_TAG_LEN));
     }
 
     return (
         <Autocomplete
-            onChange={changeHandler}
+            onChange={changeTagListHandler}
             multiple
             options={tagTextList}
             defaultValue={[]}
             freeSolo
+            disabled={isDisabled}
+            inputValue={tagText}
+            onInputChange={changeTagTextHandler}
             renderTags={(value: readonly string[], getTagProps) =>
                 value.map((option: string, index: number) => (
                     // eslint-disable-next-line react/jsx-key
