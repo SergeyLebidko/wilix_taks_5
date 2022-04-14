@@ -1,5 +1,13 @@
-.custom_chip div:first-child {
-  width: 0;
-  height: 0;
-  overflow: hidden;
+.custom_chip {
+
+  & div:first-child {
+    border: 1px solid black;
+  }
+
+  // Селектор для скрытия компонента выбора цвета
+  & div:last-child {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+  }
 }

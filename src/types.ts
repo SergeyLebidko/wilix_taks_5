@@ -1,6 +1,9 @@
 // Состояния загрузки списков данных
 export type TStatus = 'pending' | 'done' | 'error';
 
+// Компоненты цвета
+export type TColorParts = [number, number, number];
+
 // Наборы данных, которыми оперирует бэкенд
 export enum TDataSet {
     User = 'User',
@@ -43,7 +46,7 @@ export type TTag = {
     id?: number,
     post_id: number,
     text: string
-    color: string
+    color: TColorParts
 }
 
 // Тип данных для представления всей базы данных в целом

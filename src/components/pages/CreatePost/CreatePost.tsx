@@ -8,8 +8,8 @@ import {loggedUserSelector, postListStatusSelector, tagListStatusSelector} from 
 import useNavigator from '../../../helpers/hooks/useNavigator';
 import PreloaderButton from '../../common/PreloaderButton/PreloaderButton';
 import TagListCreator from '../../common/TagListCreator/TagListCreator';
-import {TUser} from '../../../types';
 import {createTagList} from '../../../redux/tag_list';
+import {TUser, TTag} from '../../../types';
 
 type TFormFieldNames = 'title' | 'text';
 
@@ -22,7 +22,7 @@ const CreatePost: React.FC = () => {
     const {toMain} = useNavigator();
     const dispatch = useDispatch();
 
-    const [createdTagList, setCreatedTagList] = useState<string[]>([]);
+    const [createdTagList, setCreatedTagList] = useState<Pick<TTag, 'text' | 'color'>[]>([]);
     const [isCommentEnabled, setIsCommentEnabled] = useState(true);
 
     const loggedUser = useSelector(loggedUserSelector);
@@ -70,12 +70,12 @@ const CreatePost: React.FC = () => {
             createTagList(
                 // Подавление добавлено специально, так как иначе ts не дает получить доступ к свойству payload
                 createdTagList.map(
-                    text => ({
-                        text,
+                    tag => ({
                         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                         // @ts-ignore
                         post_id: result.payload.id,
-                        color: '#00BFFF'
+                        text: tag.text,
+                        color: tag.color
                     })
                 )
             )
@@ -93,7 +93,7 @@ const CreatePost: React.FC = () => {
                 Новый пост
             </Typography>
             <TextField
-                id='title_field'
+                id='post_title_field'
                 label='Заголовок'
                 variant='outlined'
                 required
@@ -103,7 +103,7 @@ const CreatePost: React.FC = () => {
                 sx={{backgroundColor: 'white'}}
             />
             <TextField
-                id='text_field'
+                id='post_text_field'
                 label='Текст'
                 multiline
                 rows={8}
@@ -112,7 +112,10 @@ const CreatePost: React.FC = () => {
                 onChange={fieldChangeHandler('text')}
                 sx={{backgroundColor: 'white'}}
             />
-            <TagListCreator setCreatedTagList={setCreatedTagList} isDisabled={isPostListPending}/>
+            <TagListCreator
+                setCreatedTagList={setCreatedTagList}
+                isDisabled={isPostListPending}
+            />
             <FormControlLabel
                 control={<Checkbox/>}
                 label="Запретить другим пользователям комментировать данный пост"

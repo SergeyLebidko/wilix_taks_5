@@ -1,4 +1,6 @@
 // Время "сетевой задержки" и миллисекундах для эмулатора бэкенда
+import {TColorParts} from "./types";
+
 export const BACKEND_TIMEOUT = 2000;
 
 // Имя ключа в local storage для хранения базы данных
@@ -29,3 +31,8 @@ export const DEFAULT_SHOW_COMMENT_COUNT = 3;
 
 // Максимальная длина тега
 export const MAX_TAG_LEN = 30;
+
+// Цвет по-умолчанию для вновь создаваемых тегов (компоненты HSL)
+export const DEFAULT_TAG_COLOR_PARAMS: TColorParts = [0, 0, 86];
+export const DEFAULT_TAG_COLOR_NAME = 'Gainsboro';
+

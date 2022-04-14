@@ -1,6 +1,6 @@
 import {TTag} from '../../types';
 
-function getTagTextList(tags: TTag[]): string[] {
+function getTagUniqueTextList(tags: TTag[]): string[] {
     const result: string[] = [];
     tags.forEach(tag => {
         if (!result.some(text => text.toLowerCase() === tag.text.toLowerCase())) {
@@ -11,4 +11,4 @@ function getTagTextList(tags: TTag[]): string[] {
     return result;
 }
 
-export default getTagTextList;
+export default getTagUniqueTextList;

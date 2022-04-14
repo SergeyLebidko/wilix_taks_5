@@ -4,7 +4,7 @@ import {Stack} from '@mui/material';
 
 import {TPost} from '../../../types';
 import {tagListSelector} from '../../../redux/selectors';
-import TagCard from '../TagCard';
+import TagCard from '../TagCard/TagCard';
 
 type TagListProp = {
     post: TPost

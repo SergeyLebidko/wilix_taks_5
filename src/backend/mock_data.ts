@@ -1,4 +1,5 @@
 import {TDataBase, TDataSet} from "../types";
+import {DEFAULT_TAG_COLOR_PARAMS} from "../constants";
 
 export const MOCK_DATA: TDataBase = {
     [TDataSet.User]: [
@@ -66,19 +67,19 @@ export const MOCK_DATA: TDataBase = {
             id: 1,
             post_id: 1,
             text: 'Мечта',
-            color: '#FF4500'
+            color: DEFAULT_TAG_COLOR_PARAMS
         },
         {
             id: 2,
             post_id: 1,
             text: 'Любимое дело',
-            color: '#FF4500'
+            color: DEFAULT_TAG_COLOR_PARAMS
         },
         {
             id: 3,
             post_id: 2,
             text: 'Обо мне',
-            color: '#FF4500'
+            color: DEFAULT_TAG_COLOR_PARAMS
         }
     ]
 }
