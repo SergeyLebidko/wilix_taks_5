@@ -41,6 +41,18 @@ const avatarStyle = {
     height: 72
 };
 
+const avatarClearIconStyle = {
+    boxShadow: 'none',
+    backgroundColor: 'transparent',
+    '&:hover': {
+        backgroundColor: 'transparent'
+    },
+    '&:active': {
+        boxShadow: 'none',
+        backgroundColor: 'transparent'
+    }
+}
+
 const Register: React.FC = () => {
     const dispatch = useDispatch();
     const [formData, setFormData] = useState<TRegisterFormData>({
@@ -120,7 +132,7 @@ const Register: React.FC = () => {
     }
 
     const avatarClearHandler = (): void => {
-        if(fileInputRef.current !== null) {
+        if (fileInputRef.current !== null) {
             (fileInputRef.current as HTMLInputElement).value = '';
         }
         setFormData(oldData => ({
@@ -186,6 +198,7 @@ const Register: React.FC = () => {
                         value={formData.login}
                         onChange={changeFieldHandler('login')}
                         disabled={isUserDataPending}
+                        sx={{backgroundColor: 'white'}}
                     />
                     <TextField
                         id="first_name_field"
@@ -195,6 +208,7 @@ const Register: React.FC = () => {
                         value={formData.firstName}
                         onChange={changeFieldHandler('firstName')}
                         disabled={isUserDataPending}
+                        sx={{backgroundColor: 'white'}}
                     />
                     <TextField
                         id="last_name_field"
@@ -204,6 +218,7 @@ const Register: React.FC = () => {
                         value={formData.lastName}
                         onChange={changeFieldHandler('lastName')}
                         disabled={isUserDataPending}
+                        sx={{backgroundColor: 'white'}}
                     />
                     <Stack direction="row" spacing={2} sx={{alignItems: 'center'}}>
                         <TextField
@@ -213,9 +228,9 @@ const Register: React.FC = () => {
                             disabled={isUserDataPending}
                             onClick={avatarChoiceHandler}
                             value={formData.avatarFilename}
-                            sx={{flex: 1}}
+                            sx={{flex: 1, backgroundColor: 'white'}}
                         />
-                        <Fab size="small" onClick={avatarClearHandler}>
+                        <Fab size="small" sx={avatarClearIconStyle} onClick={avatarClearHandler}>
                             <ClearIcon/>
                         </Fab>
                         {formData.avatarData === null ?

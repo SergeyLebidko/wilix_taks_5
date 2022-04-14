@@ -71,6 +71,7 @@ const Login: React.FC = () => {
                     value={formData.login}
                     onChange={fieldChangeHandler('login')}
                     disabled={isUserDataPending}
+                    sx={{backgroundColor: 'white'}}
                 />
                 <PasswordField
                     isShow={showPassword}

@@ -38,6 +38,7 @@ const TagListCreator: React.FC<TagListCreatorProp> = ({setCreatedTagList}) => {
                     {...params}
                     variant="outlined"
                     label="Введите или выберите теги"
+                    sx={{backgroundColor: 'white'}}
                 />
             )}
         />

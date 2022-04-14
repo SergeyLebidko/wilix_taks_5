@@ -60,6 +60,7 @@ const PostFilters: React.FC<PostFiltersProps> = (props) => {
                 variant="outlined"
                 value={keyWord}
                 onChange={keyWordChangeHandler}
+                sx={{backgroundColor: 'white'}}
             />
             <Selector
                 label="Сортировка постов"

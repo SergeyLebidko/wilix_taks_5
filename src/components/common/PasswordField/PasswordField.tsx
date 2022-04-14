@@ -26,7 +26,7 @@ const PasswordField: React.FC<PasswordFieldProp> = (props) => {
     const id = `password-${createRandomString()}`;
 
     return (
-        <FormControl variant="outlined" required>
+        <FormControl variant="outlined" required sx={{backgroundColor: 'white'}}>
             <InputLabel htmlFor={id}>{label}</InputLabel>
             <OutlinedInput
                 id={id}

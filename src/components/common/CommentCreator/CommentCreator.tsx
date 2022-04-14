@@ -58,7 +58,7 @@ const CommentCreator: React.FC<CommentCreatorProp> = ({post}) => {
             <TextField
                 label="Ваш комментарий"
                 variant="outlined"
-                sx={{flex: 1}}
+                sx={{flex: 1, backgroundColor: 'white'}}
                 value={text}
                 onChange={textChangeHandler}
                 onKeyDown={textKeyDownHandler}

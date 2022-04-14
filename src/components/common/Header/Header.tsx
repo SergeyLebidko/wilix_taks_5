@@ -12,7 +12,7 @@ const headerStyle = {
     borderRadius: 1,
     alignItems: 'center',
     justifyContent: 'space-between',
-    p: 1
+    padding: '10px 20px'
 };
 
 const Header: React.FC = () => {

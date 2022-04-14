@@ -19,7 +19,7 @@ const Selector: React.FC<SelectorProps> = ({label, value, changeHandler, itemLis
     const id = `selector-${createRandomString()}`;
 
     return (
-        <FormControl sx={{minWidth: '12em'}}>
+        <FormControl sx={{minWidth: '12em', backgroundColor: 'white'}}>
             <InputLabel id={labelId}>{label}</InputLabel>
             <Select
                 labelId={labelId}

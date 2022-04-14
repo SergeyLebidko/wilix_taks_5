@@ -85,6 +85,7 @@ const CreatePost: React.FC = () => {
                 value={formData.title}
                 disabled={isPostListPending}
                 onChange={fieldChangeHandler('title')}
+                sx={{backgroundColor: 'white'}}
             />
             <TextField
                 id='text_field'
@@ -94,6 +95,7 @@ const CreatePost: React.FC = () => {
                 value={formData.text}
                 disabled={isPostListPending}
                 onChange={fieldChangeHandler('text')}
+                sx={{backgroundColor: 'white'}}
             />
             <TagListCreator setCreatedTagList={setCreatedTagList}/>
             <PreloaderButton
