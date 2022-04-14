@@ -85,8 +85,8 @@ const PostList: React.FC<PostListProps> = ({sortType, sortDirection, keyWord}) =
     let endIndex = postListToShow.length - 1;
 
     // Если нужно, то к отсортированным и отфильтрованным данным применяем пагинацию
-    const hasPagination = postListToShow.length > PAGINATION_PAGE_SIZE;
-    if (hasPagination) {
+    const isPagination = postListToShow.length > PAGINATION_PAGE_SIZE;
+    if (isPagination) {
         startIndex = (page - 1) * PAGINATION_PAGE_SIZE;
         endIndex = startIndex + (PAGINATION_PAGE_SIZE - 1);
     }
@@ -97,7 +97,7 @@ const PostList: React.FC<PostListProps> = ({sortType, sortDirection, keyWord}) =
                 .filter((_, index) => index >= startIndex && index <= endIndex)
                 .map(post => <PostCard key={post.id} post={post}/>)
             }
-            {hasPagination &&
+            {isPagination &&
                 <Box sx={{display: 'flex', alignSelf: 'stretch', justifyContent: 'center'}}>
                     <Pagination
                         count={Math.ceil(postListToShow.length / PAGINATION_PAGE_SIZE)}

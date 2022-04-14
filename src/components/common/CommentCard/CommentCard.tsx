@@ -22,7 +22,7 @@ const containerStyle = {
 
 const CommentCard: React.FC<CommentCardProps> = ({comment}) => {
     const dispatch = useDispatch();
-    const [hasRemoveProcess, setHasRemoveProcess] = useState(false);
+    const [isRemoveProcess, setHasRemoveProcess] = useState(false);
 
     const loggedUser = useSelector(loggedUserSelector);
     const userList = useSelector(userListSelector);
@@ -54,7 +54,7 @@ const CommentCard: React.FC<CommentCardProps> = ({comment}) => {
             </Stack>
             {(loggedUser && loggedUser.id === user.id) &&
                 <RemoveButton
-                    hasRemoveProcess={hasRemoveProcess}
+                    isRemoveProcess={isRemoveProcess}
                     removeButtonClickHandler={removeButtonClickHandler}
                 />
             }

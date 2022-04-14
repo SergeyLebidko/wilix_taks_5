@@ -18,7 +18,7 @@ const containerStyle = {
 
 const CommentList: React.FC<CommentListProps> = ({post}) => {
     let commentList = useSelector(commentListSelector);
-    const [hasShowAll, setHasShowAll] = useState(false);
+    const [isShowAll, setHasShowAll] = useState(false);
 
     // Выбираем только комменты, относящиеся к текущему посту и сортируем их по дате
     commentList = commentList
@@ -31,14 +31,14 @@ const CommentList: React.FC<CommentListProps> = ({post}) => {
         <Stack spacing={2} sx={containerStyle}>
             {commentList.length > DEFAULT_SHOW_COMMENT_COUNT &&
                 <Button variant="text" onClick={showSwitchClickHandler}>
-                    {hasShowAll ? 'Показать только последние' : `Показать все (${commentList.length})`}
+                    {isShowAll ? 'Показать только последние' : `Показать все (${commentList.length})`}
                 </Button>
             }
             {commentList
                 .filter((_, index) => {
                     return (
                         commentList.length <= DEFAULT_SHOW_COMMENT_COUNT ||
-                        (hasShowAll) ||
+                        (isShowAll) ||
                         index >= commentList.length - DEFAULT_SHOW_COMMENT_COUNT
                     );
                 })

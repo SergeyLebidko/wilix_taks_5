@@ -21,7 +21,7 @@ const CommentCreator: React.FC<CommentCreatorProp> = ({post}) => {
     const loggedUser = useSelector(loggedUserSelector);
 
     const [text, setText] = useState('');
-    const [hasProcess, setHasProcess] = useState(false);
+    const [isProcess, setHasProcess] = useState(false);
 
     const addComment = () => {
         (async function () {
@@ -62,11 +62,11 @@ const CommentCreator: React.FC<CommentCreatorProp> = ({post}) => {
                 value={text}
                 onChange={textChangeHandler}
                 onKeyDown={textKeyDownHandler}
-                disabled={hasProcess}
+                disabled={isProcess}
             />
             <PreloaderButton
-                hasLoading={hasProcess}
-                hasDisabled={text.trim() === ''}
+                isLoading={isProcess}
+                isDisabled={text.trim() === ''}
                 clickHandler={createButtonClickHandler}
                 label="Отправить"
             />

@@ -3,7 +3,7 @@ import {Box, CircularProgress, Fab} from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 
 type PreloaderRemoveFabProp = {
-    hasRemoveProcess: boolean,
+    isRemoveProcess: boolean,
     removeButtonClickHandler: () => void
 }
 
@@ -29,11 +29,11 @@ const removeElementStyle = {
 }
 
 const RemoveButton: React.FC<PreloaderRemoveFabProp> = (props) => {
-    const {hasRemoveProcess, removeButtonClickHandler} = props;
+    const {isRemoveProcess, removeButtonClickHandler} = props;
 
     return (
         <Box sx={containerStyle}>
-            {hasRemoveProcess ?
+            {isRemoveProcess ?
                 <Box sx={removeElementStyle}>
                     <CircularProgress size={24} color="inherit"/>
                 </Box>

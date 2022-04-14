@@ -35,7 +35,7 @@ const PostHeader: React.FC<PostHeaderProps> = ({post}) => {
     const userList = useSelector(userListSelector);
 
     const loggedUser = useSelector(loggedUserSelector);
-    const [hasRemoveProcess, setHasRemoveProcess] = useState<boolean>(false);
+    const [isRemoveProcess, setHasRemoveProcess] = useState<boolean>(false);
 
     const user = userList.find(user => user.id === post.user_id) as TUser;
 
@@ -57,7 +57,7 @@ const PostHeader: React.FC<PostHeaderProps> = ({post}) => {
             </Stack>
             {(loggedUser !== null && post.user_id === loggedUser.id) &&
                 <RemoveButton
-                    hasRemoveProcess={hasRemoveProcess}
+                    isRemoveProcess={isRemoveProcess}
                     removeButtonClickHandler={removePostHandler}
                 />
             }

@@ -6,7 +6,7 @@ import {TUser} from "../../../types";
 
 type UserAvatarProps = {
     user: TUser,
-    hasHeader?: boolean
+    isHeader?: boolean
 }
 
 const emptyAvatarStyle = {
@@ -14,11 +14,11 @@ const emptyAvatarStyle = {
     color: 'dodgerblue'
 }
 
-const AccountAvatar: React.FC<UserAvatarProps> = ({user, hasHeader = false}) => {
+const AccountAvatar: React.FC<UserAvatarProps> = ({user, isHeader = false}) => {
     if (user.avatar) {
         return <Avatar src={user.avatar}/>;
     } else {
-        return <Avatar sx={hasHeader ? emptyAvatarStyle : {}}>{getUserInitial(user)}</Avatar>;
+        return <Avatar sx={isHeader ? emptyAvatarStyle : {}}>{getUserInitial(user)}</Avatar>;
     }
 };
 

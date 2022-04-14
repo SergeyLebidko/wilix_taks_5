@@ -16,8 +16,8 @@ function useLoggedUserErrorControl(): [boolean, string | null] {
 
     const loggedUserError = useSelector(loggedUserErrorSelector);
     const loggedUserStatus = useSelector(loggedUserStatusSelector);
-    const hasUserDataPending = loggedUserStatus === 'pending';
-    const hasUserDataError = loggedUserStatus === 'error';
+    const isUserDataPending = loggedUserStatus === 'pending';
+    const isUserDataError = loggedUserStatus === 'error';
 
     const errorTimer: { current: NodeJS.Timeout | undefined } = useRef();
 
@@ -39,12 +39,12 @@ function useLoggedUserErrorControl(): [boolean, string | null] {
 
     // Если возникла ошибка входа - запускаем таймер, которые отключит её отображение через заданное время
     useEffect(() => {
-        if (hasUserDataError) {
+        if (isUserDataError) {
             errorTimer.current = setTimeout(() => resetError(), ERROR_SHOW_TIMEOUT);
         }
-    }, [hasUserDataError]);
+    }, [isUserDataError]);
 
-    return [hasUserDataPending, loggedUserError];
+    return [isUserDataPending, loggedUserError];
 }
 
 export default useLoggedUserErrorControl;

@@ -6,8 +6,8 @@ import createRandomString from "../../../helpers/utils/createRandomString";
 
 type PasswordFieldProp = {
     label?: string,
-    hasShow: boolean,
-    hasDisabled: boolean,
+    isShow: boolean,
+    isDisabled: boolean,
     value: string,
     showSwitcherHandler: () => void,
     changeHandler: (event: React.ChangeEvent) => void,
@@ -16,9 +16,9 @@ type PasswordFieldProp = {
 const PasswordField: React.FC<PasswordFieldProp> = (props) => {
     const {
         label='Пароль',
-        hasShow,
+        isShow,
         showSwitcherHandler,
-        hasDisabled,
+        isDisabled,
         value,
         changeHandler
     } = props;
@@ -30,10 +30,10 @@ const PasswordField: React.FC<PasswordFieldProp> = (props) => {
             <InputLabel htmlFor={id}>{label}</InputLabel>
             <OutlinedInput
                 id={id}
-                type={hasShow ? 'text' : 'password'}
+                type={isShow ? 'text' : 'password'}
                 value={value}
                 onChange={changeHandler}
-                disabled={hasDisabled}
+                disabled={isDisabled}
                 endAdornment={
                     <InputAdornment position="end">
                         <IconButton
@@ -41,7 +41,7 @@ const PasswordField: React.FC<PasswordFieldProp> = (props) => {
                             onClick={showSwitcherHandler}
                             edge="end"
                         >
-                            {hasShow ? <VisibilityOff/> : <Visibility/>}
+                            {isShow ? <VisibilityOff/> : <Visibility/>}
                         </IconButton>
                     </InputAdornment>
                 }

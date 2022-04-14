@@ -2,21 +2,21 @@ import React from 'react';
 import LoadingButton from "@mui/lab/LoadingButton";
 
 type PreloaderButtonProps = {
-    hasLoading: boolean,
-    hasDisabled: boolean,
+    isLoading: boolean,
+    isDisabled: boolean,
     clickHandler: () => void,
     label: string
 }
 
 const PreloaderButton: React.FC<PreloaderButtonProps> = (props) => {
-    const {hasLoading, hasDisabled, clickHandler, label} = props;
+    const {isLoading, isDisabled, clickHandler, label} = props;
 
     return (
         <LoadingButton
             variant="contained"
-            loading={hasLoading}
+            loading={isLoading}
             loadingPosition="center"
-            disabled={hasDisabled}
+            disabled={isDisabled}
             onClick={clickHandler}
         >
             {label}

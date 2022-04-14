@@ -31,7 +31,7 @@ const CreatePost: React.FC = () => {
 
     const postListStatus = useSelector(postListStatusSelector);
     const tagListStatus = useSelector(tagListStatusSelector);
-    const hasPostListPending = postListStatus === 'pending' || tagListStatus === 'pending';
+    const isPostListPending = postListStatus === 'pending' || tagListStatus === 'pending';
 
     const fieldChangeHandler = (fieldName: TFormFieldNames) => {
         return (event: React.ChangeEvent) => {
@@ -70,7 +70,7 @@ const CreatePost: React.FC = () => {
         toMain();
     };
 
-    const hasCreatePostButtonDisabled = !formData.title || !formData.text;
+    const isCreatePostButtonDisabled = !formData.title || !formData.text;
 
     return (
         <Stack spacing={2}>
@@ -83,7 +83,7 @@ const CreatePost: React.FC = () => {
                 variant='outlined'
                 required
                 value={formData.title}
-                disabled={hasPostListPending}
+                disabled={isPostListPending}
                 onChange={fieldChangeHandler('title')}
             />
             <TextField
@@ -92,13 +92,13 @@ const CreatePost: React.FC = () => {
                 multiline
                 rows={8}
                 value={formData.text}
-                disabled={hasPostListPending}
+                disabled={isPostListPending}
                 onChange={fieldChangeHandler('text')}
             />
             <TagListCreator setCreatedTagList={setCreatedTagList}/>
             <PreloaderButton
-                hasLoading={hasPostListPending}
-                hasDisabled={hasCreatePostButtonDisabled}
+                isLoading={isPostListPending}
+                isDisabled={isCreatePostButtonDisabled}
                 clickHandler={createPostButtonClickHandler}
                 label='Опубликовать'
             />

@@ -28,7 +28,7 @@ const Login: React.FC = () => {
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
     // Управляем отображением ошибки входа
-    const [hasUserDataPending, loggedUserError] = useLoggedUserErrorControl();
+    const [isUserDataPending, loggedUserError] = useLoggedUserErrorControl();
 
     const handleClickShowPassword = (): void => setShowPassword(!showPassword);
 
@@ -70,19 +70,19 @@ const Login: React.FC = () => {
                     variant="outlined"
                     value={formData.login}
                     onChange={fieldChangeHandler('login')}
-                    disabled={hasUserDataPending}
+                    disabled={isUserDataPending}
                 />
                 <PasswordField
-                    hasShow={showPassword}
-                    hasDisabled={hasUserDataPending}
+                    isShow={showPassword}
+                    isDisabled={isUserDataPending}
                     value={formData.password}
                     showSwitcherHandler={handleClickShowPassword}
                     changeHandler={fieldChangeHandler('password')}
                 />
                 {loggedUserError && <Alert severity="error">{loggedUserError}</Alert>}
                 <PreloaderButton
-                    hasLoading={hasUserDataPending}
-                    hasDisabled={!(formData.login && formData.password)}
+                    isLoading={isUserDataPending}
+                    isDisabled={!(formData.login && formData.password)}
                     clickHandler={loginButtonClickHandler}
                     label="Войти"
                 />

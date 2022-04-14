@@ -23,7 +23,7 @@ const {setLoggedUser} = loggedUserSlice.actions;
 
 const App: React.FC = () => {
     const dispatch = useDispatch();
-    const [hasAllDataLoad, setHasAllDataLoad] = useState<boolean>(false);
+    const [isAllDataLoad, setHasAllDataLoad] = useState<boolean>(false);
 
     const loggedUser = useSelector(loggedUserSelector);
     const loggedUserStatus = useSelector(loggedUserStatusSelector);
@@ -52,7 +52,7 @@ const App: React.FC = () => {
     }, [allListDone, loggedUserStatus]);
 
     // Пока не загружены все необходимые данные - показываем пользователю прелоадер
-    if (!hasAllDataLoad) return <Preloader/>;
+    if (!isAllDataLoad) return <Preloader/>;
 
     return (
         <Routes>

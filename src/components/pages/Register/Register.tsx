@@ -58,7 +58,7 @@ const Register: React.FC = () => {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     // Управляем отображением ошибки регистрации
-    const [hasUserDataPending, loggedUserError] = useLoggedUserErrorControl();
+    const [isUserDataPending, loggedUserError] = useLoggedUserErrorControl();
 
     useEffect(() => {
         const {password1, password2} = formData;
@@ -151,7 +151,7 @@ const Register: React.FC = () => {
         }));
     }
 
-    const hasRegisterButtonDisabled = (): boolean => {
+    const isRegisterButtonDisabled = (): boolean => {
         const {login, password1, password2, firstName, lastName} = formData;
         return !(
             login.trim() &&
@@ -185,7 +185,7 @@ const Register: React.FC = () => {
                         variant="outlined"
                         value={formData.login}
                         onChange={changeFieldHandler('login')}
-                        disabled={hasUserDataPending}
+                        disabled={isUserDataPending}
                     />
                     <TextField
                         id="first_name_field"
@@ -194,7 +194,7 @@ const Register: React.FC = () => {
                         variant="outlined"
                         value={formData.firstName}
                         onChange={changeFieldHandler('firstName')}
-                        disabled={hasUserDataPending}
+                        disabled={isUserDataPending}
                     />
                     <TextField
                         id="last_name_field"
@@ -203,14 +203,14 @@ const Register: React.FC = () => {
                         variant="outlined"
                         value={formData.lastName}
                         onChange={changeFieldHandler('lastName')}
-                        disabled={hasUserDataPending}
+                        disabled={isUserDataPending}
                     />
                     <Stack direction="row" spacing={2} sx={{alignItems: 'center'}}>
                         <TextField
                             id="avatar_field"
                             label="Аватар"
                             variant="outlined"
-                            disabled={hasUserDataPending}
+                            disabled={isUserDataPending}
                             onClick={avatarChoiceHandler}
                             value={formData.avatarFilename}
                             sx={{flex: 1}}
@@ -226,29 +226,29 @@ const Register: React.FC = () => {
                     </Stack>
                     <PasswordField
                         label="Пароль"
-                        hasShow={showPassword}
-                        hasDisabled={hasUserDataPending}
+                        isShow={showPassword}
+                        isDisabled={isUserDataPending}
                         value={formData.password1}
                         showSwitcherHandler={handleClickShowPassword}
                         changeHandler={changeFieldHandler('password1')}
                     />
                     <PasswordField
                         label="Подтверждение пароля"
-                        hasShow={showPassword}
-                        hasDisabled={hasUserDataPending}
+                        isShow={showPassword}
+                        isDisabled={isUserDataPending}
                         value={formData.password2}
                         showSwitcherHandler={handleClickShowPassword}
                         changeHandler={changeFieldHandler('password2')}
                     />
                     {passwordError && <Alert severity="error">{passwordError}</Alert>}
-                    <Button variant="contained" disabled={hasUserDataPending}
+                    <Button variant="contained" disabled={isUserDataPending}
                             onClick={createPasswordButtonClickHandler}>
                         Создать для меня пароль
                     </Button>
                     {loggedUserError && <Alert severity="error">{loggedUserError}</Alert>}
                     <PreloaderButton
-                        hasLoading={hasUserDataPending}
-                        hasDisabled={hasRegisterButtonDisabled()}
+                        isLoading={isUserDataPending}
+                        isDisabled={isRegisterButtonDisabled()}
                         clickHandler={registerButtonClickHandler}
                         label="Зарегистрироваться"
                     />
