@@ -3,7 +3,7 @@ import {Stack, Typography} from '@mui/material';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {loggedUserSelector, userListSelector} from '../../../redux/selectors';
-import UserAvatar from '../UserAvatar/UserAvatar';
+import AccountAvatar from '../AccountAvatar/AccountAvatar';
 import getUserFullName from '../../../helpers/utils/getUserFullName';
 import getDateStringForTimestamp from '../../../helpers/utils/getDateStringForTimestamp';
 import {TComment, TUser} from '../../../types';
@@ -38,7 +38,7 @@ const CommentCard: React.FC<CommentCardProps> = ({comment}) => {
 
     return (
         <Stack direction="row" spacing={2} sx={containerStyle}>
-            <UserAvatar user={user}/>
+            <AccountAvatar user={user}/>
             <Stack>
                 <Stack direction="row" spacing={2} sx={{alignItems: 'center'}}>
                     <Typography variant="caption">

@@ -14,7 +14,7 @@ const emptyAvatarStyle = {
     color: 'dodgerblue'
 }
 
-const UserAvatar: React.FC<UserAvatarProps> = ({user, hasHeader = false}) => {
+const AccountAvatar: React.FC<UserAvatarProps> = ({user, hasHeader = false}) => {
     if (user.avatar) {
         return <Avatar src={user.avatar}/>;
     } else {
@@ -22,4 +22,4 @@ const UserAvatar: React.FC<UserAvatarProps> = ({user, hasHeader = false}) => {
     }
 };
 
-export default UserAvatar;
+export default AccountAvatar;

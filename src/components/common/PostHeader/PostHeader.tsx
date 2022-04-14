@@ -5,7 +5,7 @@ import {Stack, Typography} from '@mui/material';
 import getDateStringForTimestamp from '../../../helpers/utils/getDateStringForTimestamp';
 import {loggedUserSelector, userListSelector} from '../../../redux/selectors';
 import {removePost} from '../../../redux/post_list';
-import UserAvatar from '../UserAvatar/UserAvatar';
+import AccountAvatar from '../AccountAvatar/AccountAvatar';
 import getUserFullName from "../../../helpers/utils/getUserFullName";
 import {TPost, TUser} from "../../../types";
 import RemoveButton from "../RemoveButton/RemoveButton";
@@ -46,7 +46,7 @@ const PostHeader: React.FC<PostHeaderProps> = ({post}) => {
 
     return (
         <Stack direction="row" spacing={2} sx={containerStyle}>
-            <UserAvatar user={user}/>
+            <AccountAvatar user={user}/>
             <Stack>
                 <Typography sx={usernameStyle} color="text.secondary" gutterBottom>
                     {getUserFullName(user)}

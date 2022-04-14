@@ -7,7 +7,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import {loggedUserSelector} from '../../../redux/selectors';
 import useNavigator from '../../../helpers/hooks/useNavigator';
 import getUserFullName from '../../../helpers/utils/getUserFullName';
-import UserAvatar from '../UserAvatar/UserAvatar';
+import AccountAvatar from '../AccountAvatar/AccountAvatar';
 import {TUser} from '../../../types';
 
 const accountActionsStyle = {
@@ -44,7 +44,7 @@ const AccountActions: React.FC = () => {
             <Typography variant="subtitle1" sx={usernameStyle}>
                 {getUserFullName(user)}
             </Typography>
-            <UserAvatar user={user} hasHeader/>
+            <AccountAvatar user={user} hasHeader/>
             <Fab
                 size="small"
                 variant="extended"
