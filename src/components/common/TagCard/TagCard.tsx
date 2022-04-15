@@ -4,6 +4,7 @@ import {TTag} from '../../../types';
 import {Chip} from '@mui/material';
 import createColorString from '../../../helpers/utils/createColorString';
 import './TagCard.scss';
+import getLuma from "../../../helpers/utils/getLuma";
 
 type TagCardProp = {
     tag: TTag;
@@ -16,9 +17,9 @@ const TagCard: React.FC<TagCardProp> = ({tag}) => {
     useEffect(() => {
         const card = document.querySelector(`#${id} div`) as HTMLElement;
         if (card !== null) {
-            const [, , l] = tag.color;
+            const [r, g, b] = tag.color;
             card.style.backgroundColor = createColorString(tag.color);
-            if (l < 60) {
+            if (getLuma(r, g, b) < 60) {
                 card.style.color = 'white';
             }
         }

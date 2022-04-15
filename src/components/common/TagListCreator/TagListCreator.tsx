@@ -10,6 +10,7 @@ import createColorString from '../../../helpers/utils/createColorString';
 import {TColorParts, TTextColorMap} from '../../../types';
 
 import './TagListCreator.scss';
+import getLuma from "../../../helpers/utils/getLuma";
 
 type TagListCreatorProp = {
     textColorMap: TTextColorMap
@@ -30,17 +31,17 @@ const TagListCreator: React.FC<TagListCreatorProp> = ({textColorMap, setTextColo
             if (typeof color === 'string') {
                 repaintChip(index, ...DEFAULT_TAG_COLOR_PARAMS);
             } else {
-                repaintChip(index, ...(color.hsl as TColorParts));
+                repaintChip(index, ...(color.rgb as TColorParts));
             }
         }
     }, [textColorMap]);
 
     // Функция для принудительного перкрашивания чипов
-    const repaintChip = (index: number, h: number, s: number, l: number): void => {
+    const repaintChip = (index: number, r: number, g: number, b: number): void => {
         const chip = document.querySelector(`#color-chip-picker-${index} div:first-child`) as HTMLElement;
         if (chip !== null) {
-            chip.style.backgroundColor = createColorString([h, s, l]);
-            if (l < 60) {
+            chip.style.backgroundColor = createColorString([r, g, b]);
+            if (getLuma(r, g, b) < 60) {
                 chip.style.color = 'white';
             }
         }
@@ -93,8 +94,8 @@ const TagListCreator: React.FC<TagListCreatorProp> = ({textColorMap, setTextColo
         });
 
         // Принудительно изменяем цвет чипа  и устанавливаем цвет текста для него
-        const [h, s, l] = nextColor.hsl;
-        repaintChip(index, h, s, l);
+        const [r, g, b] = nextColor.rgb;
+        repaintChip(index, r, g, b);
     };
 
     return (
@@ -120,7 +121,6 @@ const TagListCreator: React.FC<TagListCreatorProp> = ({textColorMap, setTextColo
                             value={textColorMap[text].color}
                             onChange={(nextColor: Color) => setColorForText(nextColor, text, index)}
                             hideTextfield
-                            hslGradient
                         />
                     </div>
                 ))

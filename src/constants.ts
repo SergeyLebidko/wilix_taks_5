@@ -33,6 +33,6 @@ export const DEFAULT_SHOW_COMMENT_COUNT = 3;
 export const MAX_TAG_LEN = 30;
 
 // Цвет по-умолчанию для вновь создаваемых тегов (компоненты HSL)
-export const DEFAULT_TAG_COLOR_PARAMS: TColorParts = [0, 0, 86];
+export const DEFAULT_TAG_COLOR_PARAMS: TColorParts = [220, 220, 220];
 export const DEFAULT_TAG_COLOR_NAME = 'Gainsboro';
 

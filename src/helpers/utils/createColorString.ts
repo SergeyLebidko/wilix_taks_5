@@ -1,8 +1,8 @@
 import {TColorParts} from '../../types';
 
 function createColorString(colorPars: TColorParts): string {
-    const [h, s, l] = colorPars;
-    return `hsl(${h},${s}%,${l}%)`;
+    const [r, g, b] = colorPars;
+    return `rgb(${r},${g},${b})`;
 }
 
 export default createColorString;

@@ -40,7 +40,7 @@ const CreatePost: React.FC = () => {
         if (typeof color === 'string'){
             return DEFAULT_TAG_COLOR_PARAMS;
         } else {
-            return color.hsl as TColorParts
+            return color.rgb as TColorParts
         }
     }
 
