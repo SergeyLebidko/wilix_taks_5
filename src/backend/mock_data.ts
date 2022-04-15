@@ -73,7 +73,7 @@ export const MOCK_DATA: TDataBase = {
             id: 2,
             post_id: 1,
             text: 'Любимое дело',
-            color: DEFAULT_TAG_COLOR_PARAMS
+            color: [124, 252, 0]
         },
         {
             id: 3,

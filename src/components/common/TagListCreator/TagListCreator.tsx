@@ -8,9 +8,9 @@ import getTagUniqueTextList from '../../../helpers/utils/getTagUniqueTextList';
 import {DEFAULT_TAG_COLOR_NAME, DEFAULT_TAG_COLOR_PARAMS, MAX_TAG_LEN} from '../../../constants';
 import createColorString from '../../../helpers/utils/createColorString';
 import {TColorParts, TTextColorMap} from '../../../types';
+import getLuma from '../../../helpers/utils/getLuma';
 
 import './TagListCreator.scss';
-import getLuma from "../../../helpers/utils/getLuma";
 
 type TagListCreatorProp = {
     textColorMap: TTextColorMap
@@ -19,7 +19,7 @@ type TagListCreatorProp = {
 }
 
 const TagListCreator: React.FC<TagListCreatorProp> = ({textColorMap, setTextColorMap, isDisabled}) => {
-    // Получаем список тегов, уже использовавшихся другими пользователями
+    // Получаем список тегов, уже использовавшихся другими пользователями для подстановки в список автозавершения
     const tagTextList = getTagUniqueTextList(useSelector(tagListSelector));
 
     const [tagText, setTagText] = useState('');
@@ -36,7 +36,7 @@ const TagListCreator: React.FC<TagListCreatorProp> = ({textColorMap, setTextColo
         }
     }, [textColorMap]);
 
-    // Функция для принудительного перкрашивания чипов
+    // Функция для принудительного перекрашивания чипов
     const repaintChip = (index: number, r: number, g: number, b: number): void => {
         const chip = document.querySelector(`#color-chip-picker-${index} div:first-child`) as HTMLElement;
         const removeIcon = document.querySelector(`#color-chip-picker-${index} svg`) as HTMLElement;
@@ -68,6 +68,7 @@ const TagListCreator: React.FC<TagListCreatorProp> = ({textColorMap, setTextColo
         });
     }
 
+    // Отслеживаем, чтобы длина вводимого текста для тега не превышала заданный предел
     const changeTagTextHandler = (event: SyntheticEvent, value: string): void => {
         setTagText(value.slice(0, MAX_TAG_LEN));
     }
