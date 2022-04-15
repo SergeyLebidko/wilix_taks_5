@@ -16,12 +16,10 @@ const TagCard: React.FC<TagCardProp> = ({tag}) => {
     // После монтирования - принудительно назначаем цвет чипу
     useEffect(() => {
         const card = document.querySelector(`#${id} div`) as HTMLElement;
-        if (card !== null) {
-            const [r, g, b] = tag.color;
-            card.style.backgroundColor = createColorString(tag.color);
-            if (getLuma(r, g, b) < 60) {
-                card.style.color = 'white';
-            }
+        const [r, g, b] = tag.color;
+        card.style.backgroundColor = createColorString(tag.color);
+        if (getLuma(r, g, b) < 60) {
+            card.style.color = 'white';
         }
     }, []);
 

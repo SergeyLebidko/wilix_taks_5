@@ -39,11 +39,11 @@ const TagListCreator: React.FC<TagListCreatorProp> = ({textColorMap, setTextColo
     // Функция для принудительного перкрашивания чипов
     const repaintChip = (index: number, r: number, g: number, b: number): void => {
         const chip = document.querySelector(`#color-chip-picker-${index} div:first-child`) as HTMLElement;
-        if (chip !== null) {
-            chip.style.backgroundColor = createColorString([r, g, b]);
-            if (getLuma(r, g, b) < 60) {
-                chip.style.color = 'white';
-            }
+        const removeIcon = document.querySelector(`#color-chip-picker-${index} svg`) as HTMLElement;
+        chip.style.backgroundColor = createColorString([r, g, b]);
+        if (getLuma(r, g, b) < 60) {
+            chip.style.color = 'white';
+            removeIcon.style.color = 'white';
         }
     }
 
