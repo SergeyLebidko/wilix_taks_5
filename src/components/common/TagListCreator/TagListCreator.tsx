@@ -1,43 +1,69 @@
-import React, {Dispatch, SetStateAction, SyntheticEvent, useState} from 'react';
+import React, {Dispatch, SetStateAction, SyntheticEvent, useEffect, useState} from 'react';
 import {Autocomplete, Chip, TextField} from '@mui/material';
 import {Color, ColorPicker} from 'material-ui-color';
 
 import {useSelector} from 'react-redux';
 import {tagListSelector} from '../../../redux/selectors';
 import getTagUniqueTextList from '../../../helpers/utils/getTagUniqueTextList';
-import {DEFAULT_TAG_COLOR_PARAMS, MAX_TAG_LEN} from '../../../constants';
+import {DEFAULT_TAG_COLOR_NAME, DEFAULT_TAG_COLOR_PARAMS, MAX_TAG_LEN} from '../../../constants';
 import createColorString from '../../../helpers/utils/createColorString';
-import {TColorParts, TTag} from '../../../types';
+import {TColorParts, TTextColorMap} from '../../../types';
 
 import './TagListCreator.scss';
 
 type TagListCreatorProp = {
-    setCreatedTagList: Dispatch<SetStateAction<Pick<TTag, 'text' | 'color'>[]>>,
+    textColorMap: TTextColorMap
+    setTextColorMap: Dispatch<SetStateAction<TTextColorMap>>,
     isDisabled: boolean
 }
 
-const TagListCreator: React.FC<TagListCreatorProp> = ({setCreatedTagList, isDisabled}) => {
-    // Цвета тегов для ColorPicker храним в отдельном стейте из-за специфичности представления цвета в ColorPicker
-    const [pickerColor, setPickerColor] = useState({});
-
-    const tagList = useSelector(tagListSelector);
-    const tagTextList = getTagUniqueTextList(tagList);
+const TagListCreator: React.FC<TagListCreatorProp> = ({textColorMap, setTextColorMap, isDisabled}) => {
+    // Получаем список тегов, уже использовавшихся другими пользователями
+    const tagTextList = getTagUniqueTextList(useSelector(tagListSelector));
 
     const [tagText, setTagText] = useState('');
 
-    // Мы получили новый массив с текстом тегов.
-    // Теперь сопоставляем его с предыдущей версией массива и извлекаем из неё цвета
-    // Если для тег только что добавлен и для него еще не выбран цвет - назначаем цвет по-умолчанию
+    // Обновляем цвета чипов с тегами при добавлении новых, еще не существовавших тегов
+    useEffect(() => {
+        for (const key of Object.keys(textColorMap)) {
+            const {color, index} = textColorMap[key];
+            if (typeof color === 'string') {
+                repaintChip(index, ...DEFAULT_TAG_COLOR_PARAMS);
+            } else {
+                repaintChip(index, ...(color.hsl as TColorParts));
+            }
+        }
+    }, [textColorMap]);
+
+    // Функция для принудительного перкрашивания чипов
+    const repaintChip = (index: number, h: number, s: number, l: number): void => {
+        const chip = document.querySelector(`#color-chip-picker-${index} div:first-child`) as HTMLElement;
+        if (chip !== null) {
+            chip.style.backgroundColor = createColorString([h, s, l]);
+            if (l < 60) {
+                chip.style.color = 'white';
+            }
+        }
+    }
+
+    // Функция получает новый список строк - тегов, которые сопоставляет с цветами
     const changeTagListHandler = (event: React.SyntheticEvent, textList: string[]): void => {
-        setCreatedTagList(oldTagList => {
-            return textList.map(nextText => {
-                const element = oldTagList.find(oldTag => oldTag.text === nextText);
-                if (element) {
-                    return element;
+        setTextColorMap(oldMap => {
+            const result: TTextColorMap = {};
+            textList.forEach((text, index) => {
+                if (oldMap[text] === undefined) {
+                    result[text] = {
+                        color: DEFAULT_TAG_COLOR_NAME,
+                        index
+                    };
                 } else {
-                    return {text: nextText, color: DEFAULT_TAG_COLOR_PARAMS as TColorParts}
+                    result[text] = {
+                        color: oldMap[text].color,
+                        index
+                    };
                 }
             });
+            return result;
         });
     }
 
@@ -55,36 +81,20 @@ const TagListCreator: React.FC<TagListCreatorProp> = ({setCreatedTagList, isDisa
 
     // Назначаем тексту новый цвет
     const setColorForText = (nextColor: Color, text: string, index: number) => {
-        const [h, s, l] = nextColor.hsl;
-
-        // Обновляем создаваемый список тегов
-        setCreatedTagList(oldData => {
-            return oldData.map(data => {
-                if (text === data.text) {
-                    return {
-                        text,
-                        color: [h, s, l]
-                    }
-                } else {
-                    return data;
+        // Обновляем создаваемый список тегов новым цветом
+        setTextColorMap(oldData => {
+            return {
+                ...oldData,
+                [text]: {
+                    color: nextColor,
+                    index
                 }
-            });
-        })
-
-        // Принудительно изменяем цвет чипа
-        const chip = document.querySelector(`#color-chip-picker-${index} div:first-child`) as HTMLElement;
-        if (chip !== null) {
-            chip.style.backgroundColor = createColorString([h, s, l]);
-            if (l < 60) {
-                chip.style.color = 'white';
             }
-        }
+        });
 
-        // Сохраняем цвет для ColorPicker
-        setPickerColor(old => ({
-            ...old,
-            [text]: nextColor
-        }));
+        // Принудительно изменяем цвет чипа  и устанавливаем цвет текста для него
+        const [h, s, l] = nextColor.hsl;
+        repaintChip(index, h, s, l);
     };
 
     return (
@@ -107,9 +117,7 @@ const TagListCreator: React.FC<TagListCreatorProp> = ({setCreatedTagList, isDisa
                             onClick={() => chipClickHandler(index)}
                         />
                         <ColorPicker
-                            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                            // @ts-ignore
-                            value={pickerColor[text] || 'LightGray'}
+                            value={textColorMap[text].color}
                             onChange={(nextColor: Color) => setColorForText(nextColor, text, index)}
                             hideTextfield
                             hslGradient

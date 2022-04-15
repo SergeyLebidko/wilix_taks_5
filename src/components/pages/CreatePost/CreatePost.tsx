@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Checkbox, Stack, TextField, Typography} from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import {useDispatch, useSelector} from 'react-redux';
+import {Color} from 'material-ui-color';
 
 import {createPost} from '../../../redux/post_list';
 import {loggedUserSelector, postListStatusSelector, tagListStatusSelector} from '../../../redux/selectors';
@@ -9,7 +10,8 @@ import useNavigator from '../../../helpers/hooks/useNavigator';
 import PreloaderButton from '../../common/PreloaderButton/PreloaderButton';
 import TagListCreator from '../../common/TagListCreator/TagListCreator';
 import {createTagList} from '../../../redux/tag_list';
-import {TUser, TTag} from '../../../types';
+import {TUser, TTag, TTextColorMap, TColorParts} from '../../../types';
+import {DEFAULT_TAG_COLOR_PARAMS} from '../../../constants';
 
 type TFormFieldNames = 'title' | 'text';
 
@@ -21,11 +23,10 @@ type TCreatePostFormData = {
 const CreatePost: React.FC = () => {
     const {toMain} = useNavigator();
     const dispatch = useDispatch();
-
-    const [createdTagList, setCreatedTagList] = useState<Pick<TTag, 'text' | 'color'>[]>([]);
-    const [isCommentEnabled, setIsCommentEnabled] = useState(true);
-
     const loggedUser = useSelector(loggedUserSelector);
+
+    const [textColorMap, setTextColorMap] = useState<TTextColorMap>({});
+    const [isCommentEnabled, setIsCommentEnabled] = useState(true);
     const [formData, setFormData] = useState<TCreatePostFormData>({
         title: '',
         text: ''
@@ -34,6 +35,14 @@ const CreatePost: React.FC = () => {
     const postListStatus = useSelector(postListStatusSelector);
     const tagListStatus = useSelector(tagListStatusSelector);
     const isPostListPending = postListStatus === 'pending' || tagListStatus === 'pending';
+
+    const getColorParts = (color: Color | string): TColorParts => {
+        if (typeof color === 'string'){
+            return DEFAULT_TAG_COLOR_PARAMS;
+        } else {
+            return color.hsl as TColorParts
+        }
+    }
 
     const fieldChangeHandler = (fieldName: TFormFieldNames) => {
         return (event: React.ChangeEvent) => {
@@ -66,20 +75,17 @@ const CreatePost: React.FC = () => {
         }));
 
         // Создаем список тегов, связанных с постом
-        await dispatch(
-            createTagList(
-                // Подавление добавлено специально, так как иначе ts не дает получить доступ к свойству payload
-                createdTagList.map(
-                    tag => ({
-                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                        // @ts-ignore
-                        post_id: result.payload.id,
-                        text: tag.text,
-                        color: tag.color
-                    })
-                )
-            )
-        );
+        const tagList: TTag[] = [];
+        for(const key of Object.keys(textColorMap)){
+            tagList.push({
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                post_id: result.payload.id,
+                text: key,
+                color:  getColorParts(textColorMap[key].color)
+            });
+        }
+        await dispatch(createTagList(tagList));
 
         // После завершения "сетевых" операций - переводим пользователя на главную страницу
         toMain();
@@ -113,7 +119,8 @@ const CreatePost: React.FC = () => {
                 sx={{backgroundColor: 'white'}}
             />
             <TagListCreator
-                setCreatedTagList={setCreatedTagList}
+                textColorMap={textColorMap}
+                setTextColorMap={setTextColorMap}
                 isDisabled={isPostListPending}
             />
             <FormControlLabel

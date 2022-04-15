@@ -1,3 +1,5 @@
+import {Color} from 'material-ui-color';
+
 // Состояния загрузки списков данных
 export type TStatus = 'pending' | 'done' | 'error';
 
@@ -121,4 +123,12 @@ export enum TSortType {
 export enum TSortDirection {
     ToUp = 'to_up',
     ToDown = 'to_down'
+}
+
+// Сопоставление строк и цветов
+export type TTextColorMap = {
+    [key: string]: {
+        color: Color | string,
+        index: number
+    }
 }
